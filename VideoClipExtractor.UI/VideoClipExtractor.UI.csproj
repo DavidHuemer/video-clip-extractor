@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BaseUI\BaseUI.csproj" />
+      <ProjectReference Include="..\VideoClipExtractor.Data\VideoClipExtractor.Data.csproj" />
     </ItemGroup>
 
 </Project>

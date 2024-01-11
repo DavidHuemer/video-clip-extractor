@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseUI", "BaseUI\BaseUI.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoClipExtractor.UI", "VideoClipExtractor.UI\VideoClipExtractor.UI.csproj", "{2A7A187A-3423-43DB-B10F-D3BAD5221AD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoClipExtractor.Data", "VideoClipExtractor.Data\VideoClipExtractor.Data.csproj", "{59ED0720-75D5-4C6C-BD99-C23332FF1FE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{2A7A187A-3423-43DB-B10F-D3BAD5221AD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A7A187A-3423-43DB-B10F-D3BAD5221AD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A7A187A-3423-43DB-B10F-D3BAD5221AD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59ED0720-75D5-4C6C-BD99-C23332FF1FE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59ED0720-75D5-4C6C-BD99-C23332FF1FE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59ED0720-75D5-4C6C-BD99-C23332FF1FE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59ED0720-75D5-4C6C-BD99-C23332FF1FE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
