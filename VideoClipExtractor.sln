@@ -1,12 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoClipExtractor", "VideoClipExtractor\VideoClipExtractor.csproj", "{84B86D9C-4429-471C-AE9D-7B59C211855E}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoClipExtractor", "VideoClipExtractor\VideoClipExtractor.csproj", "{84B86D9C-4429-471C-AE9D-7B59C211855E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseUI", "BaseUI\BaseUI.csproj", "{A28F11F8-A8C4-4BC9-9A8E-A84C693EB864}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseUI", "BaseUI\BaseUI.csproj", "{A28F11F8-A8C4-4BC9-9A8E-A84C693EB864}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoClipExtractor.UI", "VideoClipExtractor.UI\VideoClipExtractor.UI.csproj", "{2A7A187A-3423-43DB-B10F-D3BAD5221AD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoClipExtractor.UI", "VideoClipExtractor.UI\VideoClipExtractor.UI.csproj", "{2A7A187A-3423-43DB-B10F-D3BAD5221AD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoClipExtractor.Data", "VideoClipExtractor.Data\VideoClipExtractor.Data.csproj", "{59ED0720-75D5-4C6C-BD99-C23332FF1FE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoClipExtractor.Data", "VideoClipExtractor.Data\VideoClipExtractor.Data.csproj", "{59ED0720-75D5-4C6C-BD99-C23332FF1FE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoClipExtractor.Tests", "VideoClipExtractor.Tests\VideoClipExtractor.Tests.csproj", "{1E20BC71-399C-4A16-978D-77FD9CFE1787}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +35,12 @@ Global
 		{59ED0720-75D5-4C6C-BD99-C23332FF1FE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59ED0720-75D5-4C6C-BD99-C23332FF1FE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59ED0720-75D5-4C6C-BD99-C23332FF1FE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E20BC71-399C-4A16-978D-77FD9CFE1787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E20BC71-399C-4A16-978D-77FD9CFE1787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E20BC71-399C-4A16-978D-77FD9CFE1787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E20BC71-399C-4A16-978D-77FD9CFE1787}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
