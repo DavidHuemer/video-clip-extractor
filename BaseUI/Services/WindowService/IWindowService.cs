@@ -10,4 +10,5 @@ public interface IWindowService
         where TWindow : Window, IWindow, new();
 
     IWindow ShowWindow<TViewModel>(TViewModel viewModel) where TViewModel : WindowViewModel;
+    IWindow ShowDialog<TViewModel>(TViewModel windowViewModel) where TViewModel : WindowViewModel;
 }

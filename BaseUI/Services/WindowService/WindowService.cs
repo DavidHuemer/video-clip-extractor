@@ -20,6 +20,13 @@ public class WindowService : IWindowService
         return (window as IWindow)!;
     }
 
+    public IWindow ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : WindowViewModel
+    {
+        var window = GetWindowInstance(viewModel);
+        window.ShowDialog();
+        return (window as IWindow)!;
+    }
+
     private Window GetWindowInstance<TViewModel>(TViewModel viewModel) where TViewModel : WindowViewModel
     {
         var window = _windowViewModels[viewModel.GetType()];

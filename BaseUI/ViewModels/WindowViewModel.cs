@@ -25,10 +25,21 @@ public class WindowViewModel : BaseViewModel
     public void Show(IWindowService windowService)
     {
         _window = windowService.ShowWindow(this);
+        SetupEvents(_window);
+    }
+
+    public void ShowDialog(IWindowService windowService)
+    {
+        _window = windowService.ShowDialog(this);
+        SetupEvents(_window);
     }
 
     public void Close()
     {
         _window?.Close();
+    }
+
+    protected virtual void SetupEvents(IWindow window)
+    {
     }
 }
