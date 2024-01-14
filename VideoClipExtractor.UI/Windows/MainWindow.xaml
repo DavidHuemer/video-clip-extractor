@@ -11,6 +11,8 @@
         FontFamily="{materialDesign:MaterialDesignFont}"
         xmlns:panels="clr-namespace:VideoClipExtractor.UI.Panels"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        WindowState="Maximized"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
         <panels:MenuPanel DockPanel.Dock="Top" />
