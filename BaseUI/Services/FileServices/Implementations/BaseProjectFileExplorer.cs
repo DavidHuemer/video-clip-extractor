@@ -3,17 +3,20 @@ using BaseUI.Services.DependencyInjection;
 
 namespace BaseUI.Services.FileServices.Implementations;
 
-public class BaseProjectFileExplorer : IProjectFileExplorer
+/// <summary>
+///     Base class for project file explorers
+/// </summary>
+/// <param name="provider">The dependency provider that holds all dependencies</param>
+/// <param name="fileTypeInfo">The info of the project file type</param>
+public class BaseProjectFileExplorer(IDependencyProvider provider, FileTypeInfo fileTypeInfo) : IProjectFileExplorer
 {
-    public BaseProjectFileExplorer(IDependencyProvider provider, FileTypeInfo fileTypeInfo)
-    {
-        Provider = provider;
-    }
+    private IDependencyProvider Provider { get; } = provider;
 
-    public IDependencyProvider Provider { get; }
+    private FileTypeInfo FileTypeInfo { get; } = fileTypeInfo;
 
     public string GetSaveProjectFilePath()
     {
-        return Provider.GetDependency<IFileExplorer>().GetSaveFilePath("Project files (*.json)|*.json", "json");
+        return Provider.GetDependency<IFileExplorer>()
+            .GetSaveFilePath(FileTypeInfo.FileFilter);
     }
 }
