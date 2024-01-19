@@ -10,9 +10,9 @@ public interface IDependencyProvider
     /// </summary>
     /// <typeparam name="TInterface">The interface of the dependency that should be provided</typeparam>
     /// <typeparam name="TImplementation">The implementation of the dependency that should be provided</typeparam>
-    void AddSingletonDependency<TInterface, TImplementation>() where TImplementation : TInterface, new();
+    void AddSingletonDependency<TInterface, TImplementation>() where TImplementation : class, TInterface;
 
-    void AddTransientDependency<TInterface, TImplementation>() where TImplementation : TInterface, new();
+    void AddTransientDependency<TInterface, TImplementation>() where TImplementation : TInterface;
 
     /// <summary>
     ///     Returns a dependency

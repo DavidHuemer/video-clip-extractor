@@ -4,21 +4,22 @@ namespace BaseUI.Services.DependencyInjection;
 
 public class DependencyProvider : IDependencyProvider
 {
-    // Singleton collection of dependencies
-    private readonly Dictionary<Type, object> _singletonDependencies = new();
-
-    // Transient collection of dependencies
-    private readonly Dictionary<Type, Type> _transientDependencies = new();
-
-    public void AddSingletonDependency<TInterface, TImplementation>() where TImplementation : TInterface, new()
+    public DependencyProvider()
     {
-        if (_singletonDependencies.ContainsKey(typeof(TInterface)))
-            _singletonDependencies[typeof(TInterface)] = new TImplementation();
-        else
-            _singletonDependencies.Add(typeof(TInterface), new TImplementation());
+        _instanceBuilder = new DependencyInstanceBuilder(this);
     }
 
-    public void AddTransientDependency<TInterface, TImplementation>() where TImplementation : TInterface, new()
+    public void AddSingletonDependency<TInterface, TImplementation>() where TImplementation : class, TInterface
+    {
+        if (_singletonDependencies.ContainsKey(typeof(TInterface)))
+            _singletonDependencies[typeof(TInterface)] =
+                _instanceBuilder.InstantiateType<TInterface, TImplementation>()!;
+        else
+            _singletonDependencies.Add(typeof(TInterface),
+                _instanceBuilder.InstantiateType<TInterface, TImplementation>()!);
+    }
+
+    public void AddTransientDependency<TInterface, TImplementation>() where TImplementation : TInterface
     {
         if (_transientDependencies.ContainsKey(typeof(TInterface)))
             _transientDependencies[typeof(TInterface)] = typeof(TImplementation);
@@ -34,9 +35,22 @@ public class DependencyProvider : IDependencyProvider
         if (!_transientDependencies.ContainsKey(typeof(TInterface)))
             throw new DependencyNotRegisteredException(typeof(TInterface));
 
-        var obj = Activator.CreateInstance(_transientDependencies[typeof(TInterface)]);
-        if (obj is TInterface tInterface) return tInterface;
-
-        throw new DependencyNotCreateAbleException(typeof(TInterface));
+        return _instanceBuilder.InstantiateType<TInterface>(_transientDependencies[typeof(TInterface)]);
     }
+
+    #region Private Fields
+
+    /// <summary>
+    ///     The existing singleton dependencies
+    /// </summary>
+    private readonly Dictionary<Type, object> _singletonDependencies = new();
+
+    /// <summary>
+    ///     The transient dependencies
+    /// </summary>
+    private readonly Dictionary<Type, Type> _transientDependencies = new();
+
+    private readonly DependencyInstanceBuilder _instanceBuilder;
+
+    #endregion
 }

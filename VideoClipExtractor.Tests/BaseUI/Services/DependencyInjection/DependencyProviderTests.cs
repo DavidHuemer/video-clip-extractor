@@ -76,7 +76,18 @@ public class DependencyProviderTests
     public void ThrowDependencyNotRegisteredException()
     {
         // Assert
-        var exception =
-            Assert.Throws<DependencyNotRegisteredException>(() => _dependencyProvider.GetDependency<ITestInterface>());
+        Assert.Throws<DependencyNotRegisteredException>(() => _dependencyProvider.GetDependency<ITestInterface>());
+    }
+
+    [Test]
+    public void InstantiatesInstanceOfNotEmptyConstructor()
+    {
+        _dependencyProvider.AddTransientDependency<ITestInterface, NotEmptyImplementation>();
+
+        // Act
+        var testInterface = _dependencyProvider.GetDependency<ITestInterface>();
+
+        // Assert
+        Assert.IsInstanceOf<NotEmptyImplementation>(testInterface);
     }
 }
