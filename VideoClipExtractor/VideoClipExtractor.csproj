@@ -9,12 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BaseUI\BaseUI.csproj" />
-      <ProjectReference Include="..\VideoClipExtractor.UI\VideoClipExtractor.UI.csproj" />
+        <ProjectReference Include="..\BaseUI\BaseUI.csproj"/>
+        <ProjectReference Include="..\VideoClipExtractor.UI\VideoClipExtractor.UI.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+        <PackageReference Include="MaterialDesignThemes" Version="4.9.0"/>
     </ItemGroup>
 
 </Project>
