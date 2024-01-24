@@ -1,4 +1,6 @@
-﻿namespace BaseUI.Services.FileServices.Implementations;
+﻿using Microsoft.Win32;
+
+namespace BaseUI.Services.FileServices.Implementations;
 
 /// <summary>
 ///     Basic implementation of the <see cref="IFileExplorer" /> interface
@@ -8,9 +10,11 @@ public class FileExplorer : IFileExplorer
 {
     public string GetSaveFilePath(string filter)
     {
-        using var saveFileDialog = new SaveFileDialog();
-        saveFileDialog.Filter = filter;
+        var saveFileDialog = new SaveFileDialog
+        {
+            Filter = filter,
+        };
         var result = saveFileDialog.ShowDialog();
-        return result == DialogResult.OK ? saveFileDialog.FileName : "";
+        return result == true ? saveFileDialog.FileName : string.Empty;
     }
 }
