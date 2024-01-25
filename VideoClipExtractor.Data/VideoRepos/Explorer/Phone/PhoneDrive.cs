@@ -1,8 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using BaseUI.ViewModels.Tree;
+﻿using BaseUI.ViewModels.Tree;
 using MediaDevices;
 
-namespace VideoClipExtractor.Data.VideoRepos.Phone;
+namespace VideoClipExtractor.Data.VideoRepos.Explorer.Phone;
 
 public class PhoneDrive : VideoRepositoryDrive
 {

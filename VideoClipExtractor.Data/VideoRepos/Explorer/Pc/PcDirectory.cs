@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using BaseUI.ViewModels.Tree;
 
-namespace VideoClipExtractor.Data.VideoRepos.Pc;
+namespace VideoClipExtractor.Data.VideoRepos.Explorer.Pc;
 
 public class PcDirectory : VideoRepositoryDirectory
 {

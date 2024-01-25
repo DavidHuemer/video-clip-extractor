@@ -1,6 +1,6 @@
 ﻿using BaseUI.ViewModels.Tree;
 
-namespace VideoClipExtractor.Data.VideoRepos.Phone;
+namespace VideoClipExtractor.Data.VideoRepos.Explorer.Phone;
 
 public class PhoneDirectory : VideoRepositoryDirectory
 {

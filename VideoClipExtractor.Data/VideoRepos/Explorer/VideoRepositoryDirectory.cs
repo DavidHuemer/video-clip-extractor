@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace VideoClipExtractor.Data.VideoRepos;
+﻿namespace VideoClipExtractor.Data.VideoRepos.Explorer;
 
 public abstract class VideoRepositoryDirectory : VideoRepositoryItem
 {
