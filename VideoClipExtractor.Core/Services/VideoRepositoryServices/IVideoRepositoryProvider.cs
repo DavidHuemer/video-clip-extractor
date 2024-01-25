@@ -1,4 +1,4 @@
-﻿using VideoClipExtractor.Data.VideoRepos;
+﻿using VideoClipExtractor.Data.VideoRepos.Explorer;
 
 namespace VideoClipExtractor.Core.Services.VideoRepositoryServices;
 

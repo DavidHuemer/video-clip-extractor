@@ -1,30 +1,27 @@
 ﻿using System.IO;
 using System.Runtime.Versioning;
+using JetBrains.Annotations;
 using MediaDevices;
-using VideoClipExtractor.Data.VideoRepos;
-using VideoClipExtractor.Data.VideoRepos.Pc;
-using VideoClipExtractor.Data.VideoRepos.Phone;
+using VideoClipExtractor.Data.VideoRepos.Explorer;
+using VideoClipExtractor.Data.VideoRepos.Explorer.Pc;
+using VideoClipExtractor.Data.VideoRepos.Explorer.Phone;
 
 namespace VideoClipExtractor.Core.Services.VideoRepositoryServices;
 
+[UsedImplicitly]
 public class VideoRepositoryProvider : IVideoRepositoryProvider
 {
-    public IEnumerable<VideoRepositoryDrive> GetDrives()
-    {
-        var drives = new List<VideoRepositoryDrive>();
-        drives.AddRange(GetPcDrives());
-        if (OperatingSystem.IsWindows()) drives.AddRange(GetPhoneDrives());
-        return drives;
-    }
+    public IEnumerable<VideoRepositoryDrive> GetDrives() =>
+        GetPcDrives()
+            .Concat(OperatingSystem.IsWindows()
+                ? GetPhoneDrives()
+                : Enumerable.Empty<VideoRepositoryDrive>());
 
-    private static IEnumerable<VideoRepositoryDrive> GetPcDrives()
-    {
-        return DriveInfo.GetDrives().Select(driveInfo => new PcDrive(driveInfo.Name));
-    }
+
+    private static IEnumerable<VideoRepositoryDrive> GetPcDrives() =>
+        DriveInfo.GetDrives().Select(driveInfo => new PcDrive(driveInfo.Name));
 
     [SupportedOSPlatform("windows")]
-    private static IEnumerable<VideoRepositoryDrive> GetPhoneDrives()
-    {
-        return MediaDevice.GetDevices().Select(device => new PhoneDrive(device));
-    }
+    private static IEnumerable<VideoRepositoryDrive> GetPhoneDrives() =>
+        MediaDevice.GetDevices().Select(device => new PhoneDrive(device));
 }
