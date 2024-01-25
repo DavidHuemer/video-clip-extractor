@@ -17,4 +17,11 @@ public class FileExplorer : IFileExplorer
         var result = saveFileDialog.ShowDialog();
         return result == true ? saveFileDialog.FileName : string.Empty;
     }
+
+    public string GetBrowseDirectoryPath()
+    {
+        var folderBrowserDialog = new OpenFolderDialog();
+        var result = folderBrowserDialog.ShowDialog();
+        return result == true ? folderBrowserDialog.FolderName : string.Empty;
+    }
 }
