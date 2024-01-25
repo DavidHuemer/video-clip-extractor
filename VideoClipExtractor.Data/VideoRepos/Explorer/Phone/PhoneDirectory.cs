@@ -1,4 +1,5 @@
 ﻿using BaseUI.ViewModels.Tree;
+using VideoClipExtractor.Data.VideoRepos.Builder;
 
 namespace VideoClipExtractor.Data.VideoRepos.Explorer.Phone;
 
@@ -21,4 +22,6 @@ public class PhoneDirectory : VideoRepositoryDirectory
 
     protected override IEnumerable<BaseTreeViewItem> LoadChildren() =>
         _drive.GetDirectories(Path).Select(dir => new PhoneDirectory(_drive, dir));
+
+    public override VideoRepositoryBlueprint GetBlueprint() => new(VideoRepositoryType.Phone, _drive.ConcatPath(Path));
 }

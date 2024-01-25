@@ -1,5 +1,6 @@
 ﻿using BaseUI.ViewModels.Tree;
 using MediaDevices;
+using VideoClipExtractor.Data.VideoRepos.Builder;
 
 namespace VideoClipExtractor.Data.VideoRepos.Explorer.Phone;
 
@@ -24,11 +25,11 @@ public class PhoneDrive : VideoRepositoryDrive
         return _device.GetDirectories(path);
     }
 
-    public IEnumerable<string> GetFiles(string path)
-    {
-        return _device.GetFiles(path);
-    }
+    public string ConcatPath(string path) =>
+        $@"{_device.FriendlyName}\{path}";
 
     protected override IEnumerable<BaseTreeViewItem> LoadChildren() =>
         GetDirectories(Path).Select(dir => new PhoneDirectory(this, dir));
+
+    public override VideoRepositoryBlueprint GetBlueprint() => new(VideoRepositoryType.Phone, ConcatPath(Path));
 }
