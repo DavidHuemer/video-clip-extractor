@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="VideoClipExtractor.UI.Panels.NewProjectPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:VideoClipExtractor.UI.ViewModels.NewProjectViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=vm:NewProjectViewModel}">
+
+    <UserControl.Resources>
+        <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+            <Setter Property="Margin" Value="0,0,10,0" />
+        </Style>
+
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="Button" x:Key="Browse" BasedOn="{StaticResource BaseButton}">
+            <Setter Property="Margin" Value="10 0 0 0" />
+        </Style>
+    </UserControl.Resources>
+
+
+    <DockPanel Margin="10">
+        <Label Content="New Project" DockPanel.Dock="Top" VerticalAlignment="Top"
+               Style="{StaticResource Header}" />
+
+        <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Name" VerticalAlignment="Center" />
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}"
+                     VerticalAlignment="Center" />
+
+            <Label Grid.Row="1" Grid.Column="0" Content="Project Location" VerticalAlignment="Center" />
+            <DockPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+                <Button Content="Browse" DockPanel.Dock="Right" Command="{Binding BrowseProjectPath}"
+                        Style="{StaticResource Browse}" />
+                <TextBox Text="{Binding ProjectPath}" HorizontalAlignment="Stretch" />
+            </DockPanel>
+
+            <Label Grid.Row="2" Grid.Column="0" Content="Videos Directory" VerticalAlignment="Center" />
+            <DockPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+                <Button Content="Browse" DockPanel.Dock="Right" Command="{Binding BrowseVideoRepository}"
+                        Style="{StaticResource Browse}" />
+                <TextBox Text="{Binding VideoRepositoryBlueprint.Path, FallbackValue=''}"
+                         IsReadOnly="True"
+                         HorizontalAlignment="Stretch" />
+            </DockPanel>
+
+            <Label Grid.Row="3" Grid.Column="0" Content="Extracted Images Directory" VerticalAlignment="Center" />
+            <DockPanel Grid.Row="3" Grid.Column="1" VerticalAlignment="Center">
+                <Button Content="Browse" DockPanel.Dock="Right" Command="{Binding BrowseImageDirectory}"
+                        Style="{StaticResource Browse}" />
+                <TextBox Text="{Binding ImageDirectoryPath}"
+                         HorizontalAlignment="Stretch" />
+            </DockPanel>
+        </Grid>
+
+        <Button Content="Create Project" Command="{Binding CreateProject}"
+                DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+    </DockPanel>
+</UserControl>

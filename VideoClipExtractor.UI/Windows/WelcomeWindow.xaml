@@ -1,0 +1,38 @@
+﻿<Window x:Class="VideoClipExtractor.UI.Windows.WelcomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        xmlns:windowVm="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels"
+        xmlns:newProjectVm="clr-namespace:VideoClipExtractor.UI.ViewModels.NewProjectViewModels"
+        xmlns:welcomeVm="clr-namespace:VideoClipExtractor.UI.ViewModels.WelcomeViewModels"
+        xmlns:panels="clr-namespace:VideoClipExtractor.UI.Panels"
+        mc:Ignorable="d"
+        Title="Welcome" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance Type=windowVm:WelcomeWindowViewModel, IsDesignTimeCreatable=True}">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type welcomeVm:WelcomeViewModel}">
+            <panels:WelcomePanel />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type newProjectVm:NewProjectViewModel}">
+            <panels:NewProjectPanel />
+        </DataTemplate>
+    </Window.Resources>
+
+    <DockPanel>
+        <Button DockPanel.Dock="Top" Content="Back" HorizontalAlignment="Left"
+                Visibility="{Binding ShowBackButton, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Command="{Binding GoBack}" />
+
+        <!--Show control depending on view model-->
+        <ContentControl DockPanel.Dock="Bottom" Content="{Binding CurrentControl, Mode=OneWay}" />
+    </DockPanel>
+</Window>
