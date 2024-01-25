@@ -1,4 +1,6 @@
-﻿using BaseUI.Services.WindowService;
+﻿using System.Windows.Input;
+using BaseUI.Commands;
+using BaseUI.Services.WindowService;
 
 namespace BaseUI.ViewModels;
 
@@ -22,24 +24,45 @@ public class WindowViewModel : BaseViewModel
 
     #endregion
 
+    /// <summary>
+    /// Shows the window.
+    /// </summary>
+    /// <param name="windowService">The <see cref="IWindowService"/> that is responsible for instantiating the window</param>
     public void Show(IWindowService windowService)
     {
-        _window = windowService.ShowWindow(this);
+        _window = GetWindow(windowService);
+        windowService.ShowWindow(_window);
         SetupEvents(_window);
     }
 
+    /// <summary>
+    /// Shows the window as a dialog.
+    /// </summary>
+    /// <param name="windowService">The <see cref="IWindowService"/> that is responsible for instantiating the window</param>
     public void ShowDialog(IWindowService windowService)
     {
-        _window = windowService.ShowDialog(this);
+        _window = GetWindow(windowService);
+        windowService.ShowDialog(_window);
         SetupEvents(_window);
     }
 
-    public void Close()
-    {
-        _window?.Close();
-    }
+    private IWindow GetWindow(IWindowService windowService) => windowService.GetWindow(this);
 
     protected virtual void SetupEvents(IWindow window)
     {
     }
+
+    #region Commands
+
+    public ICommand Close => new RelayCommand<string>(DoClose, _ => true);
+
+    private void DoClose(string? obj) => CloseWindow();
+
+
+    public void CloseWindow()
+    {
+        _window?.Close();
+    }
+
+    #endregion
 }

@@ -1,14 +1,18 @@
-﻿using System.Windows;
-using BaseUI.ViewModels;
+﻿using BaseUI.ViewModels;
 
 namespace BaseUI.Services.WindowService;
 
+/// <summary>
+/// Responsible for instantiating and showing windows.
+/// </summary>
 public interface IWindowService
 {
     void Register<TViewModel, TWindow>()
         where TViewModel : WindowViewModel
         where TWindow : Window, IWindow, new();
 
-    IWindow ShowWindow<TViewModel>(TViewModel viewModel) where TViewModel : WindowViewModel;
-    IWindow ShowDialog<TViewModel>(TViewModel windowViewModel) where TViewModel : WindowViewModel;
+    void ShowWindow(IWindow window);
+    void ShowDialog(IWindow window);
+
+    IWindow GetWindow<TViewModel>(TViewModel viewModel) where TViewModel : WindowViewModel;
 }
