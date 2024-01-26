@@ -2,6 +2,7 @@
 using BaseUI.Commands;
 using BaseUI.Services.DependencyInjection;
 using BaseUI.ViewModels;
+using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.UI.ViewModels.NewProjectViewModels;
 using VideoClipExtractor.UI.ViewModels.WelcomeViewModels;
 
@@ -19,11 +20,24 @@ public class WelcomeWindowViewModel : WindowViewModel
         CurrentControl = _welcomeViewModel;
     }
 
+    #region Events
+
+    public event EventHandler<ProjectEventArgs>? ProjectChosen;
+
+    #endregion
+
     private void NewProjectRequested(object? sender, EventArgs e)
     {
-        Console.WriteLine("New project requested");
-        CurrentControl = new NewProjectViewModel(_provider);
+        var newProjectViewModel = new NewProjectViewModel(_provider);
+        newProjectViewModel.ProjectCreated += ProjectCreated;
+        CurrentControl = newProjectViewModel;
         ShowBackButton = true;
+    }
+
+    private void ProjectCreated(object? sender, ProjectEventArgs e)
+    {
+        CloseWindow();
+        ProjectChosen?.Invoke(this, e);
     }
 
     private void OpenProjectRequested(object? sender, EventArgs e)
@@ -41,7 +55,7 @@ public class WelcomeWindowViewModel : WindowViewModel
 
     #region Properties
 
-    public bool ShowBackButton { get; set; } = false;
+    public bool ShowBackButton { get; set; }
 
     public BaseViewModel CurrentControl { get; private set; }
 
