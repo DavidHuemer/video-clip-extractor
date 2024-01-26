@@ -4,6 +4,8 @@ using BaseUI.Services.FileServices;
 using BaseUI.Services.FileServices.Implementations;
 using BaseUI.Services.WindowService;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
+using VideoClipExtractor.Core.Services.VideoRepositoryServices.Builder;
+using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 using VideoClipExtractor.UI.Services.FileServices;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels;
@@ -29,6 +31,8 @@ public partial class App
         dependencyProvider.AddTransientDependency<IProjectFileExplorer, ProjectFileExplorer>();
         dependencyProvider.AddTransientDependency<IVideoRepositoryProvider, VideoRepositoryProvider>();
         dependencyProvider.AddTransientDependency<IProjectSerializer, JsonProjectSerializer>();
+        dependencyProvider.AddSingletonDependency<IVideoRepositoryManager, VideoRepositoryManager>();
+        dependencyProvider.AddTransientDependency<IVideoRepositoryBuilder, VideoRepositoryBuilder>();
         SetupWindows(dependencyProvider);
 
         new MainWindowViewModel(dependencyProvider).Show(dependencyProvider.GetDependency<IWindowService>());

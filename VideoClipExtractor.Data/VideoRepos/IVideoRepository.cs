@@ -5,4 +5,8 @@
 /// </summary>
 public interface IVideoRepository
 {
+    /// <summary>
+    /// Connects to the repository.
+    /// </summary>
+    void Connect();
 }
