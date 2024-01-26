@@ -6,7 +6,7 @@ using VideoClipExtractor.Data.VideoRepos.Explorer;
 using VideoClipExtractor.Data.VideoRepos.Explorer.Pc;
 using VideoClipExtractor.Data.VideoRepos.Explorer.Phone;
 
-namespace VideoClipExtractor.Core.Services.VideoRepositoryServices;
+namespace VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 
 [UsedImplicitly]
 public class VideoRepositoryProvider : IVideoRepositoryProvider

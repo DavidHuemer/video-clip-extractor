@@ -1,6 +1,6 @@
 ﻿using VideoClipExtractor.Data.VideoRepos.Explorer;
 
-namespace VideoClipExtractor.Core.Services.VideoRepositoryServices;
+namespace VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 
 /// <summary>
 /// Responsible for providing VideoRepositories

@@ -4,7 +4,7 @@ using BaseUI.Commands;
 using BaseUI.Services.DependencyInjection;
 using BaseUI.ViewModels;
 using BaseUI.ViewModels.Tree;
-using VideoClipExtractor.Core.Services.VideoRepositoryServices;
+using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 using VideoClipExtractor.Data.VideoRepos.Builder;
 using VideoClipExtractor.Data.VideoRepos.Explorer;
 

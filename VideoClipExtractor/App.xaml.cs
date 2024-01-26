@@ -4,7 +4,7 @@ using BaseUI.Services.FileServices;
 using BaseUI.Services.FileServices.Implementations;
 using BaseUI.Services.WindowService;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
-using VideoClipExtractor.Core.Services.VideoRepositoryServices;
+using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 using VideoClipExtractor.UI.Services.FileServices;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels;
 using VideoClipExtractor.UI.Windows;
