@@ -19,4 +19,10 @@ public class BaseProjectFileExplorer(IDependencyProvider provider, FileTypeInfo 
         return Provider.GetDependency<IFileExplorer>()
             .GetSaveFilePath(FileTypeInfo.FileFilter);
     }
+
+    public string GetOpenProjectFilePath()
+    {
+        return Provider.GetDependency<IFileExplorer>()
+            .GetOpenFilePath(FileTypeInfo.FileFilter);
+    }
 }

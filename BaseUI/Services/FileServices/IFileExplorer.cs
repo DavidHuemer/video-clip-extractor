@@ -14,4 +14,11 @@ public interface IFileExplorer
     /// </summary>
     /// <returns>The selected path to the directory</returns>
     string GetBrowseDirectoryPath();
+
+    /// <summary>
+    /// Opens a explorer that allows the user to select a file
+    /// </summary>
+    /// <param name="filter">The filter that describes how the file that can be opened should look like</param>
+    /// <returns>The path to the selected file</returns>
+    string GetOpenFilePath(string filter);
 }

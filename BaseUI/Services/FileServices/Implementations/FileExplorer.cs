@@ -24,4 +24,14 @@ public class FileExplorer : IFileExplorer
         var result = folderBrowserDialog.ShowDialog();
         return result == true ? folderBrowserDialog.FolderName : string.Empty;
     }
+
+    public string GetOpenFilePath(string filter)
+    {
+        var openFileDialog = new OpenFileDialog
+        {
+            Filter = filter,
+        };
+        var result = openFileDialog.ShowDialog();
+        return result == true ? openFileDialog.FileName : string.Empty;
+    }
 }

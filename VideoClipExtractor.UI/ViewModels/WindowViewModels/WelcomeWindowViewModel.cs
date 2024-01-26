@@ -1,7 +1,9 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
 using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.FileServices;
 using BaseUI.ViewModels;
+using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.UI.ViewModels.NewProjectViewModels;
 using VideoClipExtractor.UI.ViewModels.WelcomeViewModels;
@@ -42,7 +44,13 @@ public class WelcomeWindowViewModel : WindowViewModel
 
     private void OpenProjectRequested(object? sender, EventArgs e)
     {
-        Console.WriteLine("Open project requested");
+        var path = _provider.GetDependency<IProjectFileExplorer>().GetOpenProjectFilePath();
+        if (string.IsNullOrEmpty(path)) return;
+
+        var project = _provider.GetDependency<IProjectSerializer>().LoadProject(path);
+
+        CloseWindow();
+        ProjectChosen?.Invoke(this, new ProjectEventArgs(project));
     }
 
     #region Private Fields
