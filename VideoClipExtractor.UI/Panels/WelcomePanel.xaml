@@ -31,7 +31,9 @@
             <DockPanel Grid.Column="1">
                 <Label Content="Recently opened" DockPanel.Dock="Top" />
 
-                <ListBox Grid.Column="1" VerticalAlignment="Stretch" ItemsSource="{Binding RecentlyOpenedFiles}">
+                <ListBox Grid.Column="1" VerticalAlignment="Stretch" 
+                         ItemsSource="{Binding RecentlyOpenedFiles}" 
+                         SelectedItem="{Binding SelectedRecentlyOpenedFile}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">

@@ -18,6 +18,7 @@ public class WelcomeWindowViewModel : WindowViewModel
         _welcomeViewModel = new WelcomeViewModel(_provider);
         _welcomeViewModel.NewProjectRequested += NewProjectRequested;
         _welcomeViewModel.OpenProjectRequested += OpenProjectRequested;
+        _welcomeViewModel.OpenRecentProjectRequested += OnOpenRecentProjectRequested;
         CurrentControl = _welcomeViewModel;
     }
 
@@ -58,6 +59,14 @@ public class WelcomeWindowViewModel : WindowViewModel
     private void OpenProjectRequested(object? sender, EventArgs e)
     {
         var path = _provider.GetDependency<IProjectFileExplorer>().GetOpenProjectFilePath();
+        OpenProjectByPath(path);
+    }
+
+    private void OnOpenRecentProjectRequested(object? sender, OpenRecentlyOpenedEventArgs e) =>
+        OpenProjectByPath(e.RecentlyOpenedPath);
+
+    private void OpenProjectByPath(string path)
+    {
         if (string.IsNullOrEmpty(path)) return;
 
         var project = _provider.GetDependency<IProjectSerializer>().LoadProject(path);

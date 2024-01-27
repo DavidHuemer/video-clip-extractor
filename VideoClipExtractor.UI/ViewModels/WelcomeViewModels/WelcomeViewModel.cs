@@ -5,23 +5,46 @@ using BaseUI.Data;
 using BaseUI.Services.DependencyInjection;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.ViewModels;
+using VideoClipExtractor.Data.Project;
 
 namespace VideoClipExtractor.UI.ViewModels.WelcomeViewModels;
 
 public class WelcomeViewModel(IDependencyProvider provider) : BaseViewModel
 {
-    #region Properties
-
-    public ObservableCollection<RecentlyOpenedFileInfo> RecentlyOpenedFiles { get; } =
-        new(provider.GetDependency<IRecentlyOpenedFilesService>().GetRecentlyOpenedFiles());
-
-    #endregion
+    private void OpenRecentlyOpenedFile(RecentlyOpenedFileInfo fileInfo) =>
+        OpenRecentProjectRequested?.Invoke(null, new OpenRecentlyOpenedEventArgs(fileInfo.Path));
 
     #region Events
 
     public event EventHandler? NewProjectRequested;
 
     public event EventHandler? OpenProjectRequested;
+
+    public event EventHandler<OpenRecentlyOpenedEventArgs>? OpenRecentProjectRequested;
+
+    #endregion
+
+    #region Properties
+
+    public ObservableCollection<RecentlyOpenedFileInfo> RecentlyOpenedFiles { get; } =
+        new(provider.GetDependency<IRecentlyOpenedFilesService>().GetRecentlyOpenedFiles());
+
+    private RecentlyOpenedFileInfo? _selectedRecentlyOpenedFile;
+
+    public RecentlyOpenedFileInfo? SelectedRecentlyOpenedFile
+    {
+        get => _selectedRecentlyOpenedFile;
+        set
+        {
+            _selectedRecentlyOpenedFile = value;
+            OnPropertyChanged();
+
+            if (value is null)
+                return;
+
+            OpenRecentlyOpenedFile(value);
+        }
+    }
 
     #endregion
 
