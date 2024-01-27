@@ -25,13 +25,22 @@
                 </StackPanel.Resources>
 
                 <Button Content="New Project" Command="{Binding NewProject}" />
-                <Button Content="Open Project" Command="{Binding OpenProject}" /> 
+                <Button Content="Open Project" Command="{Binding OpenProject}" />
             </StackPanel>
 
             <DockPanel Grid.Column="1">
                 <Label Content="Recently opened" DockPanel.Dock="Top" />
 
-                <ListBox Grid.Column="1" VerticalAlignment="Stretch" />
+                <ListBox Grid.Column="1" VerticalAlignment="Stretch" ItemsSource="{Binding RecentlyOpenedFiles}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Path}" />
+                                <TextBlock Text="{Binding LastOpened, StringFormat='dd.MM.yyyy HH:mm:ss'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </DockPanel>
         </Grid>
     </Grid>

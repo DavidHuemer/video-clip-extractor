@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2023.3.0"/>
         <PackageReference Include="Material.Icons" Version="2.1.5" />
         <PackageReference Include="Material.Icons.WPF" Version="2.1.0" />
         <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />

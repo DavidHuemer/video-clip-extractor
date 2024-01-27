@@ -18,7 +18,7 @@ public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
 {
     #region Events
 
-    public event EventHandler<ProjectEventArgs>? ProjectCreated;
+    public event EventHandler<ProjectCreatedEventArgs>? ProjectCreated;
 
     #endregion
 
@@ -94,7 +94,7 @@ public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
 
         var projectSerializer = provider.GetDependency<IProjectSerializer>();
         projectSerializer.StoreProject(project, ProjectPath);
-        ProjectCreated?.Invoke(this, new ProjectEventArgs(project));
+        ProjectCreated?.Invoke(this, new ProjectCreatedEventArgs(project, ProjectPath));
     }
 
     #endregion

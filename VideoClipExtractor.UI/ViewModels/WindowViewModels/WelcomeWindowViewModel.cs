@@ -15,18 +15,35 @@ public class WelcomeWindowViewModel : WindowViewModel
     public WelcomeWindowViewModel(IDependencyProvider provider)
     {
         _provider = provider;
-
+        _welcomeViewModel = new WelcomeViewModel(_provider);
         _welcomeViewModel.NewProjectRequested += NewProjectRequested;
         _welcomeViewModel.OpenProjectRequested += OpenProjectRequested;
-
         CurrentControl = _welcomeViewModel;
     }
 
     #region Events
 
-    public event EventHandler<ProjectEventArgs>? ProjectChosen;
+    public event EventHandler<ProjectOpenedEventArgs>? ProjectOpened;
 
     #endregion
+
+    #region Private Fields
+
+    private readonly IDependencyProvider _provider;
+
+    private readonly WelcomeViewModel _welcomeViewModel;
+
+    #endregion
+
+    #region Properties
+
+    public bool ShowBackButton { get; set; }
+
+    public BaseViewModel CurrentControl { get; private set; }
+
+    #endregion
+
+    #region Welcome Requests
 
     private void NewProjectRequested(object? sender, EventArgs e)
     {
@@ -36,11 +53,7 @@ public class WelcomeWindowViewModel : WindowViewModel
         ShowBackButton = true;
     }
 
-    private void ProjectCreated(object? sender, ProjectEventArgs e)
-    {
-        CloseWindow();
-        ProjectChosen?.Invoke(this, e);
-    }
+    private void ProjectCreated(object? sender, ProjectCreatedEventArgs e) => OpenProject(e.Project, e.Path);
 
     private void OpenProjectRequested(object? sender, EventArgs e)
     {
@@ -48,24 +61,14 @@ public class WelcomeWindowViewModel : WindowViewModel
         if (string.IsNullOrEmpty(path)) return;
 
         var project = _provider.GetDependency<IProjectSerializer>().LoadProject(path);
-
-        CloseWindow();
-        ProjectChosen?.Invoke(this, new ProjectEventArgs(project));
+        OpenProject(project, path);
     }
 
-    #region Private Fields
-
-    private readonly IDependencyProvider _provider;
-
-    private readonly WelcomeViewModel _welcomeViewModel = new();
-
-    #endregion
-
-    #region Properties
-
-    public bool ShowBackButton { get; set; }
-
-    public BaseViewModel CurrentControl { get; private set; }
+    private void OpenProject(Project project, string path)
+    {
+        CloseWindow();
+        ProjectOpened?.Invoke(this, new ProjectOpenedEventArgs(project, path));
+    }
 
     #endregion
 
