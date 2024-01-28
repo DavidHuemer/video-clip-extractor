@@ -1,9 +1,13 @@
 ﻿using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.Dialogs;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.WindowService;
 using BaseUI.ViewModels;
+using PropertyChanged;
+using VideoClipExtractor.Core.Managers.ProjectManager;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Data.Project;
+using VideoClipExtractor.UI.ViewModels.Menu;
 
 namespace VideoClipExtractor.UI.ViewModels.WindowViewModels;
 
@@ -18,6 +22,7 @@ public class MainWindowViewModel : WindowViewModel
     public MainWindowViewModel(IDependencyProvider provider)
     {
         _provider = provider;
+        MenuViewModel = new MenuViewModel(provider);
     }
 
     protected override void SetupEvents(IWindow window)
@@ -45,7 +50,35 @@ public class MainWindowViewModel : WindowViewModel
         var recentlyOpenedFilesService = _provider.GetDependency<IRecentlyOpenedFilesService>();
         recentlyOpenedFilesService.AddFile(e.Path);
 
-        var repoManager = _provider.GetDependency<IVideoRepositoryManager>();
-        repoManager.SetupRepository(e.Project.VideoRepositoryBlueprint);
+        try
+        {
+            var repoManager = _provider.GetDependency<IVideoRepositoryManager>();
+            repoManager.SetupRepository(e.Project.VideoRepositoryBlueprint);
+
+            Project = e.Project;
+            _provider.GetDependency<IProjectManager>().SetOpenedProject(e);
+        }
+        catch (Exception exception)
+        {
+            _provider.GetDependency<IDialogService>().Show(exception);
+        }
     }
+
+    #region Properties
+
+    [DoNotNotify] public MenuViewModel MenuViewModel { get; set; }
+
+    private Project? _project;
+
+    private Project? Project
+    {
+        get => _project;
+        set
+        {
+            _project = value;
+            MenuViewModel.Project = value;
+        }
+    }
+
+    #endregion
 }

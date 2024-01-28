@@ -3,13 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:menuVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Menu"
              mc:Ignorable="d"
-             d:DesignHeight="50" d:DesignWidth="800">
+             d:DesignHeight="30" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=menuVm:MenuViewModel}">
     <Menu>
         <MenuItem Header="File">
-            <MenuItem Header="New Project" />
+            <MenuItem Header="New Project" Command="{Binding NewProject}" />
             <MenuItem Header="Open Project" />
-            <MenuItem Header="Save" />
+            <MenuItem Header="Save" Command="{Binding SaveProject}" />
             <MenuItem Header="Save As" />
         </MenuItem>
     </Menu>

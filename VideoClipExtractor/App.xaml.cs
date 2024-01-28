@@ -6,6 +6,7 @@ using BaseUI.Services.FileServices;
 using BaseUI.Services.FileServices.Implementations;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.WindowService;
+using VideoClipExtractor.Core.Managers.ProjectManager;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Core.Services.RecentlyOpened;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Builder;
@@ -36,13 +37,21 @@ public partial class App
         dependencyProvider.AddTransientDependency<IProjectFileExplorer, ProjectFileExplorer>();
         dependencyProvider.AddTransientDependency<IVideoRepositoryProvider, VideoRepositoryProvider>();
         dependencyProvider.AddTransientDependency<IProjectSerializer, JsonProjectSerializer>();
-        dependencyProvider.AddSingletonDependency<IVideoRepositoryManager, VideoRepositoryManager>();
+
         dependencyProvider.AddTransientDependency<IVideoRepositoryBuilder, VideoRepositoryBuilder>();
         dependencyProvider.AddTransientDependency<ITimeService, TimeService>();
         dependencyProvider.AddTransientDependency<IRecentlyOpenedFilesService, RecentlyOpenedFilesService>();
+
+        AddManagers(dependencyProvider);
         SetupWindows(dependencyProvider);
 
         new MainWindowViewModel(dependencyProvider).Show(dependencyProvider.GetDependency<IWindowService>());
+    }
+
+    private static void AddManagers(IDependencyProvider provider)
+    {
+        provider.AddSingletonDependency<IVideoRepositoryManager, VideoRepositoryManager>();
+        provider.AddSingletonDependency<IProjectManager, ProjectManager>();
     }
 
     private void SetupWindows(IDependencyProvider provider)

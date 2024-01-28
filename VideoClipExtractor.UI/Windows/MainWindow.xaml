@@ -10,14 +10,17 @@
         TextElement.FontSize="14"
         FontFamily="{materialDesign:MaterialDesignFont}"
         xmlns:panels="clr-namespace:VideoClipExtractor.UI.Panels"
+        xmlns:windowVm="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         WindowState="Maximized"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance Type=windowVm:MainWindowViewModel}">
 
     <materialDesign:DialogHost Name="RootDialog" CloseOnClickAway="False">
         <DockPanel>
-            <panels:MenuPanel DockPanel.Dock="Top" />
+            <panels:MenuPanel DockPanel.Dock="Top"
+                              DataContext="{Binding MenuViewModel}" />
             <panels:MainControlPanel />
         </DockPanel>
     </materialDesign:DialogHost>
