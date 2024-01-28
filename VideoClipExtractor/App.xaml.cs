@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using BaseUI.Services.Basics.Time;
 using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.Dialogs;
 using BaseUI.Services.FileServices;
 using BaseUI.Services.FileServices.Implementations;
 using BaseUI.Services.RecentlyOpened;
@@ -30,6 +31,7 @@ public partial class App
         Console.WriteLine("Application Startup");
         var dependencyProvider = new DependencyProvider();
         dependencyProvider.AddSingletonDependency<IWindowService, WindowService>();
+        dependencyProvider.AddSingletonDependency<IDialogService, DialogService>();
         dependencyProvider.AddTransientDependency<IFileExplorer, FileExplorer>();
         dependencyProvider.AddTransientDependency<IProjectFileExplorer, ProjectFileExplorer>();
         dependencyProvider.AddTransientDependency<IVideoRepositoryProvider, VideoRepositoryProvider>();

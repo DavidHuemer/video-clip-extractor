@@ -29,7 +29,13 @@ public class VideoRepositoryBuilder : IVideoRepositoryBuilder
         var connectedDevices = MediaDevice.GetDevices();
         var deviceName = connectionBlueprint.Path.Split('\\')[0];
 
-        var device = connectedDevices.First(d => d.FriendlyName == deviceName);
+        var device = connectedDevices.FirstOrDefault(d => d.FriendlyName == deviceName);
+
+        // TODO: Check if device is null => throw device not found exception
+        if (device is null)
+            throw new Exception("Device not found");
+
+
         return new PhoneVideoRepository(device, connectionBlueprint.Path);
     }
 }

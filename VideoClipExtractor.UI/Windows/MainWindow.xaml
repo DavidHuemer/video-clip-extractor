@@ -14,8 +14,11 @@
         WindowStartupLocation="CenterOwner"
         WindowState="Maximized"
         Title="MainWindow" Height="450" Width="800">
-    <DockPanel>
-        <panels:MenuPanel DockPanel.Dock="Top" />
-        <panels:MainControlPanel />
-    </DockPanel>
+
+    <materialDesign:DialogHost Name="RootDialog" CloseOnClickAway="False">
+        <DockPanel>
+            <panels:MenuPanel DockPanel.Dock="Top" />
+            <panels:MainControlPanel />
+        </DockPanel>
+    </materialDesign:DialogHost>
 </Window>

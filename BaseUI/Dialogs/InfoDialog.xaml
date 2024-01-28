@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="BaseUI.Dialogs.InfoDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BaseUI.Dialogs"
+             xmlns:wpf="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:dialog="clr-namespace:BaseUI.ViewModels.Dialog"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="420"
+             d:DataContext="{d:DesignInstance dialog:InfoDialogViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <local:DialogTitle Grid.Row="0" />
+
+        <StackPanel Grid.Row="1" Margin="10" Width="400">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <wpf:MaterialIcon Kind="{Binding Icon}"
+                                  Foreground="Red"
+                                  VerticalAlignment="Center" />
+
+                <Label Grid.Column="1" Content="{Binding Message}"
+                       VerticalAlignment="Center" />
+            </Grid>
+
+            <DockPanel HorizontalAlignment="Right">
+                <Button Content="Ok" Command="{Binding Close}" />
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
