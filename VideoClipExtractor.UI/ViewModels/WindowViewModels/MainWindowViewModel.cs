@@ -57,11 +57,20 @@ public class MainWindowViewModel : WindowViewModel
 
             Project = e.Project;
             _provider.GetDependency<IProjectManager>().SetOpenedProject(e);
+
+            if (Project.Videos.Count == 0) ShowSetupVideos();
         }
         catch (Exception exception)
         {
             _provider.GetDependency<IDialogService>().Show(exception);
         }
+    }
+
+    private void ShowSetupVideos()
+    {
+        var windowService = _provider.GetDependency<IWindowService>();
+        var setupVideosWindow = new VideosSetupWindowViewModel(_provider, true);
+        setupVideosWindow.Show(windowService);
     }
 
     #region Properties
