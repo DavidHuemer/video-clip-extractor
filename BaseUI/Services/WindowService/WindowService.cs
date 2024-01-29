@@ -1,8 +1,12 @@
-﻿using BaseUI.ViewModels;
+﻿using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.WindowService.ActiveWindow;
+using BaseUI.ViewModels;
+using JetBrains.Annotations;
 
 namespace BaseUI.Services.WindowService;
 
-public class WindowService : IWindowService
+[UsedImplicitly]
+public class WindowService(IDependencyProvider provider) : IWindowService
 {
     private readonly Dictionary<Type, Type> _windowViewModels = new();
 
@@ -14,11 +18,13 @@ public class WindowService : IWindowService
 
     public void ShowWindow(IWindow window)
     {
+        SetupActiveWindow(window);
         window.Show();
     }
 
     public void ShowDialog(IWindow window)
     {
+        SetupActiveWindow(window);
         window.ShowDialog();
     }
 
@@ -37,4 +43,7 @@ public class WindowService : IWindowService
         windowInstance.DataContext = viewModel;
         return windowInstance;
     }
+
+    private void SetupActiveWindow(IWindow window) =>
+        provider.GetDependency<IActiveWindowManager>().AddWindow(window);
 }
