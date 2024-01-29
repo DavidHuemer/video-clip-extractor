@@ -1,12 +1,15 @@
 ﻿using BaseUI.Dialogs;
+using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.Dialogs.Identifier;
 using BaseUI.ViewModels.Dialog;
 using JetBrains.Annotations;
 using MaterialDesignThemes.Wpf;
+using static System.String;
 
 namespace BaseUI.Services.Dialogs;
 
 [UsedImplicitly]
-public class DialogService : IDialogService
+internal class DialogService(IDependencyProvider provider) : IDialogService
 {
     public void Show(Exception exception)
     {
@@ -14,12 +17,30 @@ public class DialogService : IDialogService
         ShowInfo(exceptionVm);
     }
 
-    private static void ShowInfo(InfoDialogViewModel vm)
+    private void ShowInfo(InfoDialogViewModel vm)
     {
         var infoDialog = new InfoDialog
         {
             DataContext = vm,
         };
-        DialogHost.Show(infoDialog);
+
+        ShowDialog(infoDialog);
     }
+
+    private void ShowDialog(FrameworkElement content)
+    {
+        var identifier = GetIdentifier();
+
+        if (identifier == Empty)
+        {
+            DialogHost.Show(content);
+        }
+        else
+        {
+            DialogHost.Show(content, identifier);
+        }
+    }
+
+    private string GetIdentifier() =>
+        provider.GetDependency<IDialogHostIdentifierService>().GetIdentifier();
 }

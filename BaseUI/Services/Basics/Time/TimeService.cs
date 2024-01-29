@@ -3,7 +3,7 @@
 namespace BaseUI.Services.Basics.Time;
 
 [UsedImplicitly]
-public class TimeService : ITimeService
+internal class TimeService : ITimeService
 {
     public DateTime GetCurrentTime() => DateTime.Now;
 }

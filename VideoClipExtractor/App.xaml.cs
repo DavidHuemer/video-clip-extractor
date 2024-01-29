@@ -1,9 +1,6 @@
 ﻿using System.Windows;
-using BaseUI.Services.Basics.Time;
 using BaseUI.Services.DependencyInjection;
-using BaseUI.Services.Dialogs;
 using BaseUI.Services.FileServices;
-using BaseUI.Services.FileServices.Implementations;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.WindowService;
 using VideoClipExtractor.Core.Managers.ProjectManager;
@@ -12,6 +9,7 @@ using VideoClipExtractor.Core.Services.RecentlyOpened;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Builder;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
+using VideoClipExtractor.Core.Services.VideoRepositoryServices.VideoCrawler;
 using VideoClipExtractor.UI.Services.FileServices;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels;
 using VideoClipExtractor.UI.Windows;
@@ -31,16 +29,15 @@ public partial class App
     {
         Console.WriteLine("Application Startup");
         var dependencyProvider = new DependencyProvider();
-        dependencyProvider.AddSingletonDependency<IWindowService, WindowService>();
-        dependencyProvider.AddSingletonDependency<IDialogService, DialogService>();
-        dependencyProvider.AddTransientDependency<IFileExplorer, FileExplorer>();
+        BaseUiDependencies.AddBaseUiDependencies(dependencyProvider);
+
         dependencyProvider.AddTransientDependency<IProjectFileExplorer, ProjectFileExplorer>();
         dependencyProvider.AddTransientDependency<IVideoRepositoryProvider, VideoRepositoryProvider>();
         dependencyProvider.AddTransientDependency<IProjectSerializer, JsonProjectSerializer>();
 
         dependencyProvider.AddTransientDependency<IVideoRepositoryBuilder, VideoRepositoryBuilder>();
-        dependencyProvider.AddTransientDependency<ITimeService, TimeService>();
         dependencyProvider.AddTransientDependency<IRecentlyOpenedFilesService, RecentlyOpenedFilesService>();
+        dependencyProvider.AddTransientDependency<IVideoCrawler, VideoCrawler>();
 
         AddManagers(dependencyProvider);
         SetupWindows(dependencyProvider);

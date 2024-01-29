@@ -3,7 +3,7 @@
 namespace BaseUI.Services.WindowService.ActiveWindow;
 
 [UsedImplicitly]
-public class ActiveWindowManager : IActiveWindowManager
+internal class ActiveWindowManager : IActiveWindowManager
 {
     /// <summary>
     /// The list of open windows.
