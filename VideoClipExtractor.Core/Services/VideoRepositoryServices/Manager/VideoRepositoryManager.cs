@@ -19,5 +19,6 @@ public class VideoRepositoryManager(IDependencyProvider provider) : IVideoReposi
     {
         var videoRepoBuilder = provider.GetDependency<IVideoRepositoryBuilder>();
         VideoRepository = videoRepoBuilder.Build(blueprint);
+        VideoRepository.Connect();
     }
 }

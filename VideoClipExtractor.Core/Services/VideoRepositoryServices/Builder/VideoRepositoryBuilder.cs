@@ -35,7 +35,9 @@ public class VideoRepositoryBuilder : IVideoRepositoryBuilder
         if (device is null)
             throw new Exception("Device not found");
 
+        // The repo path is the entire connectionBlueprint.Path except the device name
+        var repoPath = connectionBlueprint.Path.Replace($"{deviceName}\\", "");
 
-        return new PhoneVideoRepository(device, connectionBlueprint.Path);
+        return new PhoneVideoRepository(device, repoPath);
     }
 }
