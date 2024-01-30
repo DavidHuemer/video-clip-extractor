@@ -7,6 +7,7 @@ using PropertyChanged;
 using VideoClipExtractor.Core.Managers.ProjectManager;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Data.Project;
+using VideoClipExtractor.UI.ViewModels.Main;
 using VideoClipExtractor.UI.ViewModels.Menu;
 
 namespace VideoClipExtractor.UI.ViewModels.WindowViewModels;
@@ -23,6 +24,7 @@ public class MainWindowViewModel : WindowViewModel
     {
         _provider = provider;
         MenuViewModel = new MenuViewModel(provider);
+        MainControlViewModel = new MainControlViewModel(provider);
     }
 
     protected override void SetupEvents(IWindow window)
@@ -46,7 +48,6 @@ public class MainWindowViewModel : WindowViewModel
     /// <param name="e">Event that contains the opened project</param>
     private void OnProjectOpened(object? sender, ProjectOpenedEventArgs e)
     {
-        // TODO: Open project
         var recentlyOpenedFilesService = _provider.GetDependency<IRecentlyOpenedFilesService>();
         recentlyOpenedFilesService.AddFile(e.Path);
 
@@ -76,6 +77,8 @@ public class MainWindowViewModel : WindowViewModel
     #region Properties
 
     [DoNotNotify] public MenuViewModel MenuViewModel { get; set; }
+
+    [DoNotNotify] public MainControlViewModel MainControlViewModel { get; set; }
 
     private Project? _project;
 

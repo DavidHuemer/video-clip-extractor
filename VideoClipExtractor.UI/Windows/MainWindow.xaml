@@ -21,7 +21,8 @@
         <DockPanel>
             <panels:MenuPanel DockPanel.Dock="Top"
                               DataContext="{Binding MenuViewModel}" />
-            <panels:MainControlPanel />
+            <panels:MainControlPanel
+                DataContext="{Binding MainControlViewModel}" />
         </DockPanel>
     </materialDesign:DialogHost>
 </Window>
