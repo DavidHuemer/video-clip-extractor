@@ -9,6 +9,9 @@ public class PcVideoRepository(string path) : IVideoRepository
     {
     }
 
+    public void CopyFileByPath(string sourceVideoPath, string cacheVideoPath)
+        => File.Copy(sourceVideoPath, cacheVideoPath);
+
     public IEnumerable<SourceVideo> GetFiles()
     {
         return Directory.GetFiles(path)

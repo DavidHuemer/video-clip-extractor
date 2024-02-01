@@ -1,4 +1,5 @@
-﻿using MediaDevices;
+﻿using System.IO;
+using MediaDevices;
 using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Data.VideoRepos.Implementations;
@@ -8,6 +9,15 @@ public class PhoneVideoRepository(MediaDevice device, string path) : IVideoRepos
     public void Connect()
     {
         device.Connect();
+    }
+
+    public void CopyFileByPath(string sourceVideoPath, string cacheVideoPath)
+    {
+        using var memoryStream = new MemoryStream();
+        device.DownloadFile(sourceVideoPath, memoryStream);
+        memoryStream.Position = 0;
+        using var fileStream = new FileStream(cacheVideoPath, FileMode.Create);
+        memoryStream.WriteTo(fileStream);
     }
 
     public IEnumerable<SourceVideo> GetFiles()

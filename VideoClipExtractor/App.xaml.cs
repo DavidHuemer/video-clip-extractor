@@ -6,6 +6,7 @@ using BaseUI.Services.WindowService;
 using VideoClipExtractor.Core.Managers.ProjectManager;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Core.Services.RecentlyOpened;
+using VideoClipExtractor.Core.Services.VideoCaching;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Builder;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
@@ -38,6 +39,8 @@ public partial class App
         dependencyProvider.AddTransientDependency<IVideoRepositoryBuilder, VideoRepositoryBuilder>();
         dependencyProvider.AddTransientDependency<IRecentlyOpenedFilesService, RecentlyOpenedFilesService>();
         dependencyProvider.AddTransientDependency<IVideoCrawler, VideoCrawler>();
+
+        dependencyProvider.AddTransientDependency<IVideoCacheService, VideoCacheService>();
 
         AddManagers(dependencyProvider);
         SetupWindows(dependencyProvider);
