@@ -4,6 +4,7 @@ using BaseUI.Services.FileServices;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.WindowService;
 using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.Core.Managers.VideoProviderManager;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Core.Services.RecentlyOpened;
 using VideoClipExtractor.Core.Services.VideoCaching;
@@ -54,6 +55,7 @@ public partial class App
     {
         provider.AddSingletonDependency<IVideoRepositoryManager, VideoRepositoryManager>();
         provider.AddSingletonDependency<IProjectManager, ProjectManager>();
+        provider.AddSingletonDependency<IVideoProviderManager, VideoProviderManager>();
     }
 
     private void SetupWindows(IDependencyProvider provider)
