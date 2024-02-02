@@ -7,6 +7,7 @@ using VideoClipExtractor.Core.Managers.ProjectManager;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Core.Services.RecentlyOpened;
 using VideoClipExtractor.Core.Services.VideoCaching;
+using VideoClipExtractor.Core.Services.VideoProvider;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Builder;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
@@ -41,6 +42,7 @@ public partial class App
         dependencyProvider.AddTransientDependency<IVideoCrawler, VideoCrawler>();
 
         dependencyProvider.AddTransientDependency<IVideoCacheService, VideoCacheService>();
+        dependencyProvider.AddTransientDependency<IVideoProvider, VideoProvider>();
 
         AddManagers(dependencyProvider);
         SetupWindows(dependencyProvider);
