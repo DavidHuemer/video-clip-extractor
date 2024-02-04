@@ -10,29 +10,30 @@
              d:DataContext="{d:DesignInstance Type=explorerVm:VideosExplorerViewModel}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <ToolBar>
             <Button>
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <wpf:MaterialIcon Kind="Reload"/>
-                        <Label Content="Setup Videos"/>
+                        <wpf:MaterialIcon Kind="Reload" />
+                        <Label Content="Setup Videos" />
                     </StackPanel>
                 </Button.Content>
             </Button>
             <Button>
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <wpf:MaterialIcon Kind="Export"/>
-                        <Label Content="Export"/>
+                        <wpf:MaterialIcon Kind="Export" />
+                        <Label Content="Export" />
                     </StackPanel>
                 </Button.Content>
             </Button>
         </ToolBar>
 
-        <ListBox Grid.Row="1" ItemsSource="{Binding Videos}" />
+        <ListBox Grid.Row="1" ItemsSource="{Binding Videos}"
+                 SelectedItem="{Binding SelectedVideo}" />
     </Grid>
 </UserControl>

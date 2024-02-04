@@ -16,4 +16,8 @@
         <PackageReference Include="MediaDevices" Version="1.10.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Handler\VideoProvider\"/>
+    </ItemGroup>
+
 </Project>
