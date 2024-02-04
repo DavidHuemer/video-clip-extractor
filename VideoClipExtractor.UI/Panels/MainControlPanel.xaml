@@ -4,29 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mainVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Main"
+             xmlns:explorerPanels="clr-namespace:VideoClipExtractor.UI.Panels.Explorer"
              mc:Ignorable="d"
-             d:DesignHeight="1080" d:DesignWidth="1800"
+             d:DesignHeight="1080" d:DesignWidth="1920"
              d:DataContext="{d:DesignInstance Type=mainVm:MainControlViewModel}">
 
     <!--TODO: Add main content layout-->
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="250"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="250" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="340" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="340" />
         </Grid.ColumnDefinitions>
 
-        <GridSplitter Grid.Row="0" Grid.Column="1"/>
-        <GridSplitter Grid.Row="0" Grid.Column="3"/>
+        <explorerPanels:VideosExplorerPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch" 
+                                            DataContext="{Binding ExplorerVm}" />
 
-        <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"/>
+        <GridSplitter Grid.Row="0" Grid.Column="1" />
+        <GridSplitter Grid.Row="0" Grid.Column="3" />
+
+        <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
     </Grid>
 </UserControl>

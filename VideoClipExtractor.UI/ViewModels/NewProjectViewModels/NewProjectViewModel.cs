@@ -89,7 +89,8 @@ public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
 
         var project = new Project()
         {
-            VideoRepositoryBlueprint = VideoRepositoryBlueprint
+            VideoRepositoryBlueprint = VideoRepositoryBlueprint,
+            ImageDirectory = ImageDirectoryPath,
         };
 
         var projectSerializer = provider.GetDependency<IProjectSerializer>();

@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="VideoClipExtractor.UI.Panels.Explorer.VideosExplorerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:wpf="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:explorerVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Main.Explorer"
+             mc:Ignorable="d"
+             d:DesignHeight="350" d:DesignWidth="340"
+             d:DataContext="{d:DesignInstance Type=explorerVm:VideosExplorerViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ToolBar>
+            <Button>
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <wpf:MaterialIcon Kind="Reload"/>
+                        <Label Content="Setup Videos"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button>
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <wpf:MaterialIcon Kind="Export"/>
+                        <Label Content="Export"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </ToolBar>
+
+        <ListBox Grid.Row="1" ItemsSource="{Binding Videos}" />
+    </Grid>
+</UserControl>

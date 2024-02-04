@@ -5,6 +5,7 @@ using BaseUI.Services.WindowService;
 using BaseUI.ViewModels;
 using PropertyChanged;
 using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.Core.Managers.VideoProviderManager;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.UI.ViewModels.Main;
@@ -58,6 +59,8 @@ public class MainWindowViewModel : WindowViewModel
 
             Project = e.Project;
             _provider.GetDependency<IProjectManager>().SetOpenedProject(e);
+
+            _provider.GetDependency<IVideoProviderManager>().Setup(e.Project, repoManager.VideoRepository!);
 
             if (Project.Videos.Count == 0) ShowSetupVideos();
         }
