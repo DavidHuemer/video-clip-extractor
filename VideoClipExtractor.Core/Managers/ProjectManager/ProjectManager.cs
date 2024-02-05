@@ -14,8 +14,10 @@ public class ProjectManager(IDependencyProvider provider) : IProjectManager
         Path = path;
     }
 
-    public void SetOpenedProject(ProjectOpenedEventArgs e) =>
+    public void SetOpenedProject(ProjectOpenedEventArgs e)
+    {
         SetOpenedProject(e.Project, e.Path);
+    }
 
     public void StoreProject()
     {

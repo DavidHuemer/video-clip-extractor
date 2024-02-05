@@ -5,6 +5,7 @@ using VideoClipExtractor.Data.VideoRepos;
 using VideoClipExtractor.Data.Videos.Events;
 using VideoClipExtractor.Tests.Basics.Data;
 using VideoClipExtractor.Tests.Basics.Mocks;
+using static NUnit.Framework.Assert;
 
 namespace VideoClipExtractor.Tests.Core.Managers.VideoProviderManagerTests;
 
@@ -45,13 +46,11 @@ public class VideoProviderManagerTests
 
 
         var eventRaised = false;
-        videoProviderManager.VideoAdded += (sender, args) => eventRaised = true;
+        videoProviderManager.VideoAdded += (_, _) => eventRaised = true;
 
         // Act
         videoProvider.Raise(x => x.VideoAdded += null,
             new VideoEventArgs(VideoExamples.GetVideoExample()));
-
-        // Assert
-        Assert.IsTrue(eventRaised);
+        That(eventRaised, Is.True);
     }
 }

@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace VideoClipExtractor.UI.Panels;
+﻿namespace VideoClipExtractor.UI.Panels;
 
 /// <summary>
 ///     Interaktionslogik für MainControlPanel.xaml
 /// </summary>
-public partial class MainControlPanel : UserControl
+public partial class MainControlPanel
 {
     public MainControlPanel()
     {

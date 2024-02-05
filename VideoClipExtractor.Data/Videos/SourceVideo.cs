@@ -5,7 +5,7 @@ using MediaDevices;
 namespace VideoClipExtractor.Data.Videos;
 
 /// <summary>
-/// Represents a video file inside the video repository.
+///     Represents a video file inside the video repository.
 /// </summary>
 [Serializable]
 public class SourceVideo

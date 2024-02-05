@@ -29,5 +29,8 @@ public class VideoProviderManager(IDependencyProvider provider) : IVideoProvider
         _videoProvider.VideoAdded += OnVideoAdded;
     }
 
-    private void OnVideoAdded(object? sender, VideoEventArgs e) => VideoAdded?.Invoke(sender, e);
+    private void OnVideoAdded(object? sender, VideoEventArgs e)
+    {
+        VideoAdded?.Invoke(sender, e);
+    }
 }

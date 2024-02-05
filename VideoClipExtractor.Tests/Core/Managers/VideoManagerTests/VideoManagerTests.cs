@@ -18,13 +18,12 @@ public class VideoManagerTests
     public void VideoInvoked_VideoChangedEvent()
     {
         // Arrange
-        var videoManager = new VideoManager();
         var video = VideoExamples.GetVideoExample();
         VideoChangedEventArgs? videoChangedEventArgs = null;
-        videoManager.VideoChanged += (sender, args) => videoChangedEventArgs = args;
+        _videoManager.VideoChanged += (_, args) => videoChangedEventArgs = args;
 
         // Act
-        videoManager.Video = video;
+        _videoManager.Video = video;
 
         // Assert
         Assert.That(videoChangedEventArgs?.Video, Is.EqualTo(video));

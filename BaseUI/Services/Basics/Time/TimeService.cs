@@ -5,5 +5,8 @@ namespace BaseUI.Services.Basics.Time;
 [UsedImplicitly]
 internal class TimeService : ITimeService
 {
-    public DateTime GetCurrentTime() => DateTime.Now;
+    public DateTime GetCurrentTime()
+    {
+        return DateTime.Now;
+    }
 }

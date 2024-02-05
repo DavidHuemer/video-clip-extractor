@@ -1,6 +1,6 @@
 ﻿namespace BaseUI.Dialogs;
 
-public partial class InfoDialog : UserControl
+public partial class InfoDialog
 {
     public InfoDialog()
     {

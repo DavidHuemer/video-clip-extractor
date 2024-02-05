@@ -1,14 +1,10 @@
 ﻿namespace BaseUI.ViewModels.Tree;
 
 /// <summary>
-/// Base tree view item that loads its children asynchronously.
+///     Base tree view item that loads its children asynchronously.
 /// </summary>
-public abstract class BaseAsyncTreeViewItem : BaseTreeViewItem
+public abstract class BaseAsyncTreeViewItem(bool isExpandable = false) : BaseTreeViewItem(isExpandable)
 {
-    protected BaseAsyncTreeViewItem(bool isExpandable = false) : base(isExpandable)
-    {
-    }
-
     protected override void ExpansionChanged()
     {
         Task.Run(() =>
@@ -21,6 +17,6 @@ public abstract class BaseAsyncTreeViewItem : BaseTreeViewItem
     protected override void SetChildren(IEnumerable<BaseTreeViewItem> childs)
     {
         // Run on UI thread
-        System.Windows.Application.Current.Dispatcher.Invoke(() => { base.SetChildren(childs); });
+        Application.Current.Dispatcher.Invoke(() => { base.SetChildren(childs); });
     }
 }

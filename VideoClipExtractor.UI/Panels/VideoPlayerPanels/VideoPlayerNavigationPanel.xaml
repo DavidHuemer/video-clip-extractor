@@ -11,43 +11,43 @@
         <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}" />
 
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="0" />
         </Style>
 
         <Style TargetType="wpf:MaterialIcon">
-            <Setter Property="Foreground" Value="{StaticResource MaterialDesignDarkForeground}"/>
-            <Setter Property="Margin" Value="0,0,5,0"/>
+            <Setter Property="Foreground" Value="{StaticResource MaterialDesignDarkForeground}" />
+            <Setter Property="Margin" Value="0,0,5,0" />
         </Style>
     </UserControl.Resources>
-    
+
     <StackPanel Orientation="Horizontal">
         <Button>
             <StackPanel Orientation="Horizontal">
-                <wpf:MaterialIcon Kind="PreviousTitle"/>
-                <Label Content="Previos"/>
+                <wpf:MaterialIcon Kind="PreviousTitle" />
+                <Label Content="Previos" />
             </StackPanel>
         </Button>
 
         <Button>
             <StackPanel Orientation="Horizontal">
-                <wpf:MaterialIcon Kind="SkipNext"/>
-                <Label Content="Skip"/>
+                <wpf:MaterialIcon Kind="SkipNext" />
+                <Label Content="Skip" />
             </StackPanel>
         </Button>
 
         <Button>
             <StackPanel Orientation="Horizontal">
-                <wpf:MaterialIcon Kind="Check"/>
-                <Label Content="Finish"/>
+                <wpf:MaterialIcon Kind="Check" />
+                <Label Content="Finish" />
             </StackPanel>
         </Button>
 
         <Button>
             <StackPanel Orientation="Horizontal">
-                <wpf:MaterialIcon Kind="Export"/>
-                <Label Content="Export"/>
+                <wpf:MaterialIcon Kind="Export" />
+                <Label Content="Export" />
             </StackPanel>
         </Button>
     </StackPanel>

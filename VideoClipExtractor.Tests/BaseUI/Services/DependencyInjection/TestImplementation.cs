@@ -1,5 +1,6 @@
-﻿namespace VideoClipExtractor.Tests.BaseUI.Services.DependencyInjection;
+﻿using JetBrains.Annotations;
 
-internal class TestImplementation : ITestInterface
-{
-}
+namespace VideoClipExtractor.Tests.BaseUI.Services.DependencyInjection;
+
+[UsedImplicitly]
+internal class TestImplementation : ITestInterface;

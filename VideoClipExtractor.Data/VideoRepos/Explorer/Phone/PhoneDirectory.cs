@@ -20,8 +20,13 @@ public class PhoneDirectory : VideoRepositoryDirectory
         Name = Path.Split('\\').Last();
     }
 
-    protected override IEnumerable<BaseTreeViewItem> LoadChildren() =>
-        _drive.GetDirectories(Path).Select(dir => new PhoneDirectory(_drive, dir));
+    protected override IEnumerable<BaseTreeViewItem> LoadChildren()
+    {
+        return _drive.GetDirectories(Path).Select(dir => new PhoneDirectory(_drive, dir));
+    }
 
-    public override VideoRepositoryBlueprint GetBlueprint() => new(VideoRepositoryType.Phone, _drive.ConcatPath(Path));
+    public override VideoRepositoryBlueprint GetBlueprint()
+    {
+        return new VideoRepositoryBlueprint(VideoRepositoryType.Phone, _drive.ConcatPath(Path));
+    }
 }

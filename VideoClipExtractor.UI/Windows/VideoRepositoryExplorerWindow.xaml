@@ -21,23 +21,23 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <extensions:ExtendedTreeView Grid.Row="0" 
+        <extensions:ExtendedTreeView Grid.Row="0"
                                      ItemsSource="{Binding Root}"
-                                     ItemContainerStyle="{StaticResource TreeViewItemStyle}" 
+                                     ItemContainerStyle="{StaticResource TreeViewItemStyle}"
                                      Background="#FF383838"
                                      SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                    <TextBlock Foreground="White" Text="{Binding Name}" 
+                    <TextBlock Foreground="White" Text="{Binding Name}"
                                HorizontalAlignment="Stretch" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </extensions:ExtendedTreeView>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <Button Content="Cancel" 
+            <Button Content="Cancel"
                     Command="{Binding Close}" />
-            <Button Content="Ok" Margin="10,0,0,0" 
+            <Button Content="Ok" Margin="10,0,0,0"
                     Command="{Binding Ok}" />
         </StackPanel>
     </Grid>

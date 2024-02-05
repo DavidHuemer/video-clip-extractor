@@ -17,7 +17,7 @@ public class VideoPlayerViewModel : BaseViewModel
 
     #region Properties
 
-    [DoNotNotify] public VideoPlayerNavigationViewModel VideoPlayerNavigationVm { get; set; }
+    [DoNotNotify] public VideoPlayerNavigationViewModel VideoPlayerNavigationVm { get; }
 
     #endregion
 

@@ -15,8 +15,8 @@
         </Grid.ColumnDefinitions>
 
         <Label Content="{Binding Title, FallbackValue=Title}" FontSize="16" FontWeight="Bold"
-               HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Padding="10,0,0,0" Cursor=""/>
-        <Button Grid.Column="1" Command="{Binding Close}" HorizontalAlignment="Right" 
+               HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Padding="10,0,0,0" Cursor="" />
+        <Button Grid.Column="1" Command="{Binding Close}" HorizontalAlignment="Right"
                 VerticalAlignment="Stretch"
                 Margin="0"
                 Style="{StaticResource CloseButton}">

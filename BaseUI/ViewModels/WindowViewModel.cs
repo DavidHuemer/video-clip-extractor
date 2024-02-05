@@ -5,7 +5,7 @@ using BaseUI.Services.WindowService;
 namespace BaseUI.ViewModels;
 
 /// <summary>
-/// Base class for all window view models. 
+///     Base class for all window view models.
 /// </summary>
 public class WindowViewModel : BaseViewModel
 {
@@ -18,16 +18,16 @@ public class WindowViewModel : BaseViewModel
     #region Properties
 
     /// <summary>
-    /// The title of the window.
+    ///     The title of the window.
     /// </summary>
     public string Title { get; set; } = "Title";
 
     #endregion
 
     /// <summary>
-    /// Shows the window.
+    ///     Shows the window.
     /// </summary>
-    /// <param name="windowService">The <see cref="IWindowService"/> that is responsible for instantiating the window</param>
+    /// <param name="windowService">The <see cref="IWindowService" /> that is responsible for instantiating the window</param>
     public void Show(IWindowService windowService)
     {
         _window = GetWindow(windowService);
@@ -36,9 +36,9 @@ public class WindowViewModel : BaseViewModel
     }
 
     /// <summary>
-    /// Shows the window as a dialog.
+    ///     Shows the window as a dialog.
     /// </summary>
-    /// <param name="windowService">The <see cref="IWindowService"/> that is responsible for instantiating the window</param>
+    /// <param name="windowService">The <see cref="IWindowService" /> that is responsible for instantiating the window</param>
     public void ShowDialog(IWindowService windowService)
     {
         _window = GetWindow(windowService);
@@ -46,7 +46,10 @@ public class WindowViewModel : BaseViewModel
         SetupEvents(_window);
     }
 
-    private IWindow GetWindow(IWindowService windowService) => windowService.GetWindow(this);
+    private IWindow GetWindow(IWindowService windowService)
+    {
+        return windowService.GetWindow(this);
+    }
 
     protected virtual void SetupEvents(IWindow window)
     {
@@ -56,7 +59,10 @@ public class WindowViewModel : BaseViewModel
 
     public ICommand Close => new RelayCommand<string>(DoClose, _ => true);
 
-    private void DoClose(string? obj) => CloseWindow();
+    private void DoClose(string? obj)
+    {
+        CloseWindow();
+    }
 
 
     public void CloseWindow()

@@ -1,8 +1,6 @@
-﻿using System.Windows.Controls;
+﻿namespace VideoClipExtractor.UI.Panels.VideoPlayerPanels;
 
-namespace VideoClipExtractor.UI.Panels.VideoPlayerPanels;
-
-public partial class VideoPlayerPanel : UserControl
+public partial class VideoPlayerPanel
 {
     public VideoPlayerPanel()
     {

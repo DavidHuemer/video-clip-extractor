@@ -17,7 +17,7 @@ internal class DialogHostIdentifierService(IDependencyProvider provider) : IDial
             : FindDialogHost(activeWindow);
     }
 
-    private string FindDialogHost(DependencyObject parent)
+    private static string FindDialogHost(DependencyObject parent)
     {
         var childCount = VisualTreeHelper.GetChildrenCount(parent);
 
@@ -26,16 +26,11 @@ internal class DialogHostIdentifierService(IDependencyProvider provider) : IDial
             var child = VisualTreeHelper.GetChild(parent, i);
 
             if (child is DialogHost dialogHost)
-            {
                 // Found the DialogHost
                 return dialogHost.Identifier as string ?? string.Empty;
-            }
 
             // If the child has children, recursively search for DialogHost
-            if (VisualTreeHelper.GetChildrenCount(child) > 0)
-            {
-                return FindDialogHost(child);
-            }
+            if (VisualTreeHelper.GetChildrenCount(child) > 0) return FindDialogHost(child);
         }
 
         return string.Empty;

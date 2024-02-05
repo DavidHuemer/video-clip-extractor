@@ -37,7 +37,7 @@ internal class DependencyInstanceBuilder(IDependencyProvider provider)
         }
 
         // Check if implementationType has constructor with only IDependencyProvider as parameter
-        var dependencyProviderConstructor = implementationType.GetConstructor(new[] { typeof(IDependencyProvider) });
+        var dependencyProviderConstructor = implementationType.GetConstructor([typeof(IDependencyProvider)]);
         if (dependencyProviderConstructor == null)
             throw new InvalidOperationException($"No suitable constructor found for type {implementationType.Name}");
         {

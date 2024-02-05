@@ -24,22 +24,26 @@ public class VideoCacheService : IVideoCacheService
 
     #endregion
 
-    public void Setup(IVideoRepository repository, string cachingDirectory) =>
+    public void Setup(IVideoRepository repository, string cachingDirectory)
+    {
         _cacheInformation = new VideoCacheInformation(repository, cachingDirectory);
+    }
 
     public void CacheVideo(SourceVideo video)
     {
         if (_cacheInformation == null) throw new NotSetupException(nameof(VideoCacheService), nameof(Setup));
 
         lock (_lock)
+        {
             _cachingQueue.Enqueue(video);
+        }
 
         if (!_backgroundWorker.IsBusy) _backgroundWorker.RunWorkerAsync();
     }
 
     /// <summary>
-    /// Is called when a video has been cached
-    /// Invokes the <see cref="VideoCached"/> event
+    ///     Is called when a video has been cached
+    ///     Invokes the <see cref="VideoCached" /> event
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -51,7 +55,7 @@ public class VideoCacheService : IVideoCacheService
     }
 
     /// <summary>
-    /// This method runs in the background and caches the videos.
+    ///     This method runs in the background and caches the videos.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -78,9 +82,9 @@ public class VideoCacheService : IVideoCacheService
     }
 
     /// <summary>
-    /// Stores the given video in the local cache.
+    ///     Stores the given video in the local cache.
     /// </summary>
-    /// <param name="sourceVideo">The <see cref="SourceVideo"/> that should be stored locally</param>
+    /// <param name="sourceVideo">The <see cref="SourceVideo" /> that should be stored locally</param>
     private void StoreVideo(SourceVideo sourceVideo)
     {
         if (_cacheInformation == null) throw new NotSetupException(nameof(VideoCacheService), nameof(Setup));
@@ -108,7 +112,10 @@ public class VideoCacheService : IVideoCacheService
     /// </summary>
     /// <param name="localVideoPath">The path of the video for which is checked if it is already cached</param>
     /// <returns>Whether the video is already cached</returns>
-    private static bool IsVideoCached(string localVideoPath) => File.Exists(localVideoPath);
+    private static bool IsVideoCached(string localVideoPath)
+    {
+        return File.Exists(localVideoPath);
+    }
 
     #region Private Fields
 

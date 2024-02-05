@@ -3,7 +3,7 @@
 namespace BaseUI.Services.WindowService;
 
 /// <summary>
-/// Responsible for instantiating and showing windows.
+///     Responsible for instantiating and showing windows.
 /// </summary>
 public interface IWindowService
 {

@@ -43,7 +43,7 @@ public class MainWindowViewModel : WindowViewModel
     }
 
     /// <summary>
-    /// Is called when a project is chosen
+    ///     Is called when a project is chosen
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e">Event that contains the opened project</param>

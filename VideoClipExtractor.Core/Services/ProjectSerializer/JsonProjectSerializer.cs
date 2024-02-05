@@ -14,16 +14,12 @@ public class JsonProjectSerializer : IProjectSerializer
 
     public Project LoadProject(string path)
     {
-        if (File.Exists(path))
-        {
-            var json = File.ReadAllText(path);
-            var project = JsonSerializer.Deserialize<Project>(json);
+        if (!File.Exists(path)) throw new FileNotFoundException("File not found.", path);
+        var json = File.ReadAllText(path);
+        var project = JsonSerializer.Deserialize<Project>(json);
 
-            if (project is null) throw new JsonException("Project could not be deserialized.");
+        if (project is null) throw new JsonException("Project could not be deserialized.");
 
-            return project;
-        }
-
-        throw new FileNotFoundException("File not found.", path);
+        return project;
     }
 }

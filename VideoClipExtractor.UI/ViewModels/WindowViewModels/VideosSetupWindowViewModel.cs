@@ -79,7 +79,10 @@ public class VideosSetupWindowViewModel : WindowViewModel
 
     public ICommand Cancel => new RelayCommand<string>(DoCancel, _ => !IsCrawling);
 
-    private void DoCancel(string? obj) => CloseWindow();
+    private void DoCancel(string? obj)
+    {
+        CloseWindow();
+    }
 
     public ICommand Finish => new RelayCommand<string>(DoFinish, _ => CanFinish);
 

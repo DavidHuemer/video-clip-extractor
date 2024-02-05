@@ -9,7 +9,7 @@ using VideoClipExtractor.Data.Videos.Events;
 namespace VideoClipExtractor.Core.Services.VideoProvider;
 
 /// <summary>
-/// Provides videos from the repository.
+///     Provides videos from the repository.
 /// </summary>
 public class VideoProvider : IVideoProvider
 {
@@ -39,13 +39,9 @@ public class VideoProvider : IVideoProvider
         ExtendCache();
 
         if (_cache.Count > 0)
-        {
             ProvideVideo();
-        }
         else
-        {
             _requestedVideos++;
-        }
     }
 
     private void InitVideos(Project project)
@@ -59,15 +55,12 @@ public class VideoProvider : IVideoProvider
         _requestedVideos = 1;
 
         var cacheCount = Math.Min(CacheSize, _remainingSourceVideos.Count);
-        for (var i = 0; i < cacheCount; i++)
-        {
-            ExtendCache();
-        }
+        for (var i = 0; i < cacheCount; i++) ExtendCache();
     }
 
     /// <summary>
-    /// Extends the cache by one video.
-    /// It takes the next video from the <see cref="_remainingSourceVideos"/> and caches it.
+    ///     Extends the cache by one video.
+    ///     It takes the next video from the <see cref="_remainingSourceVideos" /> and caches it.
     /// </summary>
     private void ExtendCache()
     {
@@ -96,25 +89,25 @@ public class VideoProvider : IVideoProvider
     #region Private Fields
 
     /// <summary>
-    /// The maximum size of the cache.
+    ///     The maximum size of the cache.
     /// </summary>
     private const int CacheSize = 10;
 
     private readonly IVideoCacheService _cacheHandler;
 
     /// <summary>
-    /// Contains the cached videos.
+    ///     Contains the cached videos.
     /// </summary>
     private readonly Queue<CachedVideo> _cache = new();
 
     /// <summary>
-    /// Contains the remaining videos that are not done and not cached.
+    ///     Contains the remaining videos that are not done and not cached.
     /// </summary>
     private Queue<SourceVideo> _remainingSourceVideos = new();
 
     /// <summary>
-    /// The number of videos that are currently requested.
-    /// In other words: The number of videos that are expected.
+    ///     The number of videos that are currently requested.
+    ///     In other words: The number of videos that are expected.
     /// </summary>
     private int _requestedVideos;
 

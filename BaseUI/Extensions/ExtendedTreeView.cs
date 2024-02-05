@@ -1,7 +1,7 @@
 ﻿namespace BaseUI.Extensions;
 
 /// <summary>
-/// Extended <see cref="TreeView"/>
+///     Extended <see cref="TreeView" />
 /// </summary>
 public class ExtendedTreeView : TreeView
 {

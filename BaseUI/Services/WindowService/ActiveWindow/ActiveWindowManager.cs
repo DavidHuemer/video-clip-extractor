@@ -6,7 +6,7 @@ namespace BaseUI.Services.WindowService.ActiveWindow;
 internal class ActiveWindowManager : IActiveWindowManager
 {
     /// <summary>
-    /// The list of open windows.
+    ///     The list of open windows.
     /// </summary>
     private readonly List<IWindow> _openWindows = [];
 

@@ -11,17 +11,23 @@ namespace VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 [UsedImplicitly]
 public class VideoRepositoryProvider : IVideoRepositoryProvider
 {
-    public IEnumerable<VideoRepositoryDrive> GetDrives() =>
-        GetPcDrives()
+    public IEnumerable<VideoRepositoryDrive> GetDrives()
+    {
+        return GetPcDrives()
             .Concat(OperatingSystem.IsWindows()
                 ? GetPhoneDrives()
                 : Enumerable.Empty<VideoRepositoryDrive>());
+    }
 
 
-    private static IEnumerable<VideoRepositoryDrive> GetPcDrives() =>
-        DriveInfo.GetDrives().Select(driveInfo => new PcDrive(driveInfo.Name));
+    private static IEnumerable<VideoRepositoryDrive> GetPcDrives()
+    {
+        return DriveInfo.GetDrives().Select(driveInfo => new PcDrive(driveInfo.Name));
+    }
 
     [SupportedOSPlatform("windows")]
-    private static IEnumerable<VideoRepositoryDrive> GetPhoneDrives() =>
-        MediaDevice.GetDevices().Select(device => new PhoneDrive(device));
+    private static IEnumerable<VideoRepositoryDrive> GetPhoneDrives()
+    {
+        return MediaDevice.GetDevices().Select(device => new PhoneDrive(device));
+    }
 }

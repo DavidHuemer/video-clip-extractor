@@ -1,7 +1,7 @@
 ﻿namespace BaseUI.Services.Basics.Time;
 
 /// <summary>
-/// Responsible for time-related operations.
+///     Responsible for time-related operations.
 /// </summary>
 public interface ITimeService
 {

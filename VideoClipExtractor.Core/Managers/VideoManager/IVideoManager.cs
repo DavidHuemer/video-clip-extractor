@@ -4,13 +4,13 @@ using VideoClipExtractor.Data.Videos.Events;
 namespace VideoClipExtractor.Core.Managers.VideoManager;
 
 /// <summary>
-/// Manages the current video
-/// As normal for managers, this should be a singleton
+///     Manages the current video
+///     As normal for managers, this should be a singleton
 /// </summary>
 public interface IVideoManager
 {
     /// <summary>
-    /// The current video
+    ///     The current video
     /// </summary>
     public Video? Video { get; set; }
 

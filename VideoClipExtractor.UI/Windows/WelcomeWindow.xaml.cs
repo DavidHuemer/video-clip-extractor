@@ -1,12 +1,11 @@
 ﻿using BaseUI.Services.WindowService;
 
-namespace VideoClipExtractor.UI.Windows
+namespace VideoClipExtractor.UI.Windows;
+
+public partial class WelcomeWindow : IWindow
 {
-    public partial class WelcomeWindow : IWindow
+    public WelcomeWindow()
     {
-        public WelcomeWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

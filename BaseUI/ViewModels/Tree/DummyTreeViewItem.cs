@@ -7,5 +7,8 @@ public class DummyTreeViewItem : BaseTreeViewItem
         IsExpanded = false;
     }
 
-    protected override IEnumerable<BaseTreeViewItem> LoadChildren() => Array.Empty<BaseTreeViewItem>();
+    protected override IEnumerable<BaseTreeViewItem> LoadChildren()
+    {
+        return Array.Empty<BaseTreeViewItem>();
+    }
 }

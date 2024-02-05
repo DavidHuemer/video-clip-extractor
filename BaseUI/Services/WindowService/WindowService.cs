@@ -35,15 +35,15 @@ public class WindowService(IDependencyProvider provider) : IWindowService
         if (window is null)
             throw new Exception("Window not found");
 
-        var windowInstance = Activator.CreateInstance(window) as IWindow;
-
-        if (windowInstance is null)
+        if (Activator.CreateInstance(window) is not IWindow windowInstance)
             throw new Exception("Window not found");
 
         windowInstance.DataContext = viewModel;
         return windowInstance;
     }
 
-    private void SetupActiveWindow(IWindow window) =>
+    private void SetupActiveWindow(IWindow window)
+    {
         provider.GetDependency<IActiveWindowManager>().AddWindow(window);
+    }
 }

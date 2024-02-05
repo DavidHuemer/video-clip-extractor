@@ -9,7 +9,7 @@ public interface IProjectFileExplorer
     string GetSaveProjectFilePath();
 
     /// <summary>
-    ///    Returns the path of the project file to open.
+    ///     Returns the path of the project file to open.
     /// </summary>
     /// <returns>The path where a project is stored</returns>
     string GetOpenProjectFilePath();

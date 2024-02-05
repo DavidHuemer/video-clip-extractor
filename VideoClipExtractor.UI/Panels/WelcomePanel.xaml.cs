@@ -1,8 +1,6 @@
-﻿using System.Windows.Controls;
+﻿namespace VideoClipExtractor.UI.Panels;
 
-namespace VideoClipExtractor.UI.Panels;
-
-public partial class WelcomePanel : UserControl
+public partial class WelcomePanel
 {
     public WelcomePanel()
     {

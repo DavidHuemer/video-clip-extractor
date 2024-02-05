@@ -1,15 +1,12 @@
-﻿using System.Windows.Controls;
+﻿namespace VideoClipExtractor.UI.Panels;
 
-namespace VideoClipExtractor.UI.Panels
+/// <summary>
+///     Interaktionslogik für NewProjectPanel.xaml
+/// </summary>
+public partial class NewProjectPanel
 {
-    /// <summary>
-    /// Interaktionslogik für NewProjectPanel.xaml
-    /// </summary>
-    public partial class NewProjectPanel : UserControl
+    public NewProjectPanel()
     {
-        public NewProjectPanel()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

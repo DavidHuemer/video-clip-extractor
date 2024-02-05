@@ -12,8 +12,14 @@ public class PcDirectory : VideoRepositoryDirectory
         Name = new DirectoryInfo(Path).Name;
     }
 
-    protected override IEnumerable<BaseTreeViewItem> LoadChildren() => Directory.GetDirectories(Path)
-        .Select(dir => new PcDirectory(dir));
+    protected override IEnumerable<BaseTreeViewItem> LoadChildren()
+    {
+        return Directory.GetDirectories(Path)
+            .Select(dir => new PcDirectory(dir));
+    }
 
-    public override VideoRepositoryBlueprint GetBlueprint() => new(VideoRepositoryType.Pc, Path);
+    public override VideoRepositoryBlueprint GetBlueprint()
+    {
+        return new VideoRepositoryBlueprint(VideoRepositoryType.Pc, Path);
+    }
 }

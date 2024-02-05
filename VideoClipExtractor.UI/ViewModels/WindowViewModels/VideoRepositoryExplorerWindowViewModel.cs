@@ -11,7 +11,7 @@ using VideoClipExtractor.Data.VideoRepos.Explorer;
 namespace VideoClipExtractor.UI.ViewModels.WindowViewModels;
 
 /// <summary>
-/// Responsible for browsing a video repository
+///     Responsible for browsing a video repository
 /// </summary>
 public class VideoRepositoryExplorerWindowViewModel : WindowViewModel
 {

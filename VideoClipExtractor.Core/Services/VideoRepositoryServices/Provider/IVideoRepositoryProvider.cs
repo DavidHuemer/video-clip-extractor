@@ -3,7 +3,7 @@
 namespace VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 
 /// <summary>
-/// Responsible for providing VideoRepositories
+///     Responsible for providing VideoRepositories
 /// </summary>
 public interface IVideoRepositoryProvider
 {

@@ -1,5 +1,3 @@
 ﻿namespace VideoClipExtractor.Tests.BaseUI.Services.DependencyInjection;
 
-internal interface ITestInterface
-{
-}
+internal interface ITestInterface;

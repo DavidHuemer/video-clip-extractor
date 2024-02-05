@@ -11,8 +11,10 @@ namespace VideoClipExtractor.UI.ViewModels.WelcomeViewModels;
 
 public class WelcomeViewModel(IDependencyProvider provider) : BaseViewModel
 {
-    private void OpenRecentlyOpenedFile(RecentlyOpenedFileInfo fileInfo) =>
+    private void OpenRecentlyOpenedFile(RecentlyOpenedFileInfo fileInfo)
+    {
         OpenRecentProjectRequested?.Invoke(null, new OpenRecentlyOpenedEventArgs(fileInfo.Path));
+    }
 
     #region Events
 
@@ -52,11 +54,17 @@ public class WelcomeViewModel(IDependencyProvider provider) : BaseViewModel
 
     public ICommand NewProject => new RelayCommand<string>(DoNewProject, _ => true);
 
-    private void DoNewProject(string? obj) => NewProjectRequested?.Invoke(null, EventArgs.Empty);
+    private void DoNewProject(string? obj)
+    {
+        NewProjectRequested?.Invoke(null, EventArgs.Empty);
+    }
 
     public ICommand OpenProject => new RelayCommand<string>(DoOpenProject, _ => true);
 
-    private void DoOpenProject(string? obj) => OpenProjectRequested?.Invoke(null, EventArgs.Empty);
+    private void DoOpenProject(string? obj)
+    {
+        OpenProjectRequested?.Invoke(null, EventArgs.Empty);
+    }
 
     #endregion
 }

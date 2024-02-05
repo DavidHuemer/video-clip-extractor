@@ -54,7 +54,10 @@ public class WelcomeWindowViewModel : WindowViewModel
         ShowBackButton = true;
     }
 
-    private void ProjectCreated(object? sender, ProjectCreatedEventArgs e) => OpenProject(e.Project, e.Path);
+    private void ProjectCreated(object? sender, ProjectCreatedEventArgs e)
+    {
+        OpenProject(e.Project, e.Path);
+    }
 
     private void OpenProjectRequested(object? sender, EventArgs e)
     {
@@ -62,8 +65,10 @@ public class WelcomeWindowViewModel : WindowViewModel
         OpenProjectByPath(path);
     }
 
-    private void OnOpenRecentProjectRequested(object? sender, OpenRecentlyOpenedEventArgs e) =>
+    private void OnOpenRecentProjectRequested(object? sender, OpenRecentlyOpenedEventArgs e)
+    {
         OpenProjectByPath(e.RecentlyOpenedPath);
+    }
 
     private void OpenProjectByPath(string path)
     {

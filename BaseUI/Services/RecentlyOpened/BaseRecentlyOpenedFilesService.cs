@@ -39,20 +39,18 @@ public abstract class BaseRecentlyOpenedFilesService(IDependencyProvider provide
         {
             return [];
         }
-        else
-        {
-            var recentlyOpenedFilesJson = File.ReadAllText(RecentlyOpenedFilesPath);
-            return JsonSerializer.Deserialize<List<RecentlyOpenedFileInfo>>(recentlyOpenedFilesJson) ??
-                   [];
-        }
+
+        var recentlyOpenedFilesJson = File.ReadAllText(RecentlyOpenedFilesPath);
+        return JsonSerializer.Deserialize<List<RecentlyOpenedFileInfo>>(recentlyOpenedFilesJson) ??
+               [];
     }
 
     private RecentlyOpenedFileInfo CreateRecentlyOpenedFileInfo(string path)
     {
-        return new RecentlyOpenedFileInfo()
+        return new RecentlyOpenedFileInfo
         {
             Path = path,
-            LastOpened = provider.GetDependency<ITimeService>().GetCurrentTime()
+            LastOpened = provider.GetDependency<ITimeService>().GetCurrentTime(),
         };
     }
 

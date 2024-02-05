@@ -32,15 +32,13 @@ internal class DialogService(IDependencyProvider provider) : IDialogService
         var identifier = GetIdentifier();
 
         if (identifier == Empty)
-        {
             DialogHost.Show(content);
-        }
         else
-        {
             DialogHost.Show(content, identifier);
-        }
     }
 
-    private string GetIdentifier() =>
-        provider.GetDependency<IDialogHostIdentifierService>().GetIdentifier();
+    private string GetIdentifier()
+    {
+        return provider.GetDependency<IDialogHostIdentifierService>().GetIdentifier();
+    }
 }

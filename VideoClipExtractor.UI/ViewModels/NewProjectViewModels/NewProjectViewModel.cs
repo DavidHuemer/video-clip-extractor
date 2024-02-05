@@ -12,7 +12,7 @@ using VideoClipExtractor.UI.ViewModels.WindowViewModels;
 namespace VideoClipExtractor.UI.ViewModels.NewProjectViewModels;
 
 /// <summary>
-/// ViewModel for the new project panel
+///     ViewModel for the new project panel
 /// </summary>
 public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
 {
@@ -30,19 +30,19 @@ public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
     #region Properties
 
     /// <summary>
-    /// The name of the new project
+    ///     The name of the new project
     /// </summary>
     public string Name { get; set; } = "New Project";
 
     /// <summary>
-    /// The path where the new project should be stored
+    ///     The path where the new project should be stored
     /// </summary>
     public string ProjectPath { get; set; } = string.Empty;
 
     public VideoRepositoryBlueprint? VideoRepositoryBlueprint { get; private set; }
 
     /// <summary>
-    /// The path where the extracted images and videos should be stored
+    ///     The path where the extracted images and videos should be stored
     /// </summary>
     public string ImageDirectoryPath { get; set; } = string.Empty;
 
@@ -87,7 +87,7 @@ public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
         if (VideoRepositoryBlueprint == null) return;
 
 
-        var project = new Project()
+        var project = new Project
         {
             VideoRepositoryBlueprint = VideoRepositoryBlueprint,
             ImageDirectory = ImageDirectoryPath,

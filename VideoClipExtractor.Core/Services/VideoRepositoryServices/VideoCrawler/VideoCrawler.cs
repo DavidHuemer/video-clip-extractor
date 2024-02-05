@@ -36,10 +36,7 @@ public class VideoCrawler(IDependencyProvider provider) : IVideoCrawler
             if (repo == null) return;
             var files = repo.GetFiles();
 
-            foreach (var file in files)
-            {
-                _worker.ReportProgress(0, file);
-            }
+            foreach (var file in files) _worker.ReportProgress(0, file);
         }
         catch (Exception e)
         {
@@ -49,8 +46,10 @@ public class VideoCrawler(IDependencyProvider provider) : IVideoCrawler
         }
     }
 
-    private void OnWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e) =>
+    private void OnWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+    {
         CrawlerFinished?.Invoke(this, EventArgs.Empty);
+    }
 
     private void OnProgressChanged(object? sender, ProgressChangedEventArgs e)
     {

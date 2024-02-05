@@ -20,15 +20,17 @@ public class MenuViewModel(IDependencyProvider provider) : BaseViewModel
 
     public ICommand NewProject => new RelayCommand<string>(DoNewProject, _ => true);
 
-    private void DoNewProject(string? obj)
+    private static void DoNewProject(string? obj)
     {
         Console.WriteLine("New Project");
     }
 
     public ICommand SaveProject => new RelayCommand<string>(DoSaveProject, _ => Project != null);
 
-    private void DoSaveProject(string? obj) =>
+    private void DoSaveProject(string? obj)
+    {
         provider.GetDependency<IProjectManager>().StoreProject();
+    }
 
     #endregion
 }

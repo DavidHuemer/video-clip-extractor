@@ -20,8 +20,10 @@ public class VideoRepositoryBuilder : IVideoRepositoryBuilder
         };
     }
 
-    private static PcVideoRepository BuildPcConnection(VideoRepositoryBlueprint connectionBlueprint) =>
-        new(connectionBlueprint.Path);
+    private static PcVideoRepository BuildPcConnection(VideoRepositoryBlueprint connectionBlueprint)
+    {
+        return new PcVideoRepository(connectionBlueprint.Path);
+    }
 
     [SupportedOSPlatform("windows")]
     private static PhoneVideoRepository BuildPhoneConnection(VideoRepositoryBlueprint connectionBlueprint)

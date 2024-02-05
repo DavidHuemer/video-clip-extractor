@@ -6,9 +6,9 @@ namespace VideoClipExtractor.Data.VideoRepos.Explorer;
 public abstract class VideoRepositoryItem() : BaseAsyncTreeViewItem(true)
 {
     /// <summary>
-    /// Returns a <see cref="VideoRepositoryBlueprint"/> out of this item.
+    ///     Returns a <see cref="VideoRepositoryBlueprint" /> out of this item.
     /// </summary>
-    /// <returns>A <see cref="VideoRepositoryBlueprint"/> out the item.</returns>
+    /// <returns>A <see cref="VideoRepositoryBlueprint" /> out the item.</returns>
     public abstract VideoRepositoryBlueprint GetBlueprint();
 
     #region Properties

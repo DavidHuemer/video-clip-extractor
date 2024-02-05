@@ -25,11 +25,18 @@ public class PhoneDrive : VideoRepositoryDrive
         return _device.GetDirectories(path);
     }
 
-    public string ConcatPath(string path) =>
-        $@"{_device.FriendlyName}\{path}";
+    public string ConcatPath(string path)
+    {
+        return $@"{_device.FriendlyName}\{path}";
+    }
 
-    protected override IEnumerable<BaseTreeViewItem> LoadChildren() =>
-        GetDirectories(Path).Select(dir => new PhoneDirectory(this, dir));
+    protected override IEnumerable<BaseTreeViewItem> LoadChildren()
+    {
+        return GetDirectories(Path).Select(dir => new PhoneDirectory(this, dir));
+    }
 
-    public override VideoRepositoryBlueprint GetBlueprint() => new(VideoRepositoryType.Phone, ConcatPath(Path));
+    public override VideoRepositoryBlueprint GetBlueprint()
+    {
+        return new VideoRepositoryBlueprint(VideoRepositoryType.Phone, ConcatPath(Path));
+    }
 }

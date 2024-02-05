@@ -9,7 +9,7 @@ using VideoClipExtractor.Data.Videos.Events;
 namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
 /// <summary>
-/// The view model for the videos explorer
+///     The view model for the videos explorer
 /// </summary>
 public class VideosExplorerViewModel : BaseViewModel
 {

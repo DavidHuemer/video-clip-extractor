@@ -5,7 +5,7 @@ using MaterialDesignThemes.Wpf;
 namespace BaseUI.ViewModels.Dialog;
 
 /// <summary>
-/// Base class for all dialog view models
+///     Base class for all dialog view models
 /// </summary>
 public abstract class BaseDialogViewModel : BaseViewModel
 {
@@ -19,8 +19,10 @@ public abstract class BaseDialogViewModel : BaseViewModel
 
     public static ICommand Close => new RelayCommand<string>(DoClose, _ => true);
 
-    private static void DoClose(string? obj) =>
+    private static void DoClose(string? obj)
+    {
         DialogHost.CloseDialogCommand.Execute(null, null);
+    }
 
     #endregion
 }

@@ -15,8 +15,8 @@
                 <ResourceDictionary Source="/BaseUI;component/Styles/TreeViewStyles.xaml" />
                 <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/TextStyles.xaml" />
                 <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/ButtonStyles.xaml" />
-                <ResourceDictionary Source="/BaseUI;component/Styles/ButtonStyles.xaml"/>
-                <ResourceDictionary Source="/BaseUI;component/Styles/GridSplitterStyles.xaml"/>
+                <ResourceDictionary Source="/BaseUI;component/Styles/ButtonStyles.xaml" />
+                <ResourceDictionary Source="/BaseUI;component/Styles/GridSplitterStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

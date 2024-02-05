@@ -11,7 +11,7 @@ public interface IVideoProvider
     void Setup(Project project, IVideoRepository repository);
 
     /// <summary>
-    /// Requests the next video.
+    ///     Requests the next video.
     /// </summary>
     void Next();
 }

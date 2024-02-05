@@ -6,25 +6,27 @@ using VideoClipExtractor.Data.Videos.Events;
 namespace VideoClipExtractor.Core.Managers.VideoProviderManager;
 
 /// <summary>
-/// Responsible for managing the video provider service.
-/// As normal for a manager, this should be a singleton.
+///     Responsible for managing the video provider service.
+///     As normal for a manager, this should be a singleton.
 /// </summary>
 public interface IVideoProviderManager
 {
     #region Events
 
     /// <summary>
-    /// Event that is triggered when a video is added.
+    ///     Event that is triggered when a video is added.
     /// </summary>
     event EventHandler<VideoEventArgs>? VideoAdded;
 
     #endregion
 
     /// <summary>
-    /// Sets up a video provider for the given project and repository.
+    ///     Sets up a video provider for the given project and repository.
     /// </summary>
-    /// <param name="project">The <see cref="Project"/> for which the video provider should be setup</param>
-    /// <param name="repository">The <see cref="IVideoRepository"/>
-    /// that is used by the <see cref="VideoProvider"/></param>
+    /// <param name="project">The <see cref="Project" /> for which the video provider should be setup</param>
+    /// <param name="repository">
+    ///     The <see cref="IVideoRepository" />
+    ///     that is used by the <see cref="VideoProvider" />
+    /// </param>
     void Setup(Project project, IVideoRepository repository);
 }

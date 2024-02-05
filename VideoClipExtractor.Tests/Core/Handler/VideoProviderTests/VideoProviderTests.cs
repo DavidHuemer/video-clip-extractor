@@ -74,10 +74,8 @@ public class VideoProviderTests
         videoProvider.VideoAdded += (_, _) => nrRaised++;
 
         for (var i = 0; i < nrSourceVideos; i++)
-        {
             _videoCacheServiceMock.Raise(x => x.VideoCached += null,
                 new VideoCachedEventArgs(new CachedVideo(new SourceVideo(), "")));
-        }
 
         Assert.That(nrRaised, Is.EqualTo(nrVideoAdded));
     }
@@ -127,13 +125,10 @@ public class VideoProviderTests
 
         _videoCacheServiceMock.Invocations.Clear();
 
-        int nrRaised = 0;
+        var nrRaised = 0;
         videoProvider.VideoAdded += (_, _) => nrRaised++;
 
-        for (var i = 0; i < 11; i++)
-        {
-            videoProvider.Next();
-        }
+        for (var i = 0; i < 11; i++) videoProvider.Next();
 
         Assert.That(nrRaised, Is.EqualTo(10));
 
@@ -148,10 +143,7 @@ public class VideoProviderTests
         var project = ProjectExamples.GetExampleProject();
         project.Videos = [];
 
-        for (var i = 0; i < nrSourceVideos; i++)
-        {
-            project.Videos.Add(new SourceVideo());
-        }
+        for (var i = 0; i < nrSourceVideos; i++) project.Videos.Add(new SourceVideo());
 
         return project;
     }
