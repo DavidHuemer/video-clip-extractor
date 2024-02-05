@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:wpf="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:videoPlayerVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Main.VideoPlayer"
              mc:Ignorable="d"
-             d:DesignHeight="50" d:DesignWidth="500" Cursor="">
+             d:DesignHeight="50" d:DesignWidth="500" Cursor=""
+             d:DataContext="{d:DesignInstance Type=videoPlayerVm:VideoPlayerNavigationViewModel, IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}" />
@@ -30,7 +32,7 @@
             </StackPanel>
         </Button>
 
-        <Button>
+        <Button Command="{Binding Skip}">
             <StackPanel Orientation="Horizontal">
                 <wpf:MaterialIcon Kind="SkipNext" />
                 <Label Content="Skip" />

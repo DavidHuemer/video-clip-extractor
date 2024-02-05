@@ -29,4 +29,9 @@ public interface IVideoProviderManager
     ///     that is used by the <see cref="VideoProvider" />
     /// </param>
     void Setup(Project project, IVideoRepository repository);
+
+    /// <summary>
+    /// Changes the video to the next one.
+    /// </summary>
+    void Next();
 }

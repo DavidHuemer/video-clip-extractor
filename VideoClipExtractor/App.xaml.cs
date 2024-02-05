@@ -17,6 +17,7 @@ using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.VideoCrawler;
 using VideoClipExtractor.UI.Services.FileServices;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
+using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels;
 using VideoClipExtractor.UI.Windows;
 
@@ -76,5 +77,6 @@ public partial class App
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
         viewModelProvider.AddSingletonViewModel<IVideosExplorerViewModel, VideosExplorerViewModel>();
+        viewModelProvider.AddSingletonViewModel<IVideoPlayerNavigationViewModel, VideoPlayerNavigationViewModel>();
     }
 }

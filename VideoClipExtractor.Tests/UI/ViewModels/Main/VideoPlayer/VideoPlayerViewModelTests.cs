@@ -1,33 +1,33 @@
 ﻿using Moq;
 using VideoClipExtractor.Core.Managers.VideoManager;
-using VideoClipExtractor.Data.Videos.Events;
-using VideoClipExtractor.Tests.Basics.Data;
-using VideoClipExtractor.Tests.Basics.Mocks;
+using VideoClipExtractor.Tests.Basics.BaseTests;
+using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 
 namespace VideoClipExtractor.Tests.UI.ViewModels.Main.VideoPlayer;
 
-public class VideoPlayerViewModelTests
+public class VideoPlayerViewModelTests : BaseViewModelTest
 {
-    private DependencyMock _dependencyMock = null!;
     private Mock<IVideoManager> _videoManagerMock = null!;
+
+    private Mock<IVideosExplorerViewModel> _videosExplorerViewModelMock = null!;
 
     private VideoPlayerViewModel _viewModel = null!;
 
-    [SetUp]
-    public void Setup()
+    public override void Setup()
     {
-        _dependencyMock = new DependencyMock();
+        base.Setup();
         _videoManagerMock = new Mock<IVideoManager>();
-        _dependencyMock.AddMockDependency(_videoManagerMock);
-        _viewModel = new VideoPlayerViewModel(_dependencyMock.Object);
+        AddMockDependency(_videoManagerMock);
+
+        _videosExplorerViewModelMock = new Mock<IVideosExplorerViewModel>();
+        AddViewModel(_videosExplorerViewModelMock);
+        _viewModel = new VideoPlayerViewModel(DependencyMock.Object);
     }
 
     [Test]
-    public void VideoIsChanged()
+    public void ExplorerViewModelIsNotNull()
     {
-        var video = VideoExamples.GetVideoExample();
-        _videoManagerMock.Raise(m => m.VideoChanged += null!, new VideoChangedEventArgs(video));
-        Assert.That(_viewModel.Video, Is.EqualTo(video));
+        Assert.That(_viewModel.ExplorerViewModel, Is.Not.Null);
     }
 }

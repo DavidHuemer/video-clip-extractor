@@ -2,31 +2,28 @@
 using VideoClipExtractor.Core.Managers.VideoManager;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
 using VideoClipExtractor.Data.Videos.Events;
+using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
-using VideoClipExtractor.Tests.Basics.Mocks;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
 namespace VideoClipExtractor.Tests.UI.ViewModels.Main.Explorer;
 
-public class VideoExplorerViewModelTests
+public class VideoExplorerViewModelTests : BaseDependencyTest
 {
-    private DependencyMock _dependencyMock = null!;
     private Mock<IVideoManager> _videoManagerMock = null!;
     private Mock<IVideoProviderManager> _videoProviderManagerMock = null!;
 
     private VideosExplorerViewModel _viewModel = null!;
 
-    [SetUp]
-    public void Setup()
+    public override void Setup()
     {
-        _dependencyMock = new DependencyMock();
+        base.Setup();
         _videoProviderManagerMock = new Mock<IVideoProviderManager>();
         _videoManagerMock = new Mock<IVideoManager>();
 
-        _dependencyMock.AddMockDependency(_videoProviderManagerMock);
-        _dependencyMock.AddMockDependency(_videoManagerMock);
-
-        _viewModel = new VideosExplorerViewModel(_dependencyMock.Object);
+        AddMockDependency(_videoProviderManagerMock);
+        AddMockDependency(_videoManagerMock);
+        _viewModel = new VideosExplorerViewModel(DependencyMock.Object);
     }
 
     [Test]
