@@ -1,56 +1,21 @@
-﻿using BaseUI.Exceptions.DependencyExceptions;
+﻿using BaseUI.Services.Provider;
 
 namespace BaseUI.Services.DependencyInjection;
 
-public class DependencyProvider : IDependencyProvider
+public class DependencyProvider : BaseProvider, IDependencyProvider
 {
     public DependencyProvider()
     {
-        _instanceBuilder = new DependencyInstanceBuilder(this);
+        InstanceBuilder = new DependencyInstanceBuilder(this);
     }
 
-    public void AddSingletonDependency<TInterface, TImplementation>() where TImplementation : class, TInterface
-    {
-        if (_singletonDependencies.ContainsKey(typeof(TInterface)))
-            _singletonDependencies[typeof(TInterface)] =
-                _instanceBuilder.InstantiateType<TInterface, TImplementation>()!;
-        else
-            _singletonDependencies.Add(typeof(TInterface),
-                _instanceBuilder.InstantiateType<TInterface, TImplementation>()!);
-    }
+    protected override DependencyInstanceBuilder InstanceBuilder { get; }
 
     public void AddTransientDependency<TInterface, TImplementation>() where TImplementation : TInterface
     {
-        if (_transientDependencies.ContainsKey(typeof(TInterface)))
-            _transientDependencies[typeof(TInterface)] = typeof(TImplementation);
+        if (TransientDependencies.ContainsKey(typeof(TInterface)))
+            TransientDependencies[typeof(TInterface)] = typeof(TImplementation);
         else
-            _transientDependencies.Add(typeof(TInterface), typeof(TImplementation));
+            TransientDependencies.Add(typeof(TInterface), typeof(TImplementation));
     }
-
-    public TInterface GetDependency<TInterface>()
-    {
-        if (_singletonDependencies.ContainsKey(typeof(TInterface)))
-            return (TInterface)_singletonDependencies[typeof(TInterface)];
-
-        if (!_transientDependencies.ContainsKey(typeof(TInterface)))
-            throw new DependencyNotRegisteredException(typeof(TInterface));
-
-        return _instanceBuilder.InstantiateType<TInterface>(_transientDependencies[typeof(TInterface)]);
-    }
-
-    #region Private Fields
-
-    /// <summary>
-    ///     The existing singleton dependencies
-    /// </summary>
-    private readonly Dictionary<Type, object> _singletonDependencies = new();
-
-    /// <summary>
-    ///     The transient dependencies
-    /// </summary>
-    private readonly Dictionary<Type, Type> _transientDependencies = new();
-
-    private readonly DependencyInstanceBuilder _instanceBuilder;
-
-    #endregion
 }

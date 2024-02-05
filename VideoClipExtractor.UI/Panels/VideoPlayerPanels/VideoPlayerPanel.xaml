@@ -10,7 +10,7 @@
              d:DesignHeight="500" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=videoPlayerVm:VideoPlayerViewModel, IsDesignTimeCreatable=False}">
     <Grid>
-        <videoPlayerControls:VideoPlayer Source="{Binding Video.Path, FallbackValue=''}" LoadedBehavior="Play" />
+        <videoPlayerControls:VideoPlayer Source="{Binding ExplorerViewModel.SelectedVideo, FallbackValue=''}" LoadedBehavior="Play" />
 
         <local:VideoPlayerNavigationPanel DataContext="{Binding VideoPlayerNavigationVm}" VerticalAlignment="Bottom"
                                           HorizontalAlignment="Right" />

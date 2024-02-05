@@ -3,7 +3,7 @@
 /// <summary>
 ///     Responsible for building instances of dependencies
 /// </summary>
-internal class DependencyInstanceBuilder(IDependencyProvider provider)
+public class DependencyInstanceBuilder(IDependencyProvider provider)
 {
     /// <summary>
     ///     Instantiates a type

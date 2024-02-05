@@ -11,7 +11,7 @@ namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
 /// <summary>
 ///     The view model for the videos explorer
 /// </summary>
-public class VideosExplorerViewModel : BaseViewModel
+public class VideosExplorerViewModel : BaseViewModel, IVideosExplorerViewModel
 {
     #region Private Fields
 

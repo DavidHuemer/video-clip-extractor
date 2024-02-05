@@ -2,6 +2,7 @@
 using BaseUI.Services.DependencyInjection;
 using BaseUI.Services.FileServices;
 using BaseUI.Services.RecentlyOpened;
+using BaseUI.Services.ViewModelProvider;
 using BaseUI.Services.WindowService;
 using VideoClipExtractor.Core.Managers.ProjectManager;
 using VideoClipExtractor.Core.Managers.VideoManager;
@@ -15,6 +16,7 @@ using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.VideoCrawler;
 using VideoClipExtractor.UI.Services.FileServices;
+using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels;
 using VideoClipExtractor.UI.Windows;
 
@@ -47,6 +49,7 @@ public partial class App
         dependencyProvider.AddTransientDependency<IVideoProvider, VideoProvider>();
 
         AddManagers(dependencyProvider);
+        SetupViewModels(dependencyProvider);
         SetupWindows(dependencyProvider);
 
         new MainWindowViewModel(dependencyProvider).Show(dependencyProvider.GetDependency<IWindowService>());
@@ -67,5 +70,11 @@ public partial class App
         windowService.Register<WelcomeWindowViewModel, WelcomeWindow>();
         windowService.Register<VideoRepositoryExplorerWindowViewModel, VideoRepositoryExplorerWindow>();
         windowService.Register<VideosSetupWindowViewModel, VideosSetupWindow>();
+    }
+
+    private void SetupViewModels(IDependencyProvider provider)
+    {
+        var viewModelProvider = provider.GetDependency<IViewModelProvider>();
+        viewModelProvider.AddSingletonViewModel<IVideosExplorerViewModel, VideosExplorerViewModel>();
     }
 }
