@@ -1,5 +1,6 @@
 ﻿using BaseUI.Services.DependencyInjection;
 using BaseUI.ViewModels;
+using PropertyChanged;
 using VideoClipExtractor.Core.Managers.VideoManager;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Data.Videos.Events;
@@ -10,8 +11,15 @@ public class VideoPlayerViewModel : BaseViewModel
 {
     public VideoPlayerViewModel(IDependencyProvider provider)
     {
+        VideoPlayerNavigationVm = new VideoPlayerNavigationViewModel(provider);
         provider.GetDependency<IVideoManager>().VideoChanged += OnVideoChanged;
     }
+
+    #region Properties
+
+    [DoNotNotify] public VideoPlayerNavigationViewModel VideoPlayerNavigationVm { get; set; }
+
+    #endregion
 
     #region Properties
 

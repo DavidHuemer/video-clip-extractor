@@ -3,12 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:VideoClipExtractor.UI.Panels.VideoPlayerPanels"
              xmlns:videoPlayerVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Main.VideoPlayer"
              xmlns:videoPlayerControls="clr-namespace:VideoClipExtractor.UI.Controls.VideoPlayer"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="500" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=videoPlayerVm:VideoPlayerViewModel, IsDesignTimeCreatable=False}">
     <Grid>
         <videoPlayerControls:VideoPlayer Source="{Binding Video.Path, FallbackValue=''}" LoadedBehavior="Play"/>
+
+        <local:VideoPlayerNavigationPanel DataContext="{Binding VideoPlayerNavigationVm}" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>
