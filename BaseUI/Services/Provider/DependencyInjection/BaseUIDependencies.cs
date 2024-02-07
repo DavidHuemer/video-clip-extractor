@@ -3,7 +3,7 @@ using BaseUI.Services.Dialogs;
 using BaseUI.Services.Dialogs.Identifier;
 using BaseUI.Services.FileServices;
 using BaseUI.Services.FileServices.Implementations;
-using BaseUI.Services.ViewModelProvider;
+using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.Services.WindowService;
 using BaseUI.Services.WindowService.ActiveWindow;
 

@@ -1,9 +1,8 @@
-﻿using BaseUI.Services.Provider;
-using BaseUI.Services.Provider.DependencyInjection;
+﻿using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using JetBrains.Annotations;
 
-namespace BaseUI.Services.ViewModelProvider;
+namespace BaseUI.Services.Provider.ViewModelProvider;
 
 [UsedImplicitly]
 public class ViewModelProvider(IDependencyProvider provider) : BaseProvider, IViewModelProvider

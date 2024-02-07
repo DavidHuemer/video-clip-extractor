@@ -1,5 +1,5 @@
 ﻿using BaseUI.Services.Provider.DependencyInjection;
-using BaseUI.Services.ViewModelProvider;
+using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
 using PropertyChanged;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;

@@ -1,6 +1,6 @@
 ﻿using BaseUI.ViewModels;
 
-namespace BaseUI.Services.ViewModelProvider;
+namespace BaseUI.Services.Provider.ViewModelProvider;
 
 /// <summary>
 /// Responsible for providing view models.

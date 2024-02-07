@@ -1,4 +1,4 @@
-﻿using BaseUI.Services.ViewModelProvider;
+﻿using BaseUI.Services.Provider.ViewModelProvider;
 using Moq;
 
 namespace VideoClipExtractor.Tests.Basics.Mocks;

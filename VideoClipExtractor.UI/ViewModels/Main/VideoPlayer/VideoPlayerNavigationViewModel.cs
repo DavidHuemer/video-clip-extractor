@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
 using BaseUI.Services.Provider.DependencyInjection;
-using BaseUI.Services.ViewModelProvider;
+using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
 using JetBrains.Annotations;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
