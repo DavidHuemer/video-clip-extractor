@@ -8,4 +8,6 @@ public class Video
     }
 
     public string Path { get; set; }
+
+    public VideoStatus VideoStatus { get; set; } = VideoStatus.Unset;
 }

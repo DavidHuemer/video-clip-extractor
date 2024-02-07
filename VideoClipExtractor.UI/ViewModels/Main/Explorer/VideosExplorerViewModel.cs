@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using BaseUI.Services.DependencyInjection;
 using BaseUI.ViewModels;
-using VideoClipExtractor.Core.Managers.VideoManager;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Data.Videos.Events;
@@ -13,42 +12,30 @@ namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
 /// </summary>
 public class VideosExplorerViewModel : BaseViewModel, IVideosExplorerViewModel
 {
-    #region Private Fields
-
-    private readonly IVideoManager _videoManager;
-
-    #endregion
-
     public VideosExplorerViewModel(IDependencyProvider provider)
     {
         var videoProviderManager = provider.GetDependency<IVideoProviderManager>();
         videoProviderManager.VideoAdded += OnVideoAdded;
-
-        _videoManager = provider.GetDependency<IVideoManager>();
     }
 
     private void OnVideoAdded(object? sender, VideoEventArgs e)
     {
-        Videos.Add(e.Video);
-        SelectedVideo ??= e.Video;
+        var videoViewModel = new VideoViewModel(e.Video);
+
+        Videos.Add(videoViewModel);
+        SelectedVideo ??= videoViewModel;
     }
 
     #region Properties
 
-    public ObservableCollection<Video> Videos { get; } = [];
+    /// <summary>
+    /// The currently opened videos
+    /// </summary>
+    public ObservableCollection<VideoViewModel> Videos { get; } = [];
 
-    private Video? _selectedVideo;
+    public VideoViewModel? SelectedVideo { get; set; }
 
-    public Video? SelectedVideo
-    {
-        get => _selectedVideo;
-        set
-        {
-            _selectedVideo = value;
-            _videoManager.Video = value;
-            OnPropertyChanged();
-        }
-    }
+    public int SelectedIndex { get; set; }
 
     #endregion
 }

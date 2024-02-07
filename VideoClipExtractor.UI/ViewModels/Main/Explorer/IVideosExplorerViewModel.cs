@@ -4,5 +4,7 @@ namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
 public interface IVideosExplorerViewModel
 {
-    public Video? SelectedVideo { get; set; }
+    public VideoViewModel? SelectedVideo { get; }
+
+    public int SelectedIndex { get; set; }
 }

@@ -8,4 +8,9 @@ public static class VideoExamples
     {
         return new Video(new CachedVideo(new SourceVideo(), ""));
     }
+
+    public static VideoViewModel GetVideoViewModelExample()
+    {
+        return new VideoViewModel(GetVideoExample());
+    }
 }

@@ -8,7 +8,7 @@ using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
 namespace VideoClipExtractor.Tests.UI.ViewModels.Main.Explorer;
 
-public class VideoExplorerViewModelTests : BaseDependencyTest
+public class VideoExplorerViewModelTests : BaseViewModelTest
 {
     private Mock<IVideoManager> _videoManagerMock = null!;
     private Mock<IVideoProviderManager> _videoProviderManagerMock = null!;
@@ -43,7 +43,7 @@ public class VideoExplorerViewModelTests : BaseDependencyTest
     {
         var video = VideoExamples.GetVideoExample();
         _videoProviderManagerMock.Raise(m => m.VideoAdded += null!, new VideoEventArgs(video));
-        Assert.That(_viewModel.Videos, Has.Member(video));
+        Assert.That(_viewModel.Videos, Has.Count.EqualTo(1));
     }
 
     [Test]
@@ -53,14 +53,5 @@ public class VideoExplorerViewModelTests : BaseDependencyTest
         _videoProviderManagerMock.Raise(m => m.VideoAdded += null!, new VideoEventArgs(video));
 
         Assert.That(_viewModel.SelectedVideo, Is.Not.Null);
-    }
-
-    [Test]
-    public void SelectedVideoSetsVideoManagerVideo()
-    {
-        var video = VideoExamples.GetVideoExample();
-        _viewModel.SelectedVideo = video;
-
-        _videoManagerMock.VerifySet(m => m.Video = video, Times.Once);
     }
 }
