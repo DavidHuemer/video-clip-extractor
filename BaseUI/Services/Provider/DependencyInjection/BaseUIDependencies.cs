@@ -7,7 +7,7 @@ using BaseUI.Services.ViewModelProvider;
 using BaseUI.Services.WindowService;
 using BaseUI.Services.WindowService.ActiveWindow;
 
-namespace BaseUI.Services.DependencyInjection;
+namespace BaseUI.Services.Provider.DependencyInjection;
 
 public static class BaseUiDependencies
 {

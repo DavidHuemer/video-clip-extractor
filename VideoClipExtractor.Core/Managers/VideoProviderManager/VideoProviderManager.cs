@@ -1,4 +1,4 @@
-﻿using BaseUI.Services.DependencyInjection;
+﻿using BaseUI.Services.Provider.DependencyInjection;
 using JetBrains.Annotations;
 using VideoClipExtractor.Core.Services.VideoProvider;
 using VideoClipExtractor.Data.Project;

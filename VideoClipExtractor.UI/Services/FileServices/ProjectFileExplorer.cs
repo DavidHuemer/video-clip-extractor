@@ -1,6 +1,6 @@
 ﻿using BaseUI.Data;
-using BaseUI.Services.DependencyInjection;
 using BaseUI.Services.FileServices.Implementations;
+using BaseUI.Services.Provider.DependencyInjection;
 
 namespace VideoClipExtractor.UI.Services.FileServices;
 

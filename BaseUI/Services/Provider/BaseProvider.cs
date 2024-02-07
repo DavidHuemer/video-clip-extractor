@@ -1,5 +1,5 @@
 ﻿using BaseUI.Exceptions.DependencyExceptions;
-using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.Provider.DependencyInjection;
 
 namespace BaseUI.Services.Provider;
 

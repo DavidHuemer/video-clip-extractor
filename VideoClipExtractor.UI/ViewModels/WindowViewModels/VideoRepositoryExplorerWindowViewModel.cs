@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using BaseUI.Commands;
-using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using BaseUI.ViewModels.Tree;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;

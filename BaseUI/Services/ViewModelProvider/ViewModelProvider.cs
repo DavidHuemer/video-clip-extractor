@@ -1,5 +1,5 @@
-﻿using BaseUI.Services.DependencyInjection;
-using BaseUI.Services.Provider;
+﻿using BaseUI.Services.Provider;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using JetBrains.Annotations;
 

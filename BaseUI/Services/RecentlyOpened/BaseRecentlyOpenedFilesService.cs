@@ -2,7 +2,7 @@
 using System.Text.Json;
 using BaseUI.Data;
 using BaseUI.Services.Basics.Time;
-using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.Provider.DependencyInjection;
 
 namespace BaseUI.Services.RecentlyOpened;
 

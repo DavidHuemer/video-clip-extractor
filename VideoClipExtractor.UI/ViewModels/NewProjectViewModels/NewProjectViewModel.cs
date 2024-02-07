@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
-using BaseUI.Services.DependencyInjection;
 using BaseUI.Services.FileServices;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.WindowService;
 using BaseUI.ViewModels;
 using VideoClipExtractor.Core.Services.ProjectSerializer;

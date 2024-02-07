@@ -1,4 +1,4 @@
-﻿using BaseUI.Services.DependencyInjection;
+﻿using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.WindowService.ActiveWindow;
 using BaseUI.ViewModels;
 using JetBrains.Annotations;

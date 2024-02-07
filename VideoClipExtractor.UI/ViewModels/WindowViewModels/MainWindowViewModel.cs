@@ -1,5 +1,5 @@
-﻿using BaseUI.Services.DependencyInjection;
-using BaseUI.Services.Dialogs;
+﻿using BaseUI.Services.Dialogs;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.WindowService;
 using BaseUI.ViewModels;

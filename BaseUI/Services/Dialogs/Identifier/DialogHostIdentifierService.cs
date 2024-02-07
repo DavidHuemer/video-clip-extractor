@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.WindowService.ActiveWindow;
 using JetBrains.Annotations;
 using MaterialDesignThemes.Wpf;

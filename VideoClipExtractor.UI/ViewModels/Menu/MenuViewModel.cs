@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
-using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using PropertyChanged;
 using VideoClipExtractor.Core.Managers.ProjectManager;

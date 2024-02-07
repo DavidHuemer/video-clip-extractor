@@ -1,4 +1,4 @@
-﻿using BaseUI.Services.DependencyInjection;
+﻿using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.RecentlyOpened;
 using JetBrains.Annotations;
 

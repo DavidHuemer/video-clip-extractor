@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using BaseUI.Services.DependencyInjection;
 using BaseUI.Services.FileServices;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.ViewModelProvider;
 using BaseUI.Services.WindowService;

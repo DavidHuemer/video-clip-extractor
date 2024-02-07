@@ -1,5 +1,5 @@
 ﻿using BaseUI.Data;
-using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.Provider.DependencyInjection;
 
 namespace BaseUI.Services.FileServices.Implementations;
 

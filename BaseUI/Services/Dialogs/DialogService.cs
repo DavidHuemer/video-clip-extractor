@@ -1,6 +1,6 @@
 ﻿using BaseUI.Dialogs;
-using BaseUI.Services.DependencyInjection;
 using BaseUI.Services.Dialogs.Identifier;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels.Dialog;
 using JetBrains.Annotations;
 using MaterialDesignThemes.Wpf;

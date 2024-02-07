@@ -1,4 +1,4 @@
-﻿using BaseUI.Services.DependencyInjection;
+﻿using BaseUI.Services.Provider.DependencyInjection;
 using Moq;
 
 namespace VideoClipExtractor.Tests.Basics.Mocks;

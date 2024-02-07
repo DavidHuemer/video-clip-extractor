@@ -1,4 +1,4 @@
-﻿namespace BaseUI.Services.DependencyInjection;
+﻿namespace BaseUI.Services.Provider.DependencyInjection;
 
 /// <summary>
 ///     Provides access to dependencies

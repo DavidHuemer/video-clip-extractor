@@ -1,6 +1,4 @@
-﻿using BaseUI.Services.Provider;
-
-namespace BaseUI.Services.DependencyInjection;
+﻿namespace BaseUI.Services.Provider.DependencyInjection;
 
 public class DependencyProvider : BaseProvider, IDependencyProvider
 {

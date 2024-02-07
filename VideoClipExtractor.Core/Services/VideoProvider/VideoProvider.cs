@@ -1,5 +1,5 @@
 ﻿using BaseUI.Exceptions.Basics;
-using BaseUI.Services.DependencyInjection;
+using BaseUI.Services.Provider.DependencyInjection;
 using VideoClipExtractor.Core.Services.VideoCaching;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos;
