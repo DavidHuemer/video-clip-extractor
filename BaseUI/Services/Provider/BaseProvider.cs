@@ -29,6 +29,9 @@ public abstract class BaseProvider
         return InstanceBuilder.InstantiateType<TInterface>(TransientDependencies[typeof(TInterface)]);
     }
 
+    protected bool IsDependencyRegistered<TInterface>() => SingletonDependencies.ContainsKey(typeof(TInterface)) ||
+                                                           TransientDependencies.ContainsKey(typeof(TInterface));
+
     #region Protected Fields
 
     /// <summary>

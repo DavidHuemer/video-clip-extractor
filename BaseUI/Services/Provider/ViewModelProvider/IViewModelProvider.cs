@@ -4,7 +4,8 @@ namespace BaseUI.Services.Provider.ViewModelProvider;
 
 /// <summary>
 /// Responsible for providing view models.
-/// View models can be provided as singletons or transient.
+/// There is no need to specify the implementation of a view model.
+/// The provider will automatically resolve an implementation for the requested view model if there is one.
 /// </summary>
 public interface IViewModelProvider
 {
