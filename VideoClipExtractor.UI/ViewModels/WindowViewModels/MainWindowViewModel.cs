@@ -9,6 +9,7 @@ using VideoClipExtractor.Core.Managers.VideoProviderManager;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.UI.ViewModels.Main;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel;
 using VideoClipExtractor.UI.ViewModels.Menu;
 
 namespace VideoClipExtractor.UI.ViewModels.WindowViewModels;
@@ -94,6 +95,9 @@ public class MainWindowViewModel : WindowViewModel
             MenuViewModel.Project = value;
         }
     }
+
+    [DoNotNotify]
+    public IControlPanelViewModel ControlPanelViewModel => MainControlViewModel.VideoPlayerVm.ControlPanelViewModel;
 
     #endregion
 }

@@ -17,6 +17,12 @@
         Title="MainWindow" Height="450" Width="800"
         d:DataContext="{d:DesignInstance Type=windowVm:MainWindowViewModel}">
 
+    <Window.InputBindings>
+        <KeyBinding
+            Command="{Binding ControlPanelViewModel.ActionBarViewModel.VideoNavigationViewModel.PlayPause}"
+            Gesture="Space" />
+    </Window.InputBindings>
+
     <materialDesign:DialogHost Name="RootDialog" CloseOnClickAway="False">
         <DockPanel>
             <panels:MenuPanel DockPanel.Dock="Top"
