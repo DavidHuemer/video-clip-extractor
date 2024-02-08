@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              xmlns:videoNavigationVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation"
+             xmlns:videoConverters="clr-namespace:VideoClipExtractor.UI.Converters.VideoConverters"
              mc:Ignorable="d"
              d:DesignHeight="40" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=videoNavigationVm:VideoNavigationViewModel, IsDesignTimeCreatable=False}">
     <UserControl.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource TransparentActionButton}" />
+        <videoConverters:PlayStatusToIconKindConverter x:Key="PlayPauseButtonConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -23,7 +25,8 @@
             </Button>
 
             <Button Command="{Binding PlayPause}">
-                <materialIcons:MaterialIcon Kind="Play" />
+                <materialIcons:MaterialIcon
+                    Kind="{Binding PlayStatus, Mode=OneWay, Converter={StaticResource PlayPauseButtonConverter}}" />
             </Button>
 
             <Button>
