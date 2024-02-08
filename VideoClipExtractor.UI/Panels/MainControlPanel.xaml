@@ -6,6 +6,7 @@
              xmlns:mainVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Main"
              xmlns:explorerPanels="clr-namespace:VideoClipExtractor.UI.Panels.Explorer"
              xmlns:videoPlayerPanels="clr-namespace:VideoClipExtractor.UI.Panels.VideoPlayerPanels"
+             xmlns:controlPanels="clr-namespace:VideoClipExtractor.UI.Panels.ControlPanel"
              mc:Ignorable="d"
              d:DesignHeight="1080" d:DesignWidth="1920"
              d:DataContext="{d:DesignInstance Type=mainVm:MainControlViewModel}">
@@ -35,7 +36,9 @@
                                             DataContext="{Binding VideoPlayerVm}" />
 
         <GridSplitter Grid.Row="0" Grid.Column="3" />
-
+        
         <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+        
+        <controlPanels:ControlPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" DataContext="{Binding VideoPlayerVm.ControlPanelViewModel}" />
     </Grid>
 </UserControl>

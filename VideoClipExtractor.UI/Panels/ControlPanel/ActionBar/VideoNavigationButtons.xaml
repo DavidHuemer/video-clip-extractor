@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="VideoClipExtractor.UI.Panels.ControlPanel.ActionBar.VideoNavigationButtons"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:videoNavigationVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation"
+             mc:Ignorable="d"
+             d:DesignHeight="40" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=videoNavigationVm:VideoNavigationViewModel, IsDesignTimeCreatable=False}">
+    <UserControl.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource TransparentActionButton}" />
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button>
+                <materialIcons:MaterialIcon Kind="PreviousTitle" />
+            </Button>
+
+            <Button>
+                <materialIcons:MaterialIcon Kind="ArrowLeft" />
+            </Button>
+
+            <Button Command="{Binding PlayPause}">
+                <materialIcons:MaterialIcon Kind="Play" />
+            </Button>
+
+            <Button>
+                <materialIcons:MaterialIcon Kind="ArrowRight" />
+            </Button>
+
+            <Button>
+                <materialIcons:MaterialIcon Kind="NextTitle" />
+            </Button>
+        </StackPanel>
+
+
+    </Grid>
+</UserControl>

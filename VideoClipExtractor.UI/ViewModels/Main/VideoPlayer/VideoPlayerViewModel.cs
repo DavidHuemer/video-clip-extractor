@@ -2,6 +2,7 @@
 using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
 using PropertyChanged;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
@@ -13,17 +14,20 @@ public class VideoPlayerViewModel : BaseViewModel
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
         VideoPlayerNavigationVm = viewModelProvider.GetViewModel<IVideoPlayerNavigationViewModel>();
         ExplorerViewModel = viewModelProvider.GetViewModel<IVideosExplorerViewModel>();
+        ControlPanelViewModel = viewModelProvider.GetViewModel<IControlPanelViewModel>();
     }
 
     #region Properties
 
-    [DoNotNotify] public IVideoPlayerNavigationViewModel VideoPlayerNavigationVm { get; }
+    public IVideosExplorerViewModel ExplorerViewModel { get; }
 
     #endregion
 
     #region Properties
 
-    public IVideosExplorerViewModel ExplorerViewModel { get; }
+    [DoNotNotify] public IVideoPlayerNavigationViewModel VideoPlayerNavigationVm { get; }
+
+    [DoNotNotify] public IControlPanelViewModel ControlPanelViewModel { get; }
 
     #endregion
 }
