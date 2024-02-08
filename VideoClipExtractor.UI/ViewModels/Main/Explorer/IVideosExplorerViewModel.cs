@@ -1,8 +1,9 @@
-﻿using VideoClipExtractor.Data.Videos;
+﻿using System.ComponentModel;
+using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
-public interface IVideosExplorerViewModel
+public interface IVideosExplorerViewModel : INotifyPropertyChanged
 {
     public VideoViewModel? SelectedVideo { get; }
 

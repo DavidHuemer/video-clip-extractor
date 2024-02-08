@@ -2,6 +2,7 @@
 using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
 using JetBrains.Annotations;
+using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel;
@@ -18,6 +19,11 @@ public class ControlPanelViewModel : BaseViewModel, IControlPanelViewModel
     #region Properties
 
     public IActionBarViewModel ActionBarViewModel { get; set; }
+
+    public VideoViewModel? Video
+    {
+        set => ActionBarViewModel.Video = value;
+    }
 
     #endregion
 }
