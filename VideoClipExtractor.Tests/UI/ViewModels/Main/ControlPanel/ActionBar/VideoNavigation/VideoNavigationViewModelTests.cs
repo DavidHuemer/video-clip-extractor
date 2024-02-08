@@ -66,4 +66,17 @@ public class VideoNavigationViewModelTests : BaseViewModelTest
         // Assert
         Assert.That(_viewModel.PlayStatus, Is.EqualTo(PlayStatus.Paused));
     }
+
+    [Test]
+    public void PlayingVideoWhenVideoChangedToNotNull()
+    {
+        // Arrange
+        _viewModel.PlayStatus = PlayStatus.Paused;
+
+        // Act
+        _viewModel.Video = VideoExamples.GetVideoViewModelExample();
+
+        // Assert
+        Assert.That(_viewModel.PlayStatus, Is.EqualTo(PlayStatus.Playing));
+    }
 }

@@ -13,7 +13,21 @@ public class VideoNavigationViewModel : BaseViewModel, IVideoNavigationViewModel
     #region Properties
 
     public PlayStatus PlayStatus { get; set; } = PlayStatus.Paused;
-    public VideoViewModel? Video { get; set; }
+
+    private VideoViewModel? _video;
+
+    public VideoViewModel? Video
+    {
+        get => _video;
+        set
+        {
+            _video = value;
+            if (value != null)
+            {
+                PlayStatus = PlayStatus.Playing;
+            }
+        }
+    }
 
     #endregion
 
