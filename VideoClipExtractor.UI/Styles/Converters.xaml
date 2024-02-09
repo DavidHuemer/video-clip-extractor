@@ -2,4 +2,5 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:baseConverters="clr-namespace:BaseUI.Converters;assembly=BaseUI">
     <baseConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <baseConverters:WidthToCenterMarginConverter x:Key="WidthToCenterMarginConverter" />
 </ResourceDictionary>
