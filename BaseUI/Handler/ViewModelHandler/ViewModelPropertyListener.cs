@@ -33,4 +33,14 @@ public class ViewModelPropertyListener(INotifyPropertyChanged viewModel)
             }
         };
     }
+
+    public static void AddPropertyListener(INotifyPropertyChanged viewModel, IEnumerable<string> propertyNames,
+        Action callBack)
+    {
+        viewModel.PropertyChanged += (_, args) =>
+        {
+            if (!propertyNames.Contains(args.PropertyName)) return;
+            callBack();
+        };
+    }
 }
