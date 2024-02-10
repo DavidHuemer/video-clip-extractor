@@ -7,13 +7,13 @@ using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineContro
 
 namespace VideoClipExtractor.Tests.UI.Handler.Timeline.Events;
 
-public class TimelineEventHandlerTests
+public class TimelineZoomEventHandlerTests
 {
     private Mock<IFrameworkElement> _timelineControl = null!;
 
-    private TimelineEventHandler _timelineEventHandler = null!;
-
     private Mock<ITimelinePositionHandler> _timelinePositionHandler = null!;
+
+    private TimelineZoomEventHandler _timelineZoomEventHandler = null!;
     private TimelineControlViewModel _viewModel = null!;
 
     [SetUp]
@@ -22,15 +22,15 @@ public class TimelineEventHandlerTests
         _timelineControl = new Mock<IFrameworkElement>();
         _viewModel = new TimelineControlViewModel();
         _timelinePositionHandler = new Mock<ITimelinePositionHandler>();
-        _timelineEventHandler =
-            new TimelineEventHandler(_timelineControl.Object, _viewModel, _timelinePositionHandler.Object);
+        _timelineZoomEventHandler =
+            new TimelineZoomEventHandler(_timelineControl.Object, _viewModel, _timelinePositionHandler.Object);
     }
 
     [Test]
     public void ZoomAtZoomLevel1DoesNothing()
     {
         _viewModel.TimelineNavigationViewModel.ZoomLevel = 1;
-        _timelineEventHandler.Zoom(ZoomDirection.In);
+        _timelineZoomEventHandler.Zoom(ZoomDirection.In);
         Assert.That(_viewModel.TimelineNavigationViewModel.ZoomLevel, Is.EqualTo(1));
     }
 
@@ -44,7 +44,7 @@ public class TimelineEventHandlerTests
         _timelinePositionHandler.Setup(x =>
             x.GetPositionAtFrame(It.IsAny<double>(), It.IsAny<int>())).Returns(440);
 
-        _timelineEventHandler.Zoom(ZoomDirection.Out);
+        _timelineZoomEventHandler.Zoom(ZoomDirection.Out);
         Assert.That(_viewModel.TimelineNavigationViewModel.MovementPosition, Is.EqualTo(0));
     }
 }

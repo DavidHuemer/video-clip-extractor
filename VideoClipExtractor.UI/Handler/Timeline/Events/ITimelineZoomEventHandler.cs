@@ -2,7 +2,7 @@
 
 namespace VideoClipExtractor.UI.Handler.Timeline.Events;
 
-public interface ITimelineEventHandler
+public interface ITimelineZoomEventHandler
 {
     void Zoom(ZoomDirection zoomDirection);
 }

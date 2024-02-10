@@ -1,13 +1,17 @@
-﻿using BaseUI.Basics.FrameworkElementWrapper;
+﻿using System.Windows.Input;
+using BaseUI.Basics.FrameworkElementWrapper;
 using BaseUI.Data;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineNavigation;
 
 namespace VideoClipExtractor.UI.Handler.Timeline.Events;
 
-public class TimelineEventHandler : ITimelineEventHandler
+public class TimelineZoomEventHandler : ITimelineZoomEventHandler
 {
-    public TimelineEventHandler(IFrameworkElement timelineControl, TimelineControlViewModel viewModel,
+    public const MouseButton MarkerMouseButton = MouseButton.Right;
+    public const MouseButton MovementMouseButton = MouseButton.Middle;
+
+    public TimelineZoomEventHandler(IFrameworkElement timelineControl, TimelineControlViewModel viewModel,
         ITimelinePositionHandler? timelinePositionHandler = null)
     {
         _viewModel = viewModel;

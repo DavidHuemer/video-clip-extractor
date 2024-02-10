@@ -12,7 +12,7 @@ public class TimelineEventCatcherTests
     private Mock<IFrameworkElement> _timelineControl = null!;
 
     private TimelineEventCatcher _timelineEventCatcher = null!;
-    private Mock<ITimelineEventHandler> _timelineEventHandler = null!;
+    private Mock<ITimelineZoomEventHandler> _timelineEventHandler = null!;
     private TimelineControlViewModel _viewModel = null!;
 
     [SetUp]
@@ -20,7 +20,7 @@ public class TimelineEventCatcherTests
     {
         _timelineControl = new Mock<IFrameworkElement>();
         _viewModel = new TimelineControlViewModel();
-        _timelineEventHandler = new Mock<ITimelineEventHandler>();
+        _timelineEventHandler = new Mock<ITimelineZoomEventHandler>();
 
         _timelineControl.Setup(x => x.ActualWidth).Returns(1000);
         _timelineEventCatcher =
