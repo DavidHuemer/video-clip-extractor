@@ -2,6 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="Controls\Timeline\TimelineContent.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Panels\MainControlPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -19,6 +22,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Timeline\TimelineContent.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Panels\MainControlPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -32,6 +38,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\TextStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Timeline\TimelineStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MainWindow.xaml">
