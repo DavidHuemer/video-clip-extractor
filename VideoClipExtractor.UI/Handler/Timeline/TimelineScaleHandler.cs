@@ -14,11 +14,11 @@ public static class TimelineScaleHandler
         var factor = zoomLevel / 29;
         var startIndex = 1 + 30 * factor;
 
-        if (zoomLevel >= startIndex && zoomLevel <= startIndex + 8) return AppendZeroes(1, factor);
+        if (zoomLevel <= startIndex + 8) return AppendZeroes(1, factor);
 
         startIndex += 9;
 
-        if (zoomLevel >= startIndex && zoomLevel <= startIndex + 8) return AppendZeroes(2, factor);
+        if (zoomLevel <= startIndex + 8) return AppendZeroes(2, factor);
 
         return AppendZeroes(5, factor);
     }

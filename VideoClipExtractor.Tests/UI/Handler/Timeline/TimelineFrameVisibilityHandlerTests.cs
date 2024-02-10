@@ -25,4 +25,22 @@ public class TimelineFrameVisibilityHandlerTests
         // Assert
         Assert.That(result, Is.EqualTo(expected));
     }
+
+    [Test]
+    [TestCase(0, 0, 100, 1000, true)]
+    [TestCase(8, 0, 100, 1000, true)]
+    [TestCase(9, 0, 100, 1000, false)]
+    [TestCase(0, 150, 100, 1000, true)]
+    [TestCase(0, 200, 100, 1000, true)]
+    [TestCase(9, 200, 100, 1000, true)]
+    public void IsBeforeEndReturnsCorrectValue(int frame, double movementPosition, double frameWidth,
+        double timelineControlWidth, bool expected)
+    {
+        // Act
+        var result = TimelineFrameVisibilityHandler
+            .IsBeforeEnd(frame, movementPosition, frameWidth, timelineControlWidth);
+
+        // Assert
+        Assert.That(result, Is.EqualTo(expected));
+    }
 }

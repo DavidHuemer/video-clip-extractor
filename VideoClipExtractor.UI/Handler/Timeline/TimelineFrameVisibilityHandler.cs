@@ -15,4 +15,14 @@ public static class TimelineFrameVisibilityHandler
 
         return (int)Math.Round(actualMovement / frameWidth);
     }
+
+    public static bool IsBeforeEnd(int visibleFrameScalar, double movementPosition, double frameWidth,
+        double timelineControlWidth)
+    {
+        var framePosition = visibleFrameScalar * frameWidth;
+
+        var actualFramePosition = (framePosition - movementPosition) + 200;
+
+        return actualFramePosition <= timelineControlWidth;
+    }
 }
