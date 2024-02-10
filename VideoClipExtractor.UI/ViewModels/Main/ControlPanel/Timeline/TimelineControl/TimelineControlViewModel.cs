@@ -10,17 +10,27 @@ namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineCo
 [UsedImplicitly]
 public class TimelineControlViewModel : BaseViewModel, ITimelineControlViewModel
 {
-    public TimelineControlViewModel()
+    private readonly ITimelineFrameWidthHandler _timelineFrameWidthHandler;
+
+    public TimelineControlViewModel(ITimelineFrameWidthHandler? timelineFrameWidthHandler = null)
     {
+        _timelineFrameWidthHandler = timelineFrameWidthHandler ?? new TimelineFrameWidthHandler();
+
         TimelineNavigationViewModel = new TimelineNavigationViewModel();
 
         ViewModelPropertyListener.AddPropertyListener(TimelineNavigationViewModel,
             new[]
             {
-                nameof(TimelineNavigationViewModel.ZoomLevel), nameof(TimelineNavigationViewModel.MovementPosition)
+                nameof(TimelineNavigationViewModel.ZoomLevel),
+                nameof(TimelineNavigationViewModel.MovementPosition),
+                nameof(TimelineNavigationViewModel.TimelineControlWidth),
             }, UpdateVerticalLines);
 
         UpdateVerticalLines();
+    }
+
+    public TimelineControlViewModel() : this(null)
+    {
     }
 
     public TimelineNavigationViewModel TimelineNavigationViewModel { get; set; }
@@ -31,17 +41,35 @@ public class TimelineControlViewModel : BaseViewModel, ITimelineControlViewModel
     {
         VerticalLines.Clear();
         var primitiveScalar = TimelineScaleHandler.GetPrimitiveScale(TimelineNavigationViewModel.ZoomLevel);
-        var frameWidth = TimelineFrameWidthHandler.GetFrameWidth(TimelineNavigationViewModel.ZoomLevel);
+        var frameWidth = _timelineFrameWidthHandler.GetFrameWidth(TimelineNavigationViewModel.ZoomLevel);
 
         var firstVisibleFrame =
             TimelineFrameVisibilityHandler.GetFirstVisibleFrame(TimelineNavigationViewModel.MovementPosition,
                 frameWidth);
-        var firstVisibleFrameScalar = (int)Math.Ceiling((double)firstVisibleFrame / primitiveScalar) * primitiveScalar;
+        var visibleFrameScalar = (int)Math.Ceiling((double)firstVisibleFrame / primitiveScalar) * primitiveScalar;
 
         for (var i = 0; i < 100; i++)
         {
-            if (firstVisibleFrameScalar >= 0) VerticalLines.Add(firstVisibleFrameScalar);
-            firstVisibleFrameScalar += primitiveScalar;
+            if (visibleFrameScalar >= 0)
+            {
+                var isVisible = TimelineFrameVisibilityHandler.IsBeforeEnd(visibleFrameScalar,
+                    TimelineNavigationViewModel.MovementPosition, frameWidth,
+                    TimelineNavigationViewModel.TimelineControlWidth);
+
+                if (isVisible)
+                {
+                    VerticalLines.Add(visibleFrameScalar);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+
+            visibleFrameScalar += primitiveScalar;
         }
+
+        Console.WriteLine("Hello");
     }
 }

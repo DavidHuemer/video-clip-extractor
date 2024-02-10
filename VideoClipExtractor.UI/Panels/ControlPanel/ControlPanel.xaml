@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controlPanelVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Main.ControlPanel"
              xmlns:actionBarPanels="clr-namespace:VideoClipExtractor.UI.Panels.ControlPanel.ActionBar"
+             xmlns:timelinePanels="clr-namespace:VideoClipExtractor.UI.Panels.ControlPanel.Timeline"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="300" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance Type=controlPanelVm:ControlPanelViewModel, IsDesignTimeCreatable=False}">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,5 +16,7 @@
         </Grid.RowDefinitions>
 
         <actionBarPanels:ActionBar DataContext="{Binding ActionBarViewModel}" />
+
+        <timelinePanels:Timeline Grid.Row="1" DataContext="{Binding TimelineViewModel}" />
     </Grid>
 </UserControl>

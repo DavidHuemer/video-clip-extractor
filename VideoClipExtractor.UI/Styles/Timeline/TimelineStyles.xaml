@@ -7,7 +7,7 @@
     <system:Double x:Key="TopBarHeight">30</system:Double>
 
     <Style TargetType="Border" x:Key="TimelineTopBar">
-        <Setter Property="Background" Value="#1C1C1C"/>
+        <Setter Property="Background" Value="#1C1C1C" />
         <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=OuterCanvas, Mode=OneWay}" />
         <Setter Property="Height" Value="{StaticResource TopBarHeight}" />
     </Style>
@@ -21,20 +21,22 @@
             <Grid.Margin>
                 <MultiBinding Converter="{StaticResource FrameToMarginConverter}">
                     <Binding Mode="OneWay" />
-                    <Binding Path="DataContext.TimelineNavigationViewModel.ZoomLevel" 
-                             RelativeSource="{RelativeSource AncestorType=Canvas, AncestorLevel=2}" 
+                    <Binding Path="DataContext.TimelineNavigationViewModel.ZoomLevel"
+                             RelativeSource="{RelativeSource AncestorType=Canvas, AncestorLevel=2}"
                              Mode="OneWay" />
                 </MultiBinding>
             </Grid.Margin>
 
             <Line X1="0" Y1="{StaticResource TopBarHeight}"
-                  X2="0" Y2="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Canvas,AncestorLevel=3}, Path=ActualHeight}"
+                  X2="0"
+                  Y2="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Canvas,AncestorLevel=3}, Path=ActualHeight}"
                   Stroke="#191919"
                   StrokeThickness="1" />
 
-            <Label Content="{Binding Mode=OneWay}" HorizontalContentAlignment="Center" Width="Auto" Background="#33C11E1E"
+            <Label Content="{Binding Mode=OneWay}" HorizontalContentAlignment="Center" Width="Auto"
+                   Background="#33C11E1E"
                    VerticalAlignment="Top" VerticalContentAlignment="Center"
-                   Height="{StaticResource TopBarHeight}" 
+                   Height="{StaticResource TopBarHeight}"
                    Margin="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth, Converter={StaticResource WidthToCenterMarginConverter}}" />
         </Grid>
     </DataTemplate>
