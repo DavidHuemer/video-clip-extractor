@@ -3,5 +3,5 @@
 public interface IVideoPlayer
 {
     TimeSpan Position { get; set; }
-    event EventHandler? MediaOpened;
+    event EventHandler? VideoOpened;
 }

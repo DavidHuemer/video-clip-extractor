@@ -12,10 +12,11 @@ public class VideoPlayer : MediaElement, IVideoPlayer
     public VideoPlayer()
     {
         LoadedBehavior = MediaState.Manual;
-        MediaOpened += (_, _) => MediaOpened?.Invoke(this, EventArgs.Empty);
+        MediaOpened += (_, _) =>
+            VideoOpened?.Invoke(this, EventArgs.Empty);
     }
 
-    public new event EventHandler? MediaOpened;
+    public new event EventHandler? VideoOpened;
 
     #region PlayStatus
 

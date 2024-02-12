@@ -24,7 +24,11 @@ public class VideoNavigationViewModel : BaseViewModel, IVideoNavigationViewModel
             _video = value;
             if (value != null)
             {
-                PlayStatus = PlayStatus.Playing;
+                Task.Run(async () =>
+                {
+                    await Task.Delay(500);
+                    PlayStatus = PlayStatus.Playing;
+                });
             }
         }
     }

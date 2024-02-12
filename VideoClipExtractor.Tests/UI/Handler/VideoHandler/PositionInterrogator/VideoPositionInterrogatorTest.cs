@@ -49,7 +49,7 @@ public class VideoPositionInterrogatorTest
         _videoPlayerViewModel.Setup(x => x.ControlPanelViewModel.ActionBarViewModel.VideoNavigationViewModel.PlayStatus)
             .Returns(PlayStatus.Paused);
 
-        _videoPlayer.Raise(x => x.MediaOpened += null, EventArgs.Empty);
+        _videoPlayer.Raise(x => x.VideoOpened += null, EventArgs.Empty);
         _videoPositionDispatcher.Verify(x => x.Start(), Times.Never);
     }
 
@@ -71,7 +71,7 @@ public class VideoPositionInterrogatorTest
         _videoPlayerViewModel.Setup(x => x.ControlPanelViewModel.ActionBarViewModel.VideoNavigationViewModel.PlayStatus)
             .Returns(PlayStatus.Playing);
 
-        _videoPlayer.Raise(x => x.MediaOpened += null, EventArgs.Empty);
+        _videoPlayer.Raise(x => x.VideoOpened += null, EventArgs.Empty);
 
         _videoPositionDispatcher.Verify(x => x.Start(), Times.Once);
     }
@@ -82,7 +82,7 @@ public class VideoPositionInterrogatorTest
         _videoPlayerViewModel.Setup(x => x.ControlPanelViewModel.ActionBarViewModel.VideoNavigationViewModel.PlayStatus)
             .Returns(PlayStatus.Paused);
 
-        _videoPlayer.Raise(x => x.MediaOpened += null, EventArgs.Empty);
+        _videoPlayer.Raise(x => x.VideoOpened += null, EventArgs.Empty);
 
         _videoPlayerViewModel.Setup(x => x.ControlPanelViewModel.ActionBarViewModel.VideoNavigationViewModel.PlayStatus)
             .Returns(PlayStatus.Playing);
@@ -99,7 +99,7 @@ public class VideoPositionInterrogatorTest
         _videoPlayerViewModel.Setup(x => x.ControlPanelViewModel.ActionBarViewModel.VideoNavigationViewModel.PlayStatus)
             .Returns(PlayStatus.Playing);
 
-        _videoPlayer.Raise(x => x.MediaOpened += null, EventArgs.Empty);
+        _videoPlayer.Raise(x => x.VideoOpened += null, EventArgs.Empty);
 
         _videoPlayerViewModel.Setup(x => x.ControlPanelViewModel.ActionBarViewModel.VideoNavigationViewModel.PlayStatus)
             .Returns(PlayStatus.Paused);

@@ -24,7 +24,7 @@ public class VideoPositionInterrogator
     {
         _videoPlayer = videoPlayer;
         _videoPlayerViewModel = videoPlayerViewModel;
-        videoPlayer.MediaOpened += OnVideoPlayerOnMediaOpened;
+        videoPlayer.VideoOpened += OnVideoPlayerOnVideoOpened;
         _dispatcher = videoPositionDispatcher ?? new VideoPositionDispatcher();
         _dispatcher.PositionDispatched += (_, _) => OnVideoPositionDispatched();
 
@@ -52,7 +52,7 @@ public class VideoPositionInterrogator
             _dispatcher.Stop();
     }
 
-    private void OnVideoPlayerOnMediaOpened(object? sender, EventArgs e)
+    private void OnVideoPlayerOnVideoOpened(object? sender, EventArgs e)
     {
         _mediaOpened = true;
 
