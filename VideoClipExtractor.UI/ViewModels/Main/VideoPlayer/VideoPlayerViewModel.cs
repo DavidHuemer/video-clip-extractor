@@ -9,7 +9,7 @@ using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 
-public class VideoPlayerViewModel : BaseViewModel
+public class VideoPlayerViewModel : BaseViewModel, IVideoPlayerViewModel
 {
     public VideoPlayerViewModel(IDependencyProvider provider)
     {

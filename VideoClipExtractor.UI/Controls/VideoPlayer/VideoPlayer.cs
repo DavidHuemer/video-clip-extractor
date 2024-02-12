@@ -7,8 +7,16 @@ namespace VideoClipExtractor.UI.Controls.VideoPlayer;
 /// <summary>
 ///     Responsible for playing a video
 /// </summary>
-public class VideoPlayer : MediaElement
+public class VideoPlayer : MediaElement, IVideoPlayer
 {
+    public VideoPlayer()
+    {
+        LoadedBehavior = MediaState.Manual;
+        MediaOpened += (_, _) => MediaOpened?.Invoke(this, EventArgs.Empty);
+    }
+
+    public new event EventHandler? MediaOpened;
+
     #region PlayStatus
 
     public static readonly DependencyProperty PlayStatusProperty =
@@ -19,11 +27,6 @@ public class VideoPlayer : MediaElement
     {
         get => (PlayStatus)GetValue(PlayStatusProperty);
         set => SetValue(PlayStatusProperty, value);
-    }
-
-    public VideoPlayer()
-    {
-        LoadedBehavior = MediaState.Manual;
     }
 
     private static void OnPlayStatusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
