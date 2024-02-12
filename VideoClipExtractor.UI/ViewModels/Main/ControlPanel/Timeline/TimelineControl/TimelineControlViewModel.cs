@@ -2,6 +2,7 @@
 using BaseUI.Handler.ViewModelHandler;
 using BaseUI.ViewModels;
 using JetBrains.Annotations;
+using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.UI.Handler.Timeline;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineNavigation;
 
@@ -33,9 +34,9 @@ public class TimelineControlViewModel : BaseViewModel, ITimelineControlViewModel
     {
     }
 
-    public TimelineNavigationViewModel TimelineNavigationViewModel { get; set; }
-
     public ObservableCollection<int> VerticalLines { get; } = [];
+
+    public TimelineNavigationViewModel TimelineNavigationViewModel { get; set; }
 
     private void UpdateVerticalLines()
     {
@@ -71,5 +72,13 @@ public class TimelineControlViewModel : BaseViewModel, ITimelineControlViewModel
         }
 
         Console.WriteLine("Hello");
+    }
+
+    public void SetFrameByPosition(double xPos)
+    {
+        var frameWidth = _timelineFrameWidthHandler.GetFrameWidth(TimelineNavigationViewModel.ZoomLevel);
+        var frame = (int)Math.Round(xPos / frameWidth);
+
+        TimelineNavigationViewModel.VideoPosition = new VideoPosition(frame);
     }
 }

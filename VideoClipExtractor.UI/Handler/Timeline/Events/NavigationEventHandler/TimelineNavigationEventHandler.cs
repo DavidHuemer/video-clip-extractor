@@ -53,6 +53,7 @@ public class TimelineNavigationEventHandler(
             case MovementState.None:
                 return;
             case MovementState.MarkerMovement:
+                // TODO: Pause Video
                 UpdateMarkerPos(position);
                 break;
             default:
@@ -65,6 +66,6 @@ public class TimelineNavigationEventHandler(
     {
         var movementPos = position.X - 200 + TimelineNavigation.MovementPosition;
         if (movementPos < 0) movementPos = 0;
-        //_viewModel.SetFrameByPosition(movementPos);
+        viewModel.SetFrameByPosition(movementPos);
     }
 }

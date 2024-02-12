@@ -18,9 +18,9 @@ public class VideoPositionInterrogatorTest
     {
         _videoPlayer = new Mock<IVideoPlayer>();
         _videoPlayerViewModel = new Mock<IVideoPlayerViewModel>();
-        _timelineNavigationViewModel = new Mock<TimelineNavigationViewModel>();
+        _timelineNavigationViewModel = new TimelineNavigationViewModel();
         _videoPlayerViewModel.Setup(x => x.ControlPanelViewModel.TimelineViewModel.TimelineControlViewModel
-            .TimelineNavigationViewModel).Returns(_timelineNavigationViewModel.Object);
+            .TimelineNavigationViewModel).Returns(_timelineNavigationViewModel);
 
         _videoPositionDispatcher = new Mock<IVideoPositionDispatcher>();
 
@@ -31,7 +31,7 @@ public class VideoPositionInterrogatorTest
     private Mock<IVideoPlayer> _videoPlayer = null!;
 
     private Mock<IVideoPlayerViewModel> _videoPlayerViewModel = null!;
-    private Mock<TimelineNavigationViewModel> _timelineNavigationViewModel = null!;
+    private TimelineNavigationViewModel _timelineNavigationViewModel = null!;
 
     private Mock<IVideoPositionDispatcher> _videoPositionDispatcher = null!;
 
@@ -120,7 +120,30 @@ public class VideoPositionInterrogatorTest
 
         _videoPositionDispatcher.Raise(x => x.PositionDispatched += null, EventArgs.Empty);
 
-        Assert.That(_timelineNavigationViewModel.Object.VideoPosition,
-            Is.EqualTo(new VideoPosition(timespan)));
+        Assert.That(_timelineNavigationViewModel.VideoPosition.Duration.TimeSpan, Is.EqualTo(timespan));
+    }
+
+    [Test]
+    public void VideoPlayerPositionSetWhenViewModelPositionChanged()
+    {
+        var firstTimespan = new TimeSpan(0, 0, 10);
+
+        _videoPlayer.Setup(x => x.Position).Returns(firstTimespan);
+        _videoPositionDispatcher.Raise(x => x.PositionDispatched += null, EventArgs.Empty);
+
+        _timelineNavigationViewModel.VideoPosition = new VideoPosition(30);
+        _videoPlayer.VerifySet(x => x.Position = TimeSpan.FromSeconds(1));
+    }
+
+    [Test]
+    public void VideoPositionNotSetWhenPositionSame()
+    {
+        var timespan = new TimeSpan(0, 0, 10);
+
+        _videoPlayer.Setup(x => x.Position).Returns(timespan);
+        _videoPositionDispatcher.Raise(x => x.PositionDispatched += null, EventArgs.Empty);
+
+        _timelineNavigationViewModel.VideoPosition = new VideoPosition(timespan);
+        _videoPlayer.VerifySet(x => x.Position = timespan, Times.Never);
     }
 }

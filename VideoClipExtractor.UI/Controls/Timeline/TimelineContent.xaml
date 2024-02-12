@@ -16,7 +16,14 @@
                           ItemsSource="{Binding VerticalLines, Mode=OneWay}" />
 
             <!--Marker-->
-            <Border>
+            <Canvas>
+                <Canvas.Margin>
+                    <MultiBinding Converter="{StaticResource FrameToMarginConverter}">
+                        <Binding Path="TimelineNavigationViewModel.VideoPosition.Frame" />
+                        <Binding Path="TimelineNavigationViewModel.ZoomLevel" />
+                    </MultiBinding>
+                </Canvas.Margin>
+
                 <Grid
                     Margin="{Binding 
                         RelativeSource={RelativeSource Self}, 
@@ -28,7 +35,7 @@
                         <Label Content="100" />
                     </Border>
                 </Grid>
-            </Border>
+            </Canvas>
         </Canvas>
     </Grid>
 </UserControl>

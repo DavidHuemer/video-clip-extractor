@@ -17,6 +17,8 @@ public class VideoPositionInterrogator
     private readonly IVideoPositionDispatcher _dispatcher;
     private readonly IVideoPlayer _videoPlayer;
     private readonly IVideoPlayerViewModel _videoPlayerViewModel;
+
+    private VideoPosition _lastPosition = new(0);
     private bool _mediaOpened;
 
     public VideoPositionInterrogator(IVideoPlayer videoPlayer, IVideoPlayerViewModel videoPlayerViewModel,
@@ -29,6 +31,7 @@ public class VideoPositionInterrogator
         _dispatcher.PositionDispatched += (_, _) => OnVideoPositionDispatched();
 
         videoPlayerViewModel.PropertyChanged += OnVideoPlayerViewModelOnPropertyChanged;
+        TimelineNavigationViewModel.PropertyChanged += OnTimelineNavigationViewModelOnPropertyChanged;
     }
 
     private void OnVideoPlayerViewModelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -37,9 +40,16 @@ public class VideoPositionInterrogator
             OnPlayStatusChanged(VideoNavigationViewModel.PlayStatus);
     }
 
+    private void OnTimelineNavigationViewModelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(TimelineNavigationViewModel.VideoPosition))
+            CheckForPositionChange(TimelineNavigationViewModel.VideoPosition);
+    }
+
     private void OnVideoPositionDispatched()
     {
-        TimelineNavigationViewModel.VideoPosition = new VideoPosition(_videoPlayer.Position);
+        _lastPosition = new VideoPosition(_videoPlayer.Position);
+        TimelineNavigationViewModel.VideoPosition = _lastPosition;
     }
 
     private void OnPlayStatusChanged(PlayStatus playStatus)
@@ -58,6 +68,14 @@ public class VideoPositionInterrogator
 
         if (VideoNavigationViewModel.PlayStatus == PlayStatus.Playing)
             _dispatcher.Start();
+    }
+
+    private void CheckForPositionChange(VideoPosition videoPosition)
+    {
+        Console.WriteLine("Check for position change");
+        if (videoPosition.Equals(_lastPosition)) return;
+
+        _videoPlayer.Position = videoPosition.Duration.TimeSpan;
     }
 
     #region Shortcuts

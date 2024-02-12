@@ -34,7 +34,6 @@
                   StrokeThickness="1" />
 
             <Label Content="{Binding Mode=OneWay}" HorizontalContentAlignment="Center" Width="Auto"
-                   Background="#33C11E1E"
                    VerticalAlignment="Top" VerticalContentAlignment="Center"
                    Height="{StaticResource TopBarHeight}"
                    Margin="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth, Converter={StaticResource WidthToCenterMarginConverter}}" />
@@ -62,7 +61,7 @@
         <Setter Property="X2" Value="0" />
         <Setter Property="Y2"
                 Value="{Binding 
-                    RelativeSource={RelativeSource AncestorType=Canvas, AncestorLevel=2}, 
+                    RelativeSource={RelativeSource AncestorType=Canvas, AncestorLevel=3}, 
                     Path=ActualHeight}" />
         <Setter Property="Stroke" Value="#4671B2" />
         <Setter Property="StrokeThickness" Value="2" />
