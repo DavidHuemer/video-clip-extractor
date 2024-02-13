@@ -9,4 +9,11 @@ public class ViewModelProviderMock : Mock<IViewModelProvider>
     {
         Setup(m => m.GetViewModel<TDependency>()).Returns(mock.Object);
     }
+
+    public Mock<TViewModel> CreateViewModelMock<TViewModel>() where TViewModel : class
+    {
+        var mock = new Mock<TViewModel>();
+        AddViewModel(mock);
+        return mock;
+    }
 }

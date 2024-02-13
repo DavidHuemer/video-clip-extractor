@@ -33,6 +33,8 @@ public class VideoNavigationViewModel : BaseViewModel, IVideoNavigationViewModel
         }
     }
 
+    public VideoPosition VideoPosition { get; set; } = new(0);
+
     #endregion
 
     #region Commands

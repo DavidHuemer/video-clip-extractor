@@ -13,12 +13,12 @@ public class VideoPlayerViewModel : BaseViewModel, IVideoPlayerViewModel
 {
     public VideoPlayerViewModel(IDependencyProvider provider)
     {
+        Provider = provider;
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
         VideoPlayerNavigationVm = viewModelProvider.GetViewModel<IVideoPlayerNavigationViewModel>();
         ExplorerViewModel = viewModelProvider.GetViewModel<IVideosExplorerViewModel>();
         ControlPanelViewModel = viewModelProvider.GetViewModel<IControlPanelViewModel>();
 
-        // TODO: Set up a event that listens to the video, and updates the UI accordingly
         var listener = new ViewModelPropertyListener(ExplorerViewModel);
         listener.AddPropertyListener(nameof(IVideosExplorerViewModel.SelectedVideo),
             (VideoViewModel? video) => { ControlPanelViewModel.Video = video; });
@@ -34,6 +34,7 @@ public class VideoPlayerViewModel : BaseViewModel, IVideoPlayerViewModel
 
     [DoNotNotify] public IVideoPlayerNavigationViewModel VideoPlayerNavigationVm { get; }
 
+    public IDependencyProvider Provider { get; }
     [DoNotNotify] public IControlPanelViewModel ControlPanelViewModel { get; }
 
     #endregion
