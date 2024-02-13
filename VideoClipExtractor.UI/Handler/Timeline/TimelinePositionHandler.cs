@@ -5,6 +5,10 @@ public class TimelinePositionHandler(ITimelineFrameWidthHandler? widthHandler = 
     private readonly ITimelineFrameWidthHandler _timelineFrameWidthHandler =
         widthHandler ?? new TimelineFrameWidthHandler();
 
+    public TimelinePositionHandler() : this(null)
+    {
+    }
+
     public double GetFrameAtPosition(double position, int zoomLevel)
     {
         var frameWidth = _timelineFrameWidthHandler.GetFrameWidth(zoomLevel);

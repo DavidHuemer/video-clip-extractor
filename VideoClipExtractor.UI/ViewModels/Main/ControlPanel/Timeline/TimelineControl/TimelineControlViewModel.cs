@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using BaseUI.Handler.ViewModelHandler;
+using BaseUI.Services.Provider.DependencyInjection;
+using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
 using JetBrains.Annotations;
 using VideoClipExtractor.Data.UI.Video;
-using VideoClipExtractor.UI.Handler.Timeline;
+using VideoClipExtractor.UI.Handler.Timeline.TimelineVisualizationHandler;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineNavigation;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl;
@@ -11,74 +13,42 @@ namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineCo
 [UsedImplicitly]
 public class TimelineControlViewModel : BaseViewModel, ITimelineControlViewModel
 {
-    private readonly ITimelineFrameWidthHandler _timelineFrameWidthHandler;
+    // public TimelineControlViewModel(IDependencyProvider provider,
+    //     IFramesVisualizationHandler? framesVisualizationHandler = null,
+    //     ITimelineFrameWidthHandler? timelineFrameWidthHandler = null)
+    // {
+    //     var viewModelProvider = provider.GetDependency<IViewModelProvider>();
+    //     VideoNavigation = viewModelProvider.GetViewModel<IVideoNavigationViewModel>();
+    //
+    //     _timelineFrameWidthHandler = timelineFrameWidthHandler ?? new TimelineFrameWidthHandler();
+    //     TimelineNavigationViewModel = viewModelProvider.GetViewModel<ITimelineNavigationViewModel>();
+    //
+    //     // framesVisualizationHandler ??= new FrameVisualizationHandler(_timelineFrameWidthHandler);
+    //     // framesVisualizationHandler.Setup(this);
+    // }
 
-    public TimelineControlViewModel(ITimelineFrameWidthHandler? timelineFrameWidthHandler = null)
+    public TimelineControlViewModel(IDependencyProvider provider)
     {
-        _timelineFrameWidthHandler = timelineFrameWidthHandler ?? new TimelineFrameWidthHandler();
+        Provider = provider;
+        var viewModelProvider = provider.GetDependency<IViewModelProvider>();
+        VideoNavigation = viewModelProvider.GetViewModel<IVideoNavigationViewModel>();
+        TimelineNavigationViewModel = viewModelProvider.GetViewModel<ITimelineNavigationViewModel>();
 
-        TimelineNavigationViewModel = new TimelineNavigationViewModel();
-
-        ViewModelPropertyListener.AddPropertyListener(TimelineNavigationViewModel,
-            new[]
-            {
-                nameof(TimelineNavigationViewModel.ZoomLevel),
-                nameof(TimelineNavigationViewModel.MovementPosition),
-                nameof(TimelineNavigationViewModel.TimelineControlWidth),
-            }, UpdateVerticalLines);
-
-        UpdateVerticalLines();
+        var frameVisualizationHandler = provider.GetDependency<IFramesVisualizationHandler>();
+        frameVisualizationHandler.Setup(this);
     }
 
-    public TimelineControlViewModel() : this(null)
-    {
-    }
+    public IVideoNavigationViewModel VideoNavigation { get; set; }
 
     public ObservableCollection<int> VerticalLines { get; } = [];
+    public IDependencyProvider Provider { get; }
 
-    public TimelineNavigationViewModel TimelineNavigationViewModel { get; set; }
+    public ITimelineNavigationViewModel TimelineNavigationViewModel { get; set; }
 
-    private void UpdateVerticalLines()
+    public void PauseVideo()
     {
-        VerticalLines.Clear();
-        var primitiveScalar = TimelineScaleHandler.GetPrimitiveScale(TimelineNavigationViewModel.ZoomLevel);
-        var frameWidth = _timelineFrameWidthHandler.GetFrameWidth(TimelineNavigationViewModel.ZoomLevel);
-
-        var firstVisibleFrame =
-            TimelineFrameVisibilityHandler.GetFirstVisibleFrame(TimelineNavigationViewModel.MovementPosition,
-                frameWidth);
-        var visibleFrameScalar = (int)Math.Ceiling((double)firstVisibleFrame / primitiveScalar) * primitiveScalar;
-
-        for (var i = 0; i < 100; i++)
-        {
-            if (visibleFrameScalar >= 0)
-            {
-                var isVisible = TimelineFrameVisibilityHandler.IsBeforeEnd(visibleFrameScalar,
-                    TimelineNavigationViewModel.MovementPosition, frameWidth,
-                    TimelineNavigationViewModel.TimelineControlWidth);
-
-                if (isVisible)
-                {
-                    VerticalLines.Add(visibleFrameScalar);
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-
-            visibleFrameScalar += primitiveScalar;
-        }
-
-        Console.WriteLine("Hello");
-    }
-
-    public void SetFrameByPosition(double xPos)
-    {
-        var frameWidth = _timelineFrameWidthHandler.GetFrameWidth(TimelineNavigationViewModel.ZoomLevel);
-        var frame = (int)Math.Round(xPos / frameWidth);
-
-        TimelineNavigationViewModel.VideoPosition = new VideoPosition(frame);
+        VideoNavigation.PlayStatus = PlayStatus.Paused;
+        VideoNavigation.PlayStatus = PlayStatus.Playing;
+        VideoNavigation.PlayStatus = PlayStatus.Paused;
     }
 }

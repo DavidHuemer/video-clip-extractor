@@ -18,6 +18,6 @@ public partial class TimelineControl : UserControl
     private void TimelineControl_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
         if (ViewModel == null) return;
-        var eventCatcher = new TimelineEventCatcher(new FrameworkElementWrapper(OuterCanvas), ViewModel);
+        var eventCatcher = new TimelineEventHandler(new FrameworkElementWrapper(OuterCanvas), ViewModel);
     }
 }

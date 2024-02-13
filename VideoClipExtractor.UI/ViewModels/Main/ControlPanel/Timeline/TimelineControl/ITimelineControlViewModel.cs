@@ -1,4 +1,6 @@
-﻿using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineNavigation;
+﻿using System.Collections.ObjectModel;
+using BaseUI.Services.Provider.DependencyInjection;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineNavigation;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl;
 
@@ -7,5 +9,8 @@ namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineCo
 /// </summary>
 public interface ITimelineControlViewModel
 {
-    public TimelineNavigationViewModel TimelineNavigationViewModel { get; set; }
+    public ITimelineNavigationViewModel TimelineNavigationViewModel { get; set; }
+
+    ObservableCollection<int> VerticalLines { get; }
+    IDependencyProvider Provider { get; }
 }

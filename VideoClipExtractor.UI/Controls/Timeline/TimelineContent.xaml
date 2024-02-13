@@ -19,7 +19,7 @@
             <Canvas>
                 <Canvas.Margin>
                     <MultiBinding Converter="{StaticResource FrameToMarginConverter}">
-                        <Binding Path="TimelineNavigationViewModel.VideoPosition.Frame" />
+                        <Binding Path="VideoNavigation.VideoPosition.Frame" />
                         <Binding Path="TimelineNavigationViewModel.ZoomLevel" />
                     </MultiBinding>
                 </Canvas.Margin>

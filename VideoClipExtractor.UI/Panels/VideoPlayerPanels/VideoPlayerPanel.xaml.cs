@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using VideoClipExtractor.UI.Handler.VideoHandler.PositionInterrogator;
+using VideoClipExtractor.UI.Handler.VideoHandler;
 using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 
 namespace VideoClipExtractor.UI.Panels.VideoPlayerPanels;
@@ -17,6 +17,6 @@ public partial class VideoPlayerPanel
     {
         if (VideoPlayerViewModel == null) return;
 
-        _ = new VideoPositionInterrogator(VideoPlayer, VideoPlayerViewModel);
+        _ = new VideoPlayerConnection(VideoPlayer, VideoPlayerViewModel);
     }
 }
