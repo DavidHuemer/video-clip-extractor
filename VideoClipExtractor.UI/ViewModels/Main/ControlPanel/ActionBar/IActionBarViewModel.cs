@@ -1,4 +1,5 @@
 ﻿using VideoClipExtractor.Data.Videos;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.TimelineExtraction;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar;
@@ -6,5 +7,8 @@ namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar;
 public interface IActionBarViewModel
 {
     public IVideoNavigationViewModel VideoNavigationViewModel { get; set; }
+
+    ITimelineExtractionViewModel TimelineExtractionViewModel { get; }
+
     VideoViewModel? Video { set; }
 }

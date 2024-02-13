@@ -2,6 +2,7 @@
 using BaseUI.Services.Provider.ViewModelProvider;
 using JetBrains.Annotations;
 using VideoClipExtractor.Data.Videos;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.TimelineExtraction;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar;
@@ -13,11 +14,13 @@ public class ActionBarViewModel : IActionBarViewModel
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
         VideoNavigationViewModel = viewModelProvider.GetViewModel<IVideoNavigationViewModel>();
+        TimelineExtractionViewModel = viewModelProvider.GetViewModel<ITimelineExtractionViewModel>();
     }
 
     #region Properties
 
     public IVideoNavigationViewModel VideoNavigationViewModel { get; set; }
+    public ITimelineExtractionViewModel TimelineExtractionViewModel { get; }
 
     public VideoViewModel? Video
     {
