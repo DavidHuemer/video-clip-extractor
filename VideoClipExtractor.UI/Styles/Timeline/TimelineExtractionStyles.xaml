@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:extractions="clr-namespace:VideoClipExtractor.Data.Extractions;assembly=VideoClipExtractor.Data">
+
+    <Style TargetType="Grid" x:Key="TimelineExtractionsContainer">
+        <Setter Property="Background" Value="#2DF59FFF" />
+
+        <Setter Property="Height"
+                Value="{Binding RelativeSource={RelativeSource AncestorType=Canvas, AncestorLevel=2}, Path=ActualHeight}" />
+        <Setter Property="MinWidth" Value="500" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+
+    <Style TargetType="ItemsControl" x:Key="ImageExtractions" BasedOn="{StaticResource {x:Type ItemsControl}}">
+        <Setter Property="Margin">
+            <Setter.Value>
+                <Thickness Top="{StaticResource TopBarHeight}"
+                           Bottom="0" Left="0" Right="0" />
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Padding" Value="0,5" />
+    </Style>
+
+    <ItemsPanelTemplate x:Key="TimelineExtractionItemsContainer">
+        <Canvas />
+    </ItemsPanelTemplate>
+
+    <Style TargetType="Border" x:Key="ExtractionStyle">
+        <Setter Property="Width" Value="15" />
+        <Setter Property="Height" Value="15" />
+        <Setter Property="BorderBrush" Value="White" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Margin"
+                Value="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth, Converter={StaticResource WidthToCenterMarginConverter}}" />
+    </Style>
+
+    <DataTemplate x:Key="TimelineExtractionTemplate" DataType="{x:Type extractions:ImageExtractionViewModel}">
+        <Grid>
+            <Grid.Margin>
+                <MultiBinding Converter="{StaticResource FrameToMarginConverter}">
+                    <Binding Mode="OneWay" Path="VideoPosition.Frame" />
+                    <Binding Path="DataContext.TimelineNavigationViewModel.ZoomLevel"
+                             RelativeSource="{RelativeSource AncestorType=Canvas, AncestorLevel=3}"
+                             Mode="OneWay" />
+                </MultiBinding>
+            </Grid.Margin>
+
+            <Border Style="{StaticResource ExtractionStyle}"
+                    Background="DeepPink" CornerRadius="2" />
+        </Grid>
+    </DataTemplate>
+
+    <Style TargetType="ContentPresenter" x:Key="TimelineExtractionItemStyle">
+        <Setter Property="Canvas.Left" Value="0" />
+        <Setter Property="Canvas.Top" Value="0" />
+    </Style>
+
+</ResourceDictionary>

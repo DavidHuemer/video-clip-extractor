@@ -25,7 +25,11 @@ public class ControlPanelViewModel : BaseViewModel, IControlPanelViewModel
 
     public VideoViewModel? Video
     {
-        set => ActionBarViewModel.Video = value;
+        set
+        {
+            ActionBarViewModel.Video = value;
+            TimelineViewModel.Video = value;
+        }
     }
 
     #endregion

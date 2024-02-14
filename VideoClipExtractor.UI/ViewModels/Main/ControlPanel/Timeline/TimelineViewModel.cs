@@ -2,6 +2,7 @@
 using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
 using JetBrains.Annotations;
+using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControlPanel;
 
@@ -19,4 +20,9 @@ public class TimelineViewModel : BaseViewModel, ITimelineViewModel
 
     public ITimelineControlPanelViewModel TimelineControlPanelViewModel { get; set; }
     public ITimelineControlViewModel TimelineControlViewModel { get; set; }
+
+    public VideoViewModel? Video
+    {
+        set => TimelineControlViewModel.VideoViewModel = value;
+    }
 }
