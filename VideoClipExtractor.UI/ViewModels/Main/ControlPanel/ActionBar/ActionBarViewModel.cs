@@ -14,17 +14,21 @@ public class ActionBarViewModel : IActionBarViewModel
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
         VideoNavigationViewModel = viewModelProvider.GetViewModel<IVideoNavigationViewModel>();
-        TimelineExtractionViewModel = viewModelProvider.GetViewModel<ITimelineExtractionViewModel>();
+        TimelineExtractionBarViewModel = viewModelProvider.GetViewModel<ITimelineExtractionBarViewModel>();
     }
 
     #region Properties
 
     public IVideoNavigationViewModel VideoNavigationViewModel { get; set; }
-    public ITimelineExtractionViewModel TimelineExtractionViewModel { get; }
+    public ITimelineExtractionBarViewModel TimelineExtractionBarViewModel { get; }
 
     public VideoViewModel? Video
     {
-        set => VideoNavigationViewModel.Video = value;
+        set
+        {
+            VideoNavigationViewModel.Video = value;
+            TimelineExtractionBarViewModel.Video = value;
+        }
     }
 
     #endregion

@@ -8,7 +8,7 @@ public interface IActionBarViewModel
 {
     public IVideoNavigationViewModel VideoNavigationViewModel { get; set; }
 
-    ITimelineExtractionViewModel TimelineExtractionViewModel { get; }
+    ITimelineExtractionBarViewModel TimelineExtractionBarViewModel { get; }
 
     VideoViewModel? Video { set; }
 }

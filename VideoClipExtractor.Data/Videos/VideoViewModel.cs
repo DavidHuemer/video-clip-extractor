@@ -1,4 +1,6 @@
-﻿using BaseUI.ViewModels;
+﻿using System.Collections.ObjectModel;
+using BaseUI.ViewModels;
+using VideoClipExtractor.Data.Extractions;
 
 namespace VideoClipExtractor.Data.Videos;
 
@@ -15,6 +17,8 @@ public class VideoViewModel : BaseViewModel
     public VideoStatus VideoStatus { get; set; }
 
     public string LocalPath { get; set; }
+
+    public ObservableCollection<ImageExtractionViewModel> ImageExtractions { get; } = new();
 
     #endregion
 }

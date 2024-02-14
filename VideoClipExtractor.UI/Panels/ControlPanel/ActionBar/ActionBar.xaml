@@ -10,5 +10,8 @@
              d:DataContext="{d:DesignInstance Type=actionBarVm:ActionBarViewModel, IsDesignTimeCreatable=False}">
     <Grid>
         <local:VideoNavigationButtons DataContext="{Binding VideoNavigationViewModel}" />
+
+        <local:TimelineExtractionButtons DataContext="{Binding TimelineExtractionBarViewModel}"
+                                         HorizontalAlignment="Right" />
     </Grid>
 </UserControl>
