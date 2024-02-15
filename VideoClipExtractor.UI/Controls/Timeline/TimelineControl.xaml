@@ -16,7 +16,7 @@
     </UserControl.Resources>
 
     <!-- Outer canvas. Responsible for top block, horizontal lines, ... -->
-    <Canvas Name="OuterCanvas" Background="Green">
+    <Canvas Name="OuterCanvas" Background="#3d3d3d">
         <!-- TopBar (Provides Background for the frame numbers)-->
         <Border Style="{StaticResource TimelineTopBar}" />
 

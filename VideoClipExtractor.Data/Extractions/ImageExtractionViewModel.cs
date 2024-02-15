@@ -1,14 +1,9 @@
-﻿using BaseUI.ViewModels;
+﻿using VideoClipExtractor.Data.Extractions.Basics;
 using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.Data.Extractions;
 
-public class ImageExtractionViewModel : BaseViewModel
+public class ImageExtractionViewModel(VideoPosition position) : BaseExtractionViewModel
 {
-    public ImageExtractionViewModel(VideoPosition position)
-    {
-        VideoPosition = position;
-    }
-
-    public VideoPosition VideoPosition { get; set; }
+    public VideoPosition VideoPosition { get; set; } = position;
 }

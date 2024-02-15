@@ -6,6 +6,7 @@ using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.WindowService;
 using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.Core.Managers.TimelineManager.SelectionManager;
 using VideoClipExtractor.Core.Managers.VideoManager;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
@@ -76,6 +77,7 @@ public partial class App
         provider.AddSingletonDependency<IProjectManager, ProjectManager>();
         provider.AddSingletonDependency<IVideoProviderManager, VideoProviderManager>();
         provider.AddSingletonDependency<IVideoManager, VideoManager>();
+        provider.AddSingletonDependency<ITimelineExtractionSelectionManager, TimelineExtractionSelectionManager>();
     }
 
     private void SetupWindows(IDependencyProvider provider)
