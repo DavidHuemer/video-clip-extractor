@@ -6,7 +6,7 @@
              xmlns:timelineExtractionVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.TimelineExtraction"
              xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
              mc:Ignorable="d"
-             d:DesignHeight="40" d:DesignWidth="300"
+             d:DesignHeight="40" d:DesignWidth="500"
              d:DataContext="{d:DesignInstance Type=timelineExtractionVm:TimelineExtractionBarViewModel, IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
@@ -30,6 +30,13 @@
                 <StackPanel Orientation="Horizontal">
                     <materialIcons:MaterialIcon Kind="Photography" />
                     <Label Content="Add Image extraction" />
+                </StackPanel>
+            </Button>
+
+            <Button Command="{Binding AddVideoExtraction}">
+                <StackPanel Orientation="Horizontal">
+                    <materialIcons:MaterialIcon Kind="Video" />
+                    <Label Content="Add Video extraction" />
                 </StackPanel>
             </Button>
         </StackPanel>

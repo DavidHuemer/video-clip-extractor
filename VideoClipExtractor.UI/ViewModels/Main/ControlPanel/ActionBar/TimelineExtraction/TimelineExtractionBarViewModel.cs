@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using VideoClipExtractor.Core.Managers.TimelineManager.SelectionManager;
 using VideoClipExtractor.Data.Extractions;
 using VideoClipExtractor.Data.Extractions.Basics;
+using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
 
@@ -27,6 +28,8 @@ public class TimelineExtractionBarViewModel : BaseViewModel, ITimelineExtraction
         _extractionSelectionManager = provider.GetDependency<ITimelineExtractionSelectionManager>();
     }
 
+    public ICommand AddVideoExtraction => new RelayCommand<string>(DoAddVideoExtraction, _ => true);
+
     public VideoViewModel? Video { get; set; }
 
     public ICommand AddImageExtraction => new RelayCommand<string>(DoAddImageExtraction, _ => true);
@@ -42,6 +45,18 @@ public class TimelineExtractionBarViewModel : BaseViewModel, ITimelineExtraction
 
         Video?.ImageExtractions.InsertSorted(newImageExtraction, comparison);
         Console.WriteLine("Image extraction added!");
+    }
+
+    private void DoAddVideoExtraction(string? obj)
+    {
+        var begin = _videoNavigationViewModel.VideoPosition;
+        var end = new VideoPosition(begin.Frame + 30);
+
+        var newVideoExtraction = new VideoExtractionViewModel(begin, end);
+        newVideoExtraction.SetupSelection(HandleSelection);
+
+        Video?.VideoExtractions.Add(newVideoExtraction);
+        Console.WriteLine("Video extraction added!");
     }
 
     private void HandleSelection(IExtractionViewModel extractionViewModel)

@@ -12,28 +12,25 @@
     <UserControl.Resources>
         <!-- Empty array of ImageExtractions-->
         <x:Array x:Key="EmptyImageExtensionsArray" Type="{x:Type sys:ImageExtractionViewModel}" />
+        <x:Array x:Key="EmptyVideoExtensionsArray" Type="{x:Type sys:VideoExtractionViewModel}" />
 
     </UserControl.Resources>
 
     <Grid Style="{StaticResource TimelineExtractionsContainer}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <ItemsControl ItemsPanel="{StaticResource TimelineExtractionItemsContainer}"
                       VerticalAlignment="Stretch"
                       Height="20"
                       ItemTemplate="{StaticResource TimelineExtractionTemplate}"
                       ItemContainerStyle="{StaticResource TimelineExtractionItemStyle}"
                       ItemsSource="{Binding Video.ImageExtractions, FallbackValue={StaticResource EmptyImageExtensionsArray}}" />
+
+        <ItemsControl Grid.Row="1" 
+                      ItemsSource="{Binding Video.VideoExtractions, FallbackValue={StaticResource EmptyVideoExtensionsArray}}"
+                      ItemTemplate="{StaticResource TimelineVideoExtractionTemplate}" />
     </Grid>
-    
-    
-    <!-- <Canvas Style="{StaticResource TimelineExtractionsContainer}"> -->
-    <!--     <ItemsControl Style="{StaticResource ImageExtractions}" ItemsPanel="{StaticResource TimelineExtractionItemsContainer}" -->
-    <!--                   ItemTemplate="{StaticResource TimelineExtractionTemplate}" -->
-    <!--                   ItemContainerStyle="{StaticResource TimelineExtractionItemStyle}" -->
-    <!--                   ItemsSource="{Binding Video.ImageExtractions, FallbackValue={StaticResource EmptyImageExtensionsArray}}" /> -->
-    <!-- </Canvas> -->
 </UserControl>

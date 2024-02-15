@@ -21,7 +21,7 @@ public abstract class BaseExtractionViewModel : BaseViewModel, IExtractionViewMo
         }
     }
 
-    public void SetupSelection(Action<IExtractionViewModel> selectionCallback)
+    public virtual void SetupSelection(Action<IExtractionViewModel> selectionCallback)
     {
         _selectionCallback = selectionCallback;
     }

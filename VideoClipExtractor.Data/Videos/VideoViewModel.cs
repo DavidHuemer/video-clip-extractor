@@ -18,7 +18,9 @@ public class VideoViewModel : BaseViewModel
 
     public string LocalPath { get; set; }
 
-    public ObservableCollection<ImageExtractionViewModel> ImageExtractions { get; } = new();
+    public ObservableCollection<ImageExtractionViewModel> ImageExtractions { get; } = [];
+
+    public ObservableCollection<VideoExtractionViewModel> VideoExtractions { get; } = [];
 
     #endregion
 }

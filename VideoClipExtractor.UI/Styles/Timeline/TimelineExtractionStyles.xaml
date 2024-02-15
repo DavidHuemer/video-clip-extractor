@@ -3,15 +3,32 @@
                     xmlns:extractions="clr-namespace:VideoClipExtractor.Data.Extractions;assembly=VideoClipExtractor.Data"
                     xmlns:b="http://schemas.microsoft.com/xaml/behaviors">
 
-    <Style TargetType="Grid" x:Key="TimelineExtractionsContainer">
-        <Setter Property="Background" Value="#2DF59FFF" />
+    <!--Color static resource used as a background-->
+    <Color x:Key="VideoColor">#006253</Color>
+    <SolidColorBrush x:Key="VideoColorBrush">
+        <SolidColorBrush.Color>
+            <StaticResource ResourceKey="VideoColor" />
+        </SolidColorBrush.Color>
+    </SolidColorBrush>
 
+    <Color x:Key="VideoColorSelected">#BEFFF1</Color>
+    <SolidColorBrush x:Key="VideoColorSelectedBrush">
+        <SolidColorBrush.Color>
+            <StaticResource ResourceKey="VideoColorSelected" />
+        </SolidColorBrush.Color>
+    </SolidColorBrush>
+
+
+    <Style TargetType="Grid" x:Key="TimelineExtractionsContainer">
         <Setter Property="Height"
-                Value="{Binding RelativeSource={RelativeSource AncestorType=Canvas, AncestorLevel=2}, Path=ActualHeight}" />
+                Value="{Binding 
+                    RelativeSource={RelativeSource AncestorType=Canvas, AncestorLevel=2}, 
+                    Path=ActualHeight}" />
         <!-- <Setter Property="IsHitTestVisible" Value="False" /> -->
     </Style>
 
-    <Style TargetType="ItemsControl" x:Key="ImageExtractions" BasedOn="{StaticResource {x:Type ItemsControl}}">
+    <Style TargetType="ItemsControl" x:Key="ImageExtractions"
+           BasedOn="{StaticResource {x:Type ItemsControl}}">
         <Setter Property="Margin">
             <Setter.Value>
                 <Thickness Top="{StaticResource TopBarHeight}"
@@ -32,7 +49,10 @@
         <Setter Property="BorderBrush" Value="White" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Margin"
-                Value="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth, Converter={StaticResource WidthToCenterMarginConverter}}" />
+                Value="{Binding 
+                    RelativeSource={RelativeSource Self}, 
+                    Path=ActualWidth, 
+                    Converter={StaticResource WidthToCenterMarginConverter}}" />
     </Style>
 
     <DataTemplate x:Key="TimelineExtractionTemplate" DataType="{x:Type extractions:ImageExtractionViewModel}">
@@ -56,7 +76,7 @@
                 </b:Interaction.Triggers>
             </Border>
         </Grid>
-        
+
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                 <Setter TargetName="ImageExtractionBorder" Property="Background" Value="#f0dcfc" />
@@ -69,4 +89,97 @@
         <Setter Property="Canvas.Top" Value="0" />
     </Style>
 
+    <Style TargetType="Border" x:Key="VideoExtractionHandle"
+           BasedOn="{StaticResource ExtractionStyle}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Background" Value="{StaticResource VideoColorBrush}" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="VideoExtractionLeftHandle"
+           BasedOn="{StaticResource VideoExtractionHandle}">
+        <Setter Property="CornerRadius" Value="5,0,0,5" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="VideoExtractionRightHandle"
+           BasedOn="{StaticResource VideoExtractionHandle}">
+        <Setter Property="CornerRadius" Value="0,5,5,0" />
+    </Style>
+
+    <DataTemplate x:Key="TimelineVideoExtractionTemplate"
+                  DataType="{x:Type extractions:VideoExtractionViewModel}">
+        <Grid Height="18">
+            <Grid.Margin>
+                <MultiBinding Converter="{StaticResource FrameToMarginConverter}">
+                    <Binding Mode="OneWay" Path="Begin.VideoPosition.Frame" />
+                    <Binding Path="DataContext.TimelineNavigationViewModel.ZoomLevel"
+                             RelativeSource="{RelativeSource AncestorType=Canvas, AncestorLevel=2}"
+                             Mode="OneWay" />
+                </MultiBinding>
+            </Grid.Margin>
+
+            <Border x:Name="Line" Height="5" Width="100" Background="{StaticResource VideoColorBrush}"
+                    VerticalAlignment="Center">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                        <b:InvokeCommandAction Command="{Binding Select}" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </Border>
+
+            <Border x:Name="Begin" Style="{StaticResource VideoExtractionLeftHandle}">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                        <b:InvokeCommandAction Command="{Binding Begin.Select}" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </Border>
+
+            <Border x:Name="End"
+                    Style="{StaticResource VideoExtractionRightHandle}" Margin="100,0,0,0">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                        <b:InvokeCommandAction Command="{Binding End.Select}" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </Border>
+        </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Begin.IsSelected}" Value="True">
+                <Setter TargetName="Begin" Property="Background"
+                        Value="{StaticResource VideoColorSelectedBrush}" />
+                <Setter TargetName="Line" Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                            <GradientStop Color="{StaticResource VideoColorSelected}" Offset="0.0" />
+                            <GradientStop Color="{StaticResource VideoColor}" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding End.IsSelected}" Value="True">
+                <Setter TargetName="End" Property="Background"
+                        Value="{StaticResource VideoColorSelectedBrush}" />
+                <Setter TargetName="Line" Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                            <GradientStop Color="{StaticResource VideoColorSelected}" Offset="1.0" />
+                            <GradientStop Color="{StaticResource VideoColor}" Offset="0.0" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                <Setter TargetName="Begin" Property="Background"
+                        Value="{StaticResource VideoColorSelectedBrush}" />
+                <Setter TargetName="End" Property="Background"
+                        Value="{StaticResource VideoColorSelectedBrush}" />
+                <Setter TargetName="Line" Property="Background"
+                        Value="{StaticResource VideoColorSelectedBrush}" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
 </ResourceDictionary>
