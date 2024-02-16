@@ -20,13 +20,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BaseUI\BaseUI.csproj"/>
+        <ProjectReference Include="..\FFMpeg.Wrapper\FFMpeg.Wrapper.csproj"/>
+        <ProjectReference Include="..\VideoClipExtractor.Core\VideoClipExtractor.Core.csproj"/>
         <ProjectReference Include="..\VideoClipExtractor.Data\VideoClipExtractor.Data.csproj"/>
         <ProjectReference Include="..\VideoClipExtractor.UI\VideoClipExtractor.UI.csproj"/>
         <ProjectReference Include="..\VideoClipExtractor\VideoClipExtractor.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Basics\Extensions\"/>
     </ItemGroup>
 
 </Project>
