@@ -23,7 +23,7 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <Button>
+            <Button Command="{Binding ExportVideos}">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <wpf:MaterialIcon Kind="Export" />

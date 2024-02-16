@@ -46,7 +46,7 @@
             </StackPanel>
         </Button>
 
-        <Button>
+        <Button Command="{Binding VideoExplorer.ExportVideos}">
             <StackPanel Orientation="Horizontal">
                 <wpf:MaterialIcon Kind="Export" />
                 <Label Content="Export" />

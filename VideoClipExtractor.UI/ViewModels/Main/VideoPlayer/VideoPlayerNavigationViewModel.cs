@@ -31,7 +31,7 @@ public class VideoPlayerNavigationViewModel : BaseViewModel, IVideoPlayerNavigat
 
     #region Properties
 
-    private IVideosExplorerViewModel VideoExplorer { get; }
+    public IVideosExplorerViewModel VideoExplorer { get; }
 
     #endregion
 

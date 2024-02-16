@@ -88,6 +88,7 @@ public partial class App
         windowService.Register<WelcomeWindowViewModel, WelcomeWindow>();
         windowService.Register<VideoRepositoryExplorerWindowViewModel, VideoRepositoryExplorerWindow>();
         windowService.Register<VideosSetupWindowViewModel, VideosSetupWindow>();
+        windowService.Register<ExtractionWindowViewModel, ExtractionWindow>();
     }
 
     private void SetupViewModels(IDependencyProvider provider)

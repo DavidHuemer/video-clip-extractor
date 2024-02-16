@@ -1,0 +1,17 @@
+﻿<Window x:Class="VideoClipExtractor.UI.Windows.ExtractionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        xmlns:windowVm="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels"
+        mc:Ignorable="d"
+        Title="ExtractionWindow" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance Type=windowVm:ExtractionWindowViewModel}">
+    <Grid />
+</Window>
