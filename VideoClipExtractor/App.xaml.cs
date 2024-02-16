@@ -6,7 +6,6 @@ using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.WindowService;
 using VideoClipExtractor.Core.Managers.ProjectManager;
-using VideoClipExtractor.Core.Managers.TimelineManager.SelectionManager;
 using VideoClipExtractor.Core.Managers.VideoManager;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
@@ -19,12 +18,14 @@ using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.VideoCrawler;
 using VideoClipExtractor.Core.Services.VideoServices.VideoPositionService;
 using VideoClipExtractor.UI.Handler.Timeline;
+using VideoClipExtractor.UI.Handler.Timeline.Events.ExtensionMovement;
 using VideoClipExtractor.UI.Handler.Timeline.Events.MarkerEventHandler;
 using VideoClipExtractor.UI.Handler.Timeline.Events.MouseButtonEventHandler;
 using VideoClipExtractor.UI.Handler.Timeline.Events.MovementEventHandler;
 using VideoClipExtractor.UI.Handler.Timeline.Events.ZoomEventHandler;
 using VideoClipExtractor.UI.Handler.Timeline.TimelineVisualizationHandler;
 using VideoClipExtractor.UI.Handler.VideoHandler.PositionInterrogator;
+using VideoClipExtractor.UI.Managers.Timeline.SelectionManager;
 using VideoClipExtractor.UI.Services.FileServices;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
@@ -106,6 +107,7 @@ public partial class App
         provider.AddTransientDependency<IMouseCursorHandler, MouseCursorHandler>();
         provider.AddSingletonDependency<ITimelineMarkerEventHandler, TimelineMarkerEventHandler>();
         provider.AddSingletonDependency<ITimelineMovementEventHandler, TimelineMovementEventHandler>();
+        provider.AddSingletonDependency<IExtractionMovementEventHandler, ExtractionMovementEventHandler>();
 
         provider.AddTransientDependency<IFramesVisualizationHandler, FrameVisualizationHandler>();
     }

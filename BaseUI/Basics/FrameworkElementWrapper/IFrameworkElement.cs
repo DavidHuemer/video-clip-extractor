@@ -22,4 +22,6 @@ public interface IFrameworkElement
     bool CaptureMouse();
     void ReleaseMouseCapture();
     Point PointToScreen(Point point);
+
+    Point PointFromScreen(Point point);
 }

@@ -5,4 +5,5 @@ public enum MovementState
     None,
     TimelineMovement,
     MarkerMovement,
+    Extraction,
 }

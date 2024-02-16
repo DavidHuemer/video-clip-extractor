@@ -41,7 +41,8 @@ public class TimelineMouseButtonEventHandler(IDependencyProvider provider) : ITi
     {
         if (_timelineControl == null) return;
 
-        if (_timelineNavigationViewModel.MovementState != MovementState.None)
+        if (_timelineNavigationViewModel.MovementState != MovementState.None &&
+            _timelineNavigationViewModel.MovementState != MovementState.Extraction)
         {
             Release();
             return;

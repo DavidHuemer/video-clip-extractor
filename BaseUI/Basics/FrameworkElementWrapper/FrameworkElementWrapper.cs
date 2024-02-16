@@ -31,4 +31,6 @@ public class FrameworkElementWrapper : IFrameworkElement
 
     public void ReleaseMouseCapture() => Element.ReleaseMouseCapture();
     public Point PointToScreen(Point point) => Element.PointToScreen(point);
+
+    public Point PointFromScreen(Point point) => Element.PointFromScreen(point);
 }

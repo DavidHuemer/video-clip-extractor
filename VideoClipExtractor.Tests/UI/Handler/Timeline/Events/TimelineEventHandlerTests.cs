@@ -2,6 +2,7 @@
 using Moq;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.UI.Handler.Timeline.Events;
+using VideoClipExtractor.UI.Handler.Timeline.Events.ExtensionMovement;
 using VideoClipExtractor.UI.Handler.Timeline.Events.MarkerEventHandler;
 using VideoClipExtractor.UI.Handler.Timeline.Events.MouseButtonEventHandler;
 using VideoClipExtractor.UI.Handler.Timeline.Events.MovementEventHandler;
@@ -13,6 +14,7 @@ namespace VideoClipExtractor.Tests.UI.Handler.Timeline.Events;
 
 public class TimelineEventHandlerTests : BaseDependencyTest
 {
+    private Mock<IExtractionMovementEventHandler> _extractionMovementEventHandler = null!;
     private Mock<ITimelineMarkerEventHandler> _markerEventHandler = null!;
     private Mock<ITimelineMouseButtonEventHandler> _mouseButtonEventHandler = null!;
     private Mock<ITimelineMovementEventHandler> _movementEventHandler = null!;
@@ -36,6 +38,7 @@ public class TimelineEventHandlerTests : BaseDependencyTest
         _mouseButtonEventHandler = DependencyMock.CreateMockDependency<ITimelineMouseButtonEventHandler>();
         _markerEventHandler = DependencyMock.CreateMockDependency<ITimelineMarkerEventHandler>();
         _movementEventHandler = DependencyMock.CreateMockDependency<ITimelineMovementEventHandler>();
+        _extractionMovementEventHandler = DependencyMock.CreateMockDependency<IExtractionMovementEventHandler>();
         var viewModelProvider = DependencyMock.AddViewModelProvider();
         _timelineNavigationViewModel = viewModelProvider.CreateViewModelMock<ITimelineNavigationViewModel>();
         _timelineEventHandler = new TimelineEventHandler(_timelineControl.Object, _timelineControlViewModel.Object);
@@ -54,6 +57,7 @@ public class TimelineEventHandlerTests : BaseDependencyTest
         _mouseButtonEventHandler.Verify(x => x.Setup(_timelineControl.Object), Times.Once);
         _markerEventHandler.Verify(x => x.Setup(_timelineControl.Object), Times.Once);
         _movementEventHandler.Verify(x => x.Setup(_timelineControl.Object), Times.Once);
+        _extractionMovementEventHandler.Verify(x => x.Setup(_timelineControl.Object), Times.Once);
     }
 
     [Test]

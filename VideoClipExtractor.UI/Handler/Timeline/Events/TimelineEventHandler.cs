@@ -1,5 +1,6 @@
 ﻿using BaseUI.Basics.FrameworkElementWrapper;
 using BaseUI.Services.Provider.ViewModelProvider;
+using VideoClipExtractor.UI.Handler.Timeline.Events.ExtensionMovement;
 using VideoClipExtractor.UI.Handler.Timeline.Events.MarkerEventHandler;
 using VideoClipExtractor.UI.Handler.Timeline.Events.MouseButtonEventHandler;
 using VideoClipExtractor.UI.Handler.Timeline.Events.MovementEventHandler;
@@ -38,6 +39,9 @@ public class TimelineEventHandler
 
         var movementEventHandler = dependencyProvider.GetDependency<ITimelineMovementEventHandler>();
         movementEventHandler.Setup(timelineControl);
+
+        var extractionMovementEventHandler = dependencyProvider.GetDependency<IExtractionMovementEventHandler>();
+        extractionMovementEventHandler.Setup(timelineControl);
 
         var viewModelProvider = dependencyProvider.GetDependency<IViewModelProvider>();
         _timelineNavigationViewModel = viewModelProvider.GetViewModel<ITimelineNavigationViewModel>();

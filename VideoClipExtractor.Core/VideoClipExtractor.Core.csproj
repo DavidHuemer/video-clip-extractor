@@ -18,6 +18,7 @@
 
     <ItemGroup>
         <Folder Include="Handler\VideoProvider\"/>
+        <Folder Include="Managers\TimelineManager\"/>
     </ItemGroup>
 
 </Project>

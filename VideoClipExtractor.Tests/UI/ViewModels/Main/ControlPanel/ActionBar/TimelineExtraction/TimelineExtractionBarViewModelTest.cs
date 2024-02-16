@@ -31,8 +31,11 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
         _videoNavigationViewModelMock.SetupGet(x => x.VideoPosition)
             .Returns(new VideoPosition(30));
         _viewModel.AddImageExtraction.Execute(null);
-        Assert.AreEqual(1, _viewModel.Video!.ImageExtractions.Count);
-        Assert.AreEqual(30, _viewModel.Video.ImageExtractions[0].VideoPosition.Frame);
+        Assert.Multiple(() =>
+        {
+            Assert.That(_viewModel.Video!.ImageExtractions.Count, Is.EqualTo(1));
+            Assert.That(_viewModel.Video.ImageExtractions[0].Position.Frame, Is.EqualTo(30));
+        });
     }
 
     [Test]
@@ -48,8 +51,11 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
             .Returns(new VideoPosition(30));
 
         _viewModel.AddImageExtraction.Execute(null);
-        Assert.AreEqual(5, _viewModel.Video!.ImageExtractions.Count);
-        Assert.AreEqual(30, _viewModel.Video.ImageExtractions[2].VideoPosition.Frame);
+        Assert.Multiple(() =>
+        {
+            Assert.That(_viewModel.Video!.ImageExtractions.Count, Is.EqualTo(5));
+            Assert.That(_viewModel.Video.ImageExtractions[2].Position.Frame, Is.EqualTo(30));
+        });
     }
 
     [Test]
@@ -62,7 +68,10 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
             .Returns(new VideoPosition(30));
 
         _viewModel.AddImageExtraction.Execute(null);
-        Assert.AreEqual(2, _viewModel.Video!.ImageExtractions.Count);
-        Assert.AreEqual(30, _viewModel.Video.ImageExtractions[1].VideoPosition.Frame);
+        Assert.Multiple(() =>
+        {
+            Assert.That(_viewModel.Video!.ImageExtractions.Count, Is.EqualTo(2));
+            Assert.That(_viewModel.Video.ImageExtractions[1].Position.Frame, Is.EqualTo(30));
+        });
     }
 }

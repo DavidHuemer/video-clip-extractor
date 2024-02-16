@@ -22,4 +22,8 @@
         <Compile Remove="Converters\VideoConverters\TimelineConverters\MovementToLinesConverter.cs"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Managers\Timeline\"/>
+    </ItemGroup>
+
 </Project>

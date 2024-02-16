@@ -5,5 +5,15 @@ namespace VideoClipExtractor.Data.Extractions;
 
 public class VideoExtractionPartViewModel(VideoPosition videoPosition) : BaseExtractionViewModel
 {
-    public VideoPosition VideoPosition { get; set; } = videoPosition;
+    private VideoPosition _position = videoPosition;
+
+    public override VideoPosition Position
+    {
+        get => _position;
+        set
+        {
+            _position = value;
+            OnPropertyChanged();
+        }
+    }
 }

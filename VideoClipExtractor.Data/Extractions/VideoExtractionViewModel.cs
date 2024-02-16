@@ -11,6 +11,20 @@ public class VideoExtractionViewModel : BaseExtractionViewModel, IExtractionView
         End = new VideoExtractionPartViewModel(end);
     }
 
+    //public override VideoPosition Position => Begin.Position;
+
+    public override VideoPosition Position
+    {
+        get => Begin.Position;
+        set
+        {
+            var oldPosition = Begin.Position;
+
+            Begin.Position = value;
+            End.Position = new VideoPosition(End.Position.Frame - oldPosition.Frame + value.Frame);
+        }
+    }
+
     public override void SetupSelection(Action<IExtractionViewModel> selectionCallback)
     {
         base.SetupSelection(selectionCallback);
@@ -24,6 +38,8 @@ public class VideoExtractionViewModel : BaseExtractionViewModel, IExtractionView
     public VideoExtractionPartViewModel Begin { get; set; }
 
     public VideoExtractionPartViewModel End { get; set; }
+
+    public int FrameCount => End.Position.Frame - Begin.Position.Frame;
 
     #endregion
 }

@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
 using BaseUI.ViewModels;
+using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.Data.Extractions.Basics;
 
@@ -20,6 +21,8 @@ public abstract class BaseExtractionViewModel : BaseViewModel, IExtractionViewMo
             OnPropertyChanged();
         }
     }
+
+    public abstract VideoPosition Position { get; set; }
 
     public virtual void SetupSelection(Action<IExtractionViewModel> selectionCallback)
     {
