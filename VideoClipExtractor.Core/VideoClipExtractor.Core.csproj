@@ -8,12 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\FFMpeg.Wrapper\FFMpeg.Wrapper.csproj"/>
         <ProjectReference Include="..\VideoClipExtractor.Data\VideoClipExtractor.Data.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2023.3.0"/>
         <PackageReference Include="MediaDevices" Version="1.10.0"/>
+        <PackageReference Include="xFFmpeg.NET" Version="7.2.0"/>
     </ItemGroup>
 
     <ItemGroup>

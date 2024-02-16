@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoClipExtractor.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoClipExtractor.Core", "VideoClipExtractor.Core\VideoClipExtractor.Core.csproj", "{5A8E6BE8-D2DE-48BE-8E21-5B3CBE76EA0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFMpeg.Wrapper", "FFMpeg.Wrapper\FFMpeg.Wrapper.csproj", "{4740E16E-D969-43DB-AA9B-D9E3019D43AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{5A8E6BE8-D2DE-48BE-8E21-5B3CBE76EA0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A8E6BE8-D2DE-48BE-8E21-5B3CBE76EA0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A8E6BE8-D2DE-48BE-8E21-5B3CBE76EA0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4740E16E-D969-43DB-AA9B-D9E3019D43AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4740E16E-D969-43DB-AA9B-D9E3019D43AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4740E16E-D969-43DB-AA9B-D9E3019D43AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4740E16E-D969-43DB-AA9B-D9E3019D43AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
