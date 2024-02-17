@@ -35,6 +35,18 @@ public class VideoPlayerNavigationViewModel : BaseViewModel, IVideoPlayerNavigat
 
     #endregion
 
+    private void AccessNext()
+    {
+        if (VideoExplorer.SelectedIndex < VideoExplorer.Videos.Count - 1)
+        {
+            VideoExplorer.SelectedIndex++;
+        }
+        else
+        {
+            _videoProviderManager.Next();
+        }
+    }
+
     #region Commands
 
     public ICommand Previous => new RelayCommand<string>(DoPrevious,
@@ -47,7 +59,7 @@ public class VideoPlayerNavigationViewModel : BaseViewModel, IVideoPlayerNavigat
     private void DoSkip(string? obj)
     {
         VideoExplorer.SelectedVideo!.VideoStatus = Data.Videos.VideoStatus.Skipped;
-        _videoProviderManager.Next();
+        AccessNext();
     }
 
     public ICommand Finish => new RelayCommand<string>(DoFinish, _ => VideoExplorer.SelectedVideo != null);
@@ -55,7 +67,7 @@ public class VideoPlayerNavigationViewModel : BaseViewModel, IVideoPlayerNavigat
     private void DoFinish(string? obj)
     {
         VideoExplorer.SelectedVideo!.VideoStatus = Data.Videos.VideoStatus.ReadyForExport;
-        _videoProviderManager.Next();
+        AccessNext();
     }
 
     #endregion

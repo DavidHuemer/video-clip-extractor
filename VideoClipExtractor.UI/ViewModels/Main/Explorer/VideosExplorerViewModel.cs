@@ -30,7 +30,7 @@ public class VideosExplorerViewModel : BaseViewModel, IVideosExplorerViewModel
         var videoViewModel = new VideoViewModel(e.Video);
 
         Videos.Add(videoViewModel);
-        SelectedVideo ??= videoViewModel;
+        SelectedVideo = videoViewModel;
     }
 
     #region Properties

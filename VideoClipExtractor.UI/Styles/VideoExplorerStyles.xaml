@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:videos="clr-namespace:VideoClipExtractor.Data.Videos;assembly=VideoClipExtractor.Data"
+                    xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+                    xmlns:explorerConverters="clr-namespace:VideoClipExtractor.UI.Converters.VideoConverters.ExplorerConverters"
+                    xmlns:videoData="clr-namespace:VideoClipExtractor.Data.Videos;assembly=VideoClipExtractor.Data">
+
+    <explorerConverters:VideoStatusToIconConverter x:Key="VideoStatusToIconConverter" />
+
+    <Style TargetType="ListBoxItem" x:Key="VideosExplorerListItemContainerStyle"
+           BasedOn="{StaticResource {x:Type ListBoxItem}}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+
+    <DataTemplate x:Key="VideoTemplate" DataType="{x:Type videos:VideoViewModel}">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{Binding Name}" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Stretch" />
+
+            <materialIcons:MaterialIcon x:Name="Icon" Grid.Column="1" Width="20" Height="20"
+                                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        Kind="{Binding VideoStatus, Converter={StaticResource VideoStatusToIconConverter}}"
+                                        Foreground="Red" />
+        </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding VideoStatus}" Value="{x:Static videoData:VideoStatus.Unset}">
+                <Setter TargetName="Icon" Property="Foreground" Value="White" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding VideoStatus}" Value="{x:Static videoData:VideoStatus.Skipped}">
+                <Setter TargetName="Icon" Property="Foreground" Value="Green" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding VideoStatus}" Value="{x:Static videoData:VideoStatus.ReadyForExport}">
+                <Setter TargetName="Icon" Property="Foreground" Value="Green" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

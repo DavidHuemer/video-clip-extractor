@@ -25,10 +25,10 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal">
-        <Button>
+        <Button Command="{Binding Previous}">
             <StackPanel Orientation="Horizontal">
                 <wpf:MaterialIcon Kind="PreviousTitle" />
-                <Label Content="Previos" />
+                <Label Content="Previous" />
             </StackPanel>
         </Button>
 
@@ -39,7 +39,7 @@
             </StackPanel>
         </Button>
 
-        <Button>
+        <Button Command="{Binding Finish}">
             <StackPanel Orientation="Horizontal">
                 <wpf:MaterialIcon Kind="Check" />
                 <Label Content="Finish" />

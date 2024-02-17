@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Collections.ObjectModel;
+using Moq;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Tests.Basics.BaseTests;
@@ -63,9 +64,10 @@ public class VideoPlayerNavigationViewModelTests : BaseViewModelTest
     public void SkipCommandSetsVideoStatusToSkipped()
     {
         var video = VideoExamples.GetVideoViewModelExample();
+        SetupSelectedVideo(video);
+        SetupVideos(5);
+        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(0);
 
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
-            .Returns(video);
         _viewModel.Skip.Execute(null);
 
         Assert.That(video.VideoStatus, Is.EqualTo(VideoStatus.Skipped));
@@ -74,12 +76,23 @@ public class VideoPlayerNavigationViewModelTests : BaseViewModelTest
     [Test]
     public void SkipCommandCallsVideoProviderManagerNext()
     {
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
-            .Returns(VideoExamples.GetVideoViewModelExample());
+        SetupSelectedVideo(VideoExamples.GetVideoViewModelExample());
+        SetupVideos(2);
+        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(1);
         _viewModel.Skip.Execute(null);
-
         _videoProviderManagerMock.Verify(m => m.Next());
     }
+
+    [Test]
+    public void SkipCommandNavigatesToNextVideo()
+    {
+        SetupSelectedVideo(VideoExamples.GetVideoViewModelExample());
+        SetupVideos(5);
+        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(1);
+        _viewModel.Skip.Execute(null);
+        _videosExplorerViewModelMock.VerifySet(m => m.SelectedIndex = 2);
+    }
+
 
     [Test]
     [TestCase(false, false)]
@@ -95,21 +108,48 @@ public class VideoPlayerNavigationViewModelTests : BaseViewModelTest
     public void FinishCommandSetsVideoStatusToReadyForExport()
     {
         var video = VideoExamples.GetVideoViewModelExample();
-
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
-            .Returns(video);
+        SetupSelectedVideo(video);
+        SetupVideos(5);
+        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(1);
         _viewModel.Finish.Execute(null);
-
         Assert.That(video.VideoStatus, Is.EqualTo(VideoStatus.ReadyForExport));
     }
 
     [Test]
     public void FinishCommandCallsVideoProviderManagerNext()
     {
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
-            .Returns(VideoExamples.GetVideoViewModelExample());
+        SetupSelectedVideo(VideoExamples.GetVideoViewModelExample());
+        SetupVideos(5);
+        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(4);
         _viewModel.Finish.Execute(null);
-
         _videoProviderManagerMock.Verify(m => m.Next());
+    }
+
+    [Test]
+    public void FinishCommandNavigatesToNextVideo()
+    {
+        SetupSelectedVideo(VideoExamples.GetVideoViewModelExample());
+        SetupVideos(5);
+        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(1);
+        _viewModel.Finish.Execute(null);
+        _videosExplorerViewModelMock.VerifySet(m => m.SelectedIndex = 2);
+    }
+
+    private void SetupSelectedVideo(VideoViewModel video)
+    {
+        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
+            .Returns(video);
+    }
+
+    private void SetupVideos(int nrVideos)
+    {
+        var videos = new ObservableCollection<VideoViewModel>();
+        for (var i = 0; i < nrVideos; i++)
+        {
+            videos.Add(VideoExamples.GetVideoViewModelExample());
+        }
+
+        _videosExplorerViewModelMock.SetupGet(m => m.Videos)
+            .Returns(videos);
     }
 }

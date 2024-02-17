@@ -34,7 +34,9 @@
         </ToolBar>
 
         <ListBox Grid.Row="1" ItemsSource="{Binding Videos}"
+                 ItemContainerStyle="{StaticResource VideosExplorerListItemContainerStyle}"
+                 ItemTemplate="{StaticResource VideoTemplate}"
                  SelectedItem="{Binding SelectedVideo}"
-                 SelectedIndex="{Binding SelectedIndex}" />
+                 SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" />
     </Grid>
 </UserControl>

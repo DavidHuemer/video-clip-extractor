@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 using VideoClipExtractor.Data.Videos;
 
@@ -11,4 +12,6 @@ public interface IVideosExplorerViewModel : INotifyPropertyChanged
     public int SelectedIndex { get; set; }
 
     ICommand ExportVideos { get; }
+
+    ObservableCollection<VideoViewModel> Videos { get; }
 }

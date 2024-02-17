@@ -10,13 +10,26 @@ public class VideoViewModel : BaseViewModel
     {
         VideoStatus = video.VideoStatus;
         LocalPath = video.Path;
+        Name = video.Name;
     }
 
     #region Properties
 
-    public VideoStatus VideoStatus { get; set; }
+    private VideoStatus _videoStatus;
+
+    public VideoStatus VideoStatus
+    {
+        get => _videoStatus;
+        set
+        {
+            _videoStatus = value;
+            OnPropertyChanged();
+        }
+    }
 
     public string LocalPath { get; set; }
+
+    public string Name { get; set; }
 
     public ObservableCollection<ImageExtractionViewModel> ImageExtractions { get; } = [];
 
