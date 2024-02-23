@@ -47,7 +47,7 @@ public class VideoProvider : IVideoProvider
     private void InitVideos(Project project)
     {
         var sourceVideosList = project.Videos.ToList().OrderByDescending(sourceVideo => sourceVideo.Size)
-            .ThenBy(sourceVideo => sourceVideo.Name)
+            .ThenBy(sourceVideo => sourceVideo.FullName)
             .SkipWhile(sourceVideo => sourceVideo.Checked)
             .ToList();
 

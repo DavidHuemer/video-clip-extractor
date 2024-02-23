@@ -90,7 +90,7 @@ public class VideoCacheService : IVideoCacheService
         if (_cacheInformation == null) throw new NotSetupException(nameof(VideoCacheService), nameof(Setup));
 
         Console.WriteLine($"Caching video: {sourceVideo}");
-        var cacheVideoPath = Path.Combine(_cacheInformation.LocalCachePath, sourceVideo.Name);
+        var cacheVideoPath = Path.Combine(_cacheInformation.LocalCachePath, sourceVideo.FullName);
 
         // Check if the file already exists
         if (IsVideoCached(cacheVideoPath))

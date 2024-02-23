@@ -27,13 +27,12 @@ public class VideoViewModel : BaseViewModel
         }
     }
 
-    public string LocalPath { get; set; }
+    public string LocalPath { get; }
 
-    public string Name { get; set; }
+    public string Name { get; }
 
-    public ObservableCollection<ImageExtractionViewModel> ImageExtractions { get; } = [];
-
-    public ObservableCollection<VideoExtractionViewModel> VideoExtractions { get; } = [];
+    public ObservableCollection<ImageExtraction> ImageExtractions { get; } = [];
+    public ObservableCollection<VideoExtraction> VideoExtractions { get; } = [];
 
     #endregion
 }

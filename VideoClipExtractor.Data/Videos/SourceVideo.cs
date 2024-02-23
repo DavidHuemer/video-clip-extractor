@@ -12,33 +12,57 @@ public class SourceVideo
 {
     public SourceVideo(FileInfo file)
     {
-        Name = file.Name;
         Path = file.FullName;
-        Extension = file.Extension;
         Size = (int)file.Length;
     }
 
     [SupportedOSPlatform("windows")]
     public SourceVideo(MediaFileInfo file)
     {
-        Name = file.Name;
         Path = file.FullName;
-        Extension = file.Name.Split('.').Last();
         Size = (int)file.Length;
     }
 
-    public SourceVideo()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="path">The path to the video</param>
+    /// <param name="size">The size in bytes of the video</param>
+    public SourceVideo(string path, int size)
     {
+        Path = path;
+        Size = size;
     }
 
-    public string Name { get; set; } = "";
-    public string Path { get; set; } = "";
-    public string Extension { get; set; } = "";
-    public int Size { get; set; }
+    /// <summary>
+    /// The name of the video file together with its extension.
+    /// </summary>
+    public string FullName => System.IO.Path.GetFileName(Path);
+
+    /// <summary>
+    /// The name of the video file without its extension.
+    /// </summary>
+    public string Name => FullName.Split('.').First();
+
+    /// <summary>
+    /// The path to the video file.
+    /// </summary>
+    public string Path { get; init; }
+
+    /// <summary>
+    /// The extension of the video file.
+    /// </summary>
+    public string Extension => Path.Split('.').Last();
+
+    /// <summary>
+    /// The size in bytes of the video file.
+    /// </summary>
+    public int Size { get; init; }
+
     public bool Checked { get; set; } = false;
 
     public override string ToString()
     {
-        return $"{Name} - {Size} bytes";
+        return $"{FullName} - {Size} bytes";
     }
 }

@@ -1,16 +1,13 @@
 ﻿namespace VideoClipExtractor.Data.Videos;
 
-public class Video
+public class Video(CachedVideo cachedVideo)
 {
-    public Video(CachedVideo cachedVideo)
-    {
-        Path = cachedVideo.LocalPath;
-        Name = cachedVideo.SourceVideo.Name;
-    }
+    public string Path { get; } = cachedVideo.LocalPath;
 
-    public string Path { get; set; }
+    public string FullName => cachedVideo.SourceVideo.FullName;
 
-    public string Name { get; set; }
+    public string Name => cachedVideo.SourceVideo.Name;
+
 
     public VideoStatus VideoStatus { get; set; } = VideoStatus.Unset;
 }
