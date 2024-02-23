@@ -67,4 +67,12 @@ public class FileServiceTest
         _fileService.CreateDirectory(directoryPath);
         Assert.IsTrue(Directory.Exists(directoryPath));
     }
+
+    [Test]
+    public void GetFileSize()
+    {
+        var filePath = _tempFolder.GetFilePath("file.txt");
+        File.WriteAllText(filePath, "test");
+        Assert.AreEqual(4, _fileService.GetFileSize(filePath));
+    }
 }

@@ -10,4 +10,10 @@ public class FileService : IFileService
     public bool DirectoryExists(string path) => Directory.Exists(path);
     public string GetTmpFolder() => Path.GetTempPath();
     public void CreateDirectory(string extractionFolderPath) => Directory.CreateDirectory(extractionFolderPath);
+
+    public int GetFileSize(string path)
+    {
+        var fileInfo = new FileInfo(path);
+        return (int)fileInfo.Length;
+    }
 }
