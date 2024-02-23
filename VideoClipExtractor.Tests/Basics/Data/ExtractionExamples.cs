@@ -29,4 +29,20 @@ public static class ExtractionExamples
 
         return extraction;
     }
+
+    public static IEnumerable<ImageExtraction> GetImageExtractionExamples(int nrExtractions)
+    {
+        for (var i = 0; i < nrExtractions; i++)
+        {
+            yield return GetImageExtractionExample($"ImageExtraction{i}", i * 30);
+        }
+    }
+
+    public static IEnumerable<VideoExtraction> GetVideoExtractionExamples(int nrExtractions)
+    {
+        for (var i = 0; i < nrExtractions; i++)
+        {
+            yield return GetVideoExtractionExample($"VideoExtraction{i}", i * 30, i * 60);
+        }
+    }
 }

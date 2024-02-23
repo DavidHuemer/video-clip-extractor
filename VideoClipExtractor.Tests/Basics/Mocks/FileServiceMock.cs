@@ -19,4 +19,9 @@ public class FileServiceMock : Mock<IFileService>
     {
         Setup(f => f.DirectoryExists(cImages)).Returns(b);
     }
+
+    public void SetupGetFileSize(string path, int size)
+    {
+        Setup(f => f.GetFileSize(path)).Returns(size);
+    }
 }

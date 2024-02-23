@@ -27,6 +27,11 @@ public class TestFolder
         return Path.Combine(FolderPath, fileName);
     }
 
+    public string GetFolderPath(string folderName)
+    {
+        return Path.Combine(FolderPath, folderName);
+    }
+
     public void RemoveFolder()
     {
         if (Directory.Exists(FolderPath))
