@@ -3,12 +3,12 @@ using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.Data.Extractions;
 
-public class VideoExtractionViewModel : BaseExtractionViewModel, IExtractionViewModel
+public class VideoExtraction : BaseExtractionViewModel, IExtraction
 {
-    public VideoExtractionViewModel(VideoPosition begin, VideoPosition end)
+    public VideoExtraction(VideoPosition begin, VideoPosition end)
     {
-        Begin = new VideoExtractionPartViewModel(begin);
-        End = new VideoExtractionPartViewModel(end);
+        Begin = new VideoExtractionPart(begin);
+        End = new VideoExtractionPart(end);
     }
 
     //public override VideoPosition Position => Begin.Position;
@@ -35,9 +35,21 @@ public class VideoExtractionViewModel : BaseExtractionViewModel, IExtractionView
 
     #region Properties
 
-    public VideoExtractionPartViewModel Begin { get; set; }
+    private string _name = "";
 
-    public VideoExtractionPartViewModel End { get; set; }
+    public string Name
+    {
+        get => _name;
+        set
+        {
+            _name = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public VideoExtractionPart Begin { get; set; }
+
+    public VideoExtractionPart End { get; set; }
 
     public int FrameCount => End.Position.Frame - Begin.Position.Frame;
 

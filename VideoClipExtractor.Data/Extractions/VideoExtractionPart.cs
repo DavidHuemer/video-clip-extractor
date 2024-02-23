@@ -3,9 +3,9 @@ using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.Data.Extractions;
 
-public class ImageExtractionViewModel(VideoPosition position) : BaseExtractionViewModel
+public class VideoExtractionPart(VideoPosition videoPosition) : BaseExtractionViewModel
 {
-    private VideoPosition _position = position;
+    private VideoPosition _position = videoPosition;
 
     public override VideoPosition Position
     {
