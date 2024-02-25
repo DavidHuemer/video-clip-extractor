@@ -34,6 +34,12 @@ public class SourceVideo
         Size = size;
     }
 
+    public SourceVideo()
+    {
+        Path = string.Empty;
+        Size = 0;
+    }
+
     /// <summary>
     /// The name of the video file together with its extension.
     /// </summary>

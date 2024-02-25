@@ -9,7 +9,9 @@ namespace BaseUI.Services.Provider.ViewModelProvider;
 /// </summary>
 public interface IViewModelProvider
 {
-    void AddSingletonViewModel<TInterface, TViewModel>() where TViewModel : BaseViewModel, TInterface;
+    void AddSingleton<TInterface, TViewModel>() where TViewModel : BaseViewModel, TInterface;
 
-    TInterface GetViewModel<TInterface>();
+    void AddTransient<TInterface, TViewModel>() where TViewModel : BaseViewModel, TInterface;
+
+    TInterface Get<TInterface>() where TInterface : class;
 }

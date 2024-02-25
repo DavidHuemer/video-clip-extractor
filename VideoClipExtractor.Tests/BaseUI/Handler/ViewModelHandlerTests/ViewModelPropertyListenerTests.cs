@@ -4,7 +4,7 @@ namespace VideoClipExtractor.Tests.BaseUI.Handler.ViewModelHandlerTests;
 
 public class ViewModelPropertyListenerTests
 {
-    private static readonly string[] propertyNames = new[] { "NotExistingProperty" };
+    private static readonly string[] PropertyNames = new[] { "NotExistingProperty" };
     private ExampleViewModel _viewModel = null!;
     private ViewModelPropertyListener _viewModelPropertyListener = null!;
 
@@ -96,7 +96,7 @@ public class ViewModelPropertyListenerTests
         var result = false;
         var callBack = new Action(() => { result = true; });
 
-        ViewModelPropertyListener.AddPropertyListener(_viewModel, propertyNames,
+        ViewModelPropertyListener.AddPropertyListener(_viewModel, PropertyNames,
             callBack);
         _viewModel.ExampleProperty = "Test";
         Assert.That(result, Is.False);

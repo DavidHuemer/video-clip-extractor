@@ -5,6 +5,10 @@ namespace FFMpeg.Wrapper.Engine;
 
 public class MpegEngine(string ffMpegPath) : IMpegEngine
 {
+    public MpegEngine() : this(@"C:\Development\tools\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe")
+    {
+    }
+
     public async Task ExtractImageAsync(string inputVideoPath, string outputImagePath, TimeSpan timeSpan)
     {
         if (timeSpan < TimeSpan.Zero)

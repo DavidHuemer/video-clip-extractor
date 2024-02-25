@@ -16,7 +16,7 @@ public class TimelineExtractionSelectionManager : ITimelineExtractionSelectionMa
     public TimelineExtractionSelectionManager(IDependencyProvider provider)
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        _timelineNavigation = viewModelProvider.GetViewModel<ITimelineNavigationViewModel>();
+        _timelineNavigation = viewModelProvider.Get<ITimelineNavigationViewModel>();
     }
 
     public event EventHandler<SelectedExtractionChangedEventArgs>? SelectedExtractionChanged;

@@ -20,5 +20,6 @@ public static class BaseUiDependencies
         provider.AddTransientDependency<IDialogHostIdentifierService, DialogHostIdentifierService>();
         provider.AddTransientDependency<IFileExplorer, FileExplorer>();
         provider.AddTransientDependency<ITimeService, TimeService>();
+        provider.AddTransientDependency<IFileService, FileService>();
     }
 }

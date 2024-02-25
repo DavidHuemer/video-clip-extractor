@@ -44,7 +44,7 @@ public class TimelineEventHandler
         extractionMovementEventHandler.Setup(timelineControl);
 
         var viewModelProvider = dependencyProvider.GetDependency<IViewModelProvider>();
-        _timelineNavigationViewModel = viewModelProvider.GetViewModel<ITimelineNavigationViewModel>();
+        _timelineNavigationViewModel = viewModelProvider.Get<ITimelineNavigationViewModel>();
 
         _timelineNavigationViewModel.TimelineControlWidth = timelineControl.ActualWidth;
 

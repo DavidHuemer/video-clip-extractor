@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
@@ -14,6 +15,7 @@ namespace VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 ///     Choosing next video, export, ...
 /// </summary>
 [UsedImplicitly]
+[Singleton]
 public class VideoPlayerNavigationViewModel : BaseViewModel, IVideoPlayerNavigationViewModel
 {
     #region Private Fields
@@ -26,7 +28,7 @@ public class VideoPlayerNavigationViewModel : BaseViewModel, IVideoPlayerNavigat
     {
         _videoProviderManager = provider.GetDependency<IVideoProviderManager>();
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        VideoExplorer = viewModelProvider.GetViewModel<IVideosExplorerViewModel>();
+        VideoExplorer = viewModelProvider.Get<IVideosExplorerViewModel>();
     }
 
     #region Properties

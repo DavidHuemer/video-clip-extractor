@@ -26,7 +26,7 @@ public class VideoPositionInterrogator : IVideoPositionInterrogator
         _dispatcher.PositionDispatched += (_, _) => OnVideoPositionDispatched();
 
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        _videoNavigationViewModel = viewModelProvider.GetViewModel<IVideoNavigationViewModel>();
+        _videoNavigationViewModel = viewModelProvider.Get<IVideoNavigationViewModel>();
 
         _videoNavigationViewModel.PropertyChanged += (_, e) =>
         {

@@ -1,12 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using BaseUI.Commands;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.WindowService;
 using BaseUI.ViewModels;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Data.Videos.Events;
+using VideoClipExtractor.UI.Managers.Extraction;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
@@ -14,13 +16,17 @@ namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
 /// <summary>
 ///     The view model for the videos explorer
 /// </summary>
+[Singleton]
 public class VideosExplorerViewModel : BaseViewModel, IVideosExplorerViewModel
 {
     private readonly IDependencyProvider _provider;
+    private readonly IExtractionManager _extractionManager;
 
     public VideosExplorerViewModel(IDependencyProvider provider)
     {
         _provider = provider;
+        _extractionManager = provider.GetDependency<IExtractionManager>();
+
         var videoProviderManager = provider.GetDependency<IVideoProviderManager>();
         videoProviderManager.VideoAdded += OnVideoAdded;
     }
@@ -52,9 +58,7 @@ public class VideosExplorerViewModel : BaseViewModel, IVideosExplorerViewModel
 
     private void DoExportVideos(string? obj)
     {
-        var windowService = _provider.GetDependency<IWindowService>();
-        var videoRepositoryExplorerVm = new ExtractionWindowViewModel(_provider);
-        videoRepositoryExplorerVm.ShowDialog(windowService);
+        _extractionManager.ExtractVideos(Videos);
     }
 
     #endregion

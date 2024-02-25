@@ -23,4 +23,8 @@
         <Folder Include="Managers\TimelineManager\"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Compile Remove="Services\Extraction\ExtractionFiles\VideoExtractionFileService.cs"/>
+    </ItemGroup>
+
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.ViewModels;
 using JetBrains.Annotations;
 using VideoClipExtractor.Data.UI.Video;
@@ -8,6 +9,7 @@ using VideoClipExtractor.Data.Videos;
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
 
 [UsedImplicitly]
+[Singleton]
 public class VideoNavigationViewModel : BaseViewModel, IVideoNavigationViewModel
 {
     #region Properties

@@ -19,5 +19,5 @@ public interface IDependencyProvider
     /// </summary>
     /// <typeparam name="TInterface">The interface of the dependency that should be provided</typeparam>
     /// <returns>The provided dependency</returns>
-    TInterface GetDependency<TInterface>();
+    TInterface GetDependency<TInterface>() where TInterface : class;
 }

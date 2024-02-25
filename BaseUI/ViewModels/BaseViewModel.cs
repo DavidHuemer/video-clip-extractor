@@ -14,4 +14,15 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
+    protected void SetProperty<T>(ref T backingField, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (Equals(backingField, value))
+        {
+            return;
+        }
+
+        backingField = value;
+        OnPropertyChanged(propertyName);
+    }
 }

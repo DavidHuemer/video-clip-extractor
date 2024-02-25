@@ -75,7 +75,7 @@ public class VideoProviderTests
 
         for (var i = 0; i < nrSourceVideos; i++)
             _videoCacheServiceMock.Raise(x => x.VideoCached += null,
-                new VideoCachedEventArgs(new CachedVideo(new SourceVideo(), "")));
+                new VideoCachedEventArgs(VideoExamples.GetCachedVideoExample()));
 
         Assert.That(nrRaised, Is.EqualTo(nrVideoAdded));
     }
@@ -120,7 +120,7 @@ public class VideoProviderTests
         {
             Console.WriteLine("Hello");
             _videoCacheServiceMock.Raise(x => x.VideoCached += null,
-                new VideoCachedEventArgs(new CachedVideo(new SourceVideo(), "")));
+                new VideoCachedEventArgs(VideoExamples.GetCachedVideoExample()));
         }
 
         _videoCacheServiceMock.Invocations.Clear();
@@ -133,7 +133,7 @@ public class VideoProviderTests
         Assert.That(nrRaised, Is.EqualTo(10));
 
         _videoCacheServiceMock.Raise(x => x.VideoCached += null,
-            new VideoCachedEventArgs(new CachedVideo(new SourceVideo(), "")));
+            new VideoCachedEventArgs(VideoExamples.GetCachedVideoExample()));
 
         Assert.That(nrRaised, Is.EqualTo(11));
     }
@@ -143,7 +143,7 @@ public class VideoProviderTests
         var project = ProjectExamples.GetExampleProject();
         project.Videos = [];
 
-        for (var i = 0; i < nrSourceVideos; i++) project.Videos.Add(new SourceVideo());
+        for (var i = 0; i < nrSourceVideos; i++) project.Videos.Add(VideoExamples.GetSourceVideo());
 
         return project;
     }

@@ -1,19 +1,30 @@
-﻿namespace BaseUI.Services.Provider.DependencyInjection;
+﻿using BaseUI.Services.Provider.DependencyFinderService;
+
+namespace BaseUI.Services.Provider.DependencyInjection;
 
 public class DependencyProvider : BaseProvider, IDependencyProvider
 {
-    public DependencyProvider()
+    private readonly IDependencyFinder _dependencyFinder;
+    private readonly DependencyInstanceBuilder _instanceBuilder;
+
+    public DependencyProvider(IDependencyFinder? dependencyFinder = null)
     {
-        InstanceBuilder = new DependencyInstanceBuilder(this);
+        _instanceBuilder = new DependencyInstanceBuilder(this);
+        _dependencyFinder = dependencyFinder ?? new DependencyFinder();
     }
 
-    protected override DependencyInstanceBuilder InstanceBuilder { get; }
+    public void AddSingletonDependency<TInterface, TImplementation>() where TImplementation : class, TInterface
+        => AddSingleton<TInterface, TImplementation>();
 
     public void AddTransientDependency<TInterface, TImplementation>() where TImplementation : TInterface
-    {
-        if (TransientDependencies.ContainsKey(typeof(TInterface)))
-            TransientDependencies[typeof(TInterface)] = typeof(TImplementation);
-        else
-            TransientDependencies.Add(typeof(TInterface), typeof(TImplementation));
-    }
+        => AddTransient<TInterface, TImplementation>();
+
+    public TInterface GetDependency<TInterface>() where TInterface : class
+        => Get<TInterface>();
+
+    protected override TInterface Instantiate<TInterface>(Type t)
+        => _instanceBuilder.InstantiateType<TInterface>(t);
+
+    protected override Type? FindDependency<TInterface>()
+        => _dependencyFinder.FindDependency<TInterface>();
 }

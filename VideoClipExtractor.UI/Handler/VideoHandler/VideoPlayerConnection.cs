@@ -23,7 +23,7 @@ public class VideoPlayerConnection
         var dependencyProvider = videoPlayerViewModel.Provider;
 
         var viewModelProvider = dependencyProvider.GetDependency<IViewModelProvider>();
-        _videoNavigationViewModel = viewModelProvider.GetViewModel<IVideoNavigationViewModel>();
+        _videoNavigationViewModel = viewModelProvider.Get<IVideoNavigationViewModel>();
 
 
         SetupVideoPositionInterrogator(dependencyProvider);

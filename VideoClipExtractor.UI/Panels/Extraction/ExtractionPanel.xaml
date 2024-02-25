@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="VideoClipExtractor.UI.Panels.Extraction.ExtractionPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:VideoClipExtractor.UI.Panels.Extraction"
+             xmlns:vm="clr-namespace:VideoClipExtractor.UI.ViewModels.Extraction"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="600"
+             d:DataContext="{d:DesignInstance vm:ExtractionPanelViewModel, IsDesignTimeCreatable=False}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <local:ExtractionVideosPanel></local:ExtractionVideosPanel>
+
+        <local:ExtractionNotStartedPanel Grid.Column="1"
+                                         Visibility="{Binding ShowVisualization, Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter={x:Static Visibility.Collapsed}}" />
+
+        <local:ExtractionVisualizationPanel Grid.Column="1"
+                                            Visibility="{Binding DataContext.ShowVisualization,
+                                                            RelativeSource={RelativeSource AncestorType=Grid},
+                                                            Converter={StaticResource BooleanToVisibilityConverter}}"
+                                            DataContext="{Binding ExtractionVisualization}" />
+    </Grid>
+</UserControl>

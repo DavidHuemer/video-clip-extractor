@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
 using BaseUI.Extensions;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
@@ -15,6 +16,7 @@ using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigati
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.TimelineExtraction;
 
 [UsedImplicitly]
+[Singleton]
 public class TimelineExtractionBarViewModel : BaseViewModel, ITimelineExtractionBarViewModel
 {
     private readonly ITimelineExtractionSelectionManager _extractionSelectionManager;
@@ -24,7 +26,7 @@ public class TimelineExtractionBarViewModel : BaseViewModel, ITimelineExtraction
     public TimelineExtractionBarViewModel(IDependencyProvider provider)
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        _videoNavigationViewModel = viewModelProvider.GetViewModel<IVideoNavigationViewModel>();
+        _videoNavigationViewModel = viewModelProvider.Get<IVideoNavigationViewModel>();
         _extractionSelectionManager = provider.GetDependency<ITimelineExtractionSelectionManager>();
     }
 
@@ -37,11 +39,11 @@ public class TimelineExtractionBarViewModel : BaseViewModel, ITimelineExtraction
     private void DoAddImageExtraction(string? obj)
     {
         var pos = _videoNavigationViewModel.VideoPosition;
-        var newImageExtraction = new ImageExtractionViewModel(pos);
+        var newImageExtraction = new ImageExtraction(pos);
         newImageExtraction.SetupSelection(HandleSelection);
 
         var comparison =
-            new Comparison<ImageExtractionViewModel>((x, y) => x.Position.Frame.CompareTo(y.Position.Frame));
+            new Comparison<ImageExtraction>((x, y) => x.Position.Frame.CompareTo(y.Position.Frame));
 
         Video?.ImageExtractions.InsertSorted(newImageExtraction, comparison);
         Console.WriteLine("Image extraction added!");
@@ -52,7 +54,7 @@ public class TimelineExtractionBarViewModel : BaseViewModel, ITimelineExtraction
         var begin = _videoNavigationViewModel.VideoPosition;
         var end = new VideoPosition(begin.Frame + 30);
 
-        var newVideoExtraction = new VideoExtractionViewModel(begin, end);
+        var newVideoExtraction = new VideoExtraction(begin, end);
         newVideoExtraction.SetupSelection(HandleSelection);
 
         Video?.VideoExtractions.Add(newVideoExtraction);

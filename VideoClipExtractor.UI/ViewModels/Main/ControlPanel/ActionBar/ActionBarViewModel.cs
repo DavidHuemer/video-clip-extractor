@@ -1,4 +1,5 @@
-﻿using BaseUI.Services.Provider.DependencyInjection;
+﻿using BaseUI.Services.Provider.Attributes;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
 using JetBrains.Annotations;
 using VideoClipExtractor.Data.Videos;
@@ -8,13 +9,14 @@ using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigati
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar;
 
 [UsedImplicitly]
+[Singleton]
 public class ActionBarViewModel : IActionBarViewModel
 {
     public ActionBarViewModel(IDependencyProvider provider)
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        VideoNavigationViewModel = viewModelProvider.GetViewModel<IVideoNavigationViewModel>();
-        TimelineExtractionBarViewModel = viewModelProvider.GetViewModel<ITimelineExtractionBarViewModel>();
+        VideoNavigationViewModel = viewModelProvider.Get<IVideoNavigationViewModel>();
+        TimelineExtractionBarViewModel = viewModelProvider.Get<ITimelineExtractionBarViewModel>();
     }
 
     #region Properties

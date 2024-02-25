@@ -11,8 +11,8 @@
 
     <UserControl.Resources>
         <!-- Empty array of ImageExtractions-->
-        <x:Array x:Key="EmptyImageExtensionsArray" Type="{x:Type sys:ImageExtractionViewModel}" />
-        <x:Array x:Key="EmptyVideoExtensionsArray" Type="{x:Type sys:VideoExtractionViewModel}" />
+        <x:Array x:Key="EmptyImageExtensionsArray" Type="{x:Type sys:ImageExtraction}" />
+        <x:Array x:Key="EmptyVideoExtensionsArray" Type="{x:Type sys:VideoExtraction}" />
 
     </UserControl.Resources>
 

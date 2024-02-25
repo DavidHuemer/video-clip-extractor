@@ -1,9 +1,11 @@
-﻿using BaseUI.ViewModels;
+﻿using BaseUI.Services.Provider.Attributes;
+using BaseUI.ViewModels;
 using VideoClipExtractor.Data.UI.Timeline;
 using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineNavigation;
 
+[Singleton]
 public class TimelineNavigationViewModel : BaseViewModel, ITimelineNavigationViewModel
 {
     public VideoPosition VideoPosition { get; set; } = new(0);

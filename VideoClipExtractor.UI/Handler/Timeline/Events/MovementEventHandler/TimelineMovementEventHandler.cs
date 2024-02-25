@@ -23,7 +23,7 @@ public class TimelineMovementEventHandler : ITimelineMovementEventHandler
     public TimelineMovementEventHandler(IDependencyProvider provider)
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        _timelineNavigationViewModel = viewModelProvider.GetViewModel<ITimelineNavigationViewModel>();
+        _timelineNavigationViewModel = viewModelProvider.Get<ITimelineNavigationViewModel>();
         _mouseCursorHandler = provider.GetDependency<IMouseCursorHandler>();
     }
 

@@ -29,7 +29,7 @@ public class ExtractionMovementEventHandler : IExtractionMovementEventHandler
     public ExtractionMovementEventHandler(IDependencyProvider provider)
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        _timelineNavigationViewModel = viewModelProvider.GetViewModel<ITimelineNavigationViewModel>();
+        _timelineNavigationViewModel = viewModelProvider.Get<ITimelineNavigationViewModel>();
 
         _timelineExtractionSelection = provider.GetDependency<ITimelineExtractionSelectionManager>();
         _timelineExtractionSelection.SelectedExtractionChanged += OnSelectedExtractionChanged;

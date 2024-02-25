@@ -1,4 +1,5 @@
 ﻿using BaseUI.Services.Dialogs;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.WindowService;
@@ -14,6 +15,7 @@ using VideoClipExtractor.UI.ViewModels.Menu;
 
 namespace VideoClipExtractor.UI.ViewModels.WindowViewModels;
 
+[Singleton]
 public class MainWindowViewModel : WindowViewModel
 {
     #region Private Fields

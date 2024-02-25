@@ -17,7 +17,7 @@ public class TimelineZoomEventHandler : ITimelineZoomEventHandler
     public TimelineZoomEventHandler(IDependencyProvider provider)
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        _timelineNavigation = viewModelProvider.GetViewModel<ITimelineNavigationViewModel>();
+        _timelineNavigation = viewModelProvider.Get<ITimelineNavigationViewModel>();
         _timelinePositionHandler = provider.GetDependency<ITimelinePositionHandler>();
     }
 

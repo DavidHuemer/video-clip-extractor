@@ -7,7 +7,7 @@ public class ViewModelProviderMock : Mock<IViewModelProvider>
 {
     public void AddViewModel<TDependency>(Mock<TDependency> mock) where TDependency : class
     {
-        Setup(m => m.GetViewModel<TDependency>()).Returns(mock.Object);
+        Setup(m => m.Get<TDependency>()).Returns(mock.Object);
     }
 
     public Mock<TViewModel> CreateViewModelMock<TViewModel>() where TViewModel : class

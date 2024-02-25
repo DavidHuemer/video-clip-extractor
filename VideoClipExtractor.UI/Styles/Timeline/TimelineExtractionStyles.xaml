@@ -60,7 +60,7 @@
                     Converter={StaticResource WidthToCenterMarginConverter}}" />
     </Style>
 
-    <DataTemplate x:Key="TimelineExtractionTemplate" DataType="{x:Type extractions:ImageExtractionViewModel}">
+    <DataTemplate x:Key="TimelineExtractionTemplate" DataType="{x:Type extractions:ImageExtraction}">
         <Grid>
             <Grid.Margin>
                 <MultiBinding Converter="{StaticResource FrameToMarginConverter}">
@@ -112,7 +112,7 @@
     </Style>
 
     <DataTemplate x:Key="TimelineVideoExtractionTemplate"
-                  DataType="{x:Type extractions:VideoExtractionViewModel}">
+                  DataType="{x:Type extractions:VideoExtraction}">
         <Grid Height="18">
             <Grid.Margin>
                 <MultiBinding Converter="{StaticResource FrameToMarginConverter}">

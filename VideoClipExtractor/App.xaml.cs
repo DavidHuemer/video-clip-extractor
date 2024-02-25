@@ -2,12 +2,18 @@
 using BaseUI.Basics.MouseCursorHandler;
 using BaseUI.Services.FileServices;
 using BaseUI.Services.Provider.DependencyInjection;
-using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.WindowService;
+using FFMpeg.Wrapper.Engine;
 using VideoClipExtractor.Core.Managers.ProjectManager;
 using VideoClipExtractor.Core.Managers.VideoManager;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
+using VideoClipExtractor.Core.Services.Extraction;
+using VideoClipExtractor.Core.Services.Extraction.ExtractionNames;
+using VideoClipExtractor.Core.Services.Extraction.ExtractionVerificationService;
+using VideoClipExtractor.Core.Services.Extraction.FileExtractionService;
+using VideoClipExtractor.Core.Services.Extraction.ImageExtractions;
+using VideoClipExtractor.Core.Services.Extraction.VideoExtractions;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Core.Services.RecentlyOpened;
 using VideoClipExtractor.Core.Services.VideoCaching;
@@ -25,10 +31,9 @@ using VideoClipExtractor.UI.Handler.Timeline.Events.MovementEventHandler;
 using VideoClipExtractor.UI.Handler.Timeline.Events.ZoomEventHandler;
 using VideoClipExtractor.UI.Handler.Timeline.TimelineVisualizationHandler;
 using VideoClipExtractor.UI.Handler.VideoHandler.PositionInterrogator;
+using VideoClipExtractor.UI.Managers.Extraction;
 using VideoClipExtractor.UI.Managers.Timeline.SelectionManager;
 using VideoClipExtractor.UI.Services.FileServices;
-using VideoClipExtractor.UI.ViewModels.Main.Explorer;
-using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels;
 using VideoClipExtractor.UI.Windows;
 
@@ -68,6 +73,7 @@ public partial class App
         SetupTimeline(dependencyProvider);
         SetupViewModels(dependencyProvider);
         SetupWindows(dependencyProvider);
+        SetupExtraction(dependencyProvider);
 
         new MainWindowViewModel(dependencyProvider).Show(dependencyProvider.GetDependency<IWindowService>());
     }
@@ -93,9 +99,9 @@ public partial class App
 
     private void SetupViewModels(IDependencyProvider provider)
     {
-        var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        viewModelProvider.AddSingletonViewModel<IVideosExplorerViewModel, VideosExplorerViewModel>();
-        viewModelProvider.AddSingletonViewModel<IVideoPlayerNavigationViewModel, VideoPlayerNavigationViewModel>();
+        //var viewModelProvider = provider.GetDependency<IViewModelProvider>();
+        //viewModelProvider.AddSingletonViewModel<IVideosExplorerViewModel, VideosExplorerViewModel>();
+        //viewModelProvider.AddSingletonViewModel<IVideoPlayerNavigationViewModel, VideoPlayerNavigationViewModel>();
     }
 
     private void SetupTimeline(IDependencyProvider provider)
@@ -111,5 +117,17 @@ public partial class App
         provider.AddSingletonDependency<IExtractionMovementEventHandler, ExtractionMovementEventHandler>();
 
         provider.AddTransientDependency<IFramesVisualizationHandler, FrameVisualizationHandler>();
+    }
+
+    private void SetupExtraction(IDependencyProvider provider)
+    {
+        provider.AddTransientDependency<IExtractionManager, ExtractionManager>();
+        provider.AddTransientDependency<IFileExtractionService, FileExtractionService>();
+        provider.AddTransientDependency<IExtractionNameService, ExtractionNameService>();
+        provider.AddTransientDependency<IExtractionVerificationService, ExtractionVerificationService>();
+        provider.AddTransientDependency<IMpegEngine, MpegEngine>();
+        provider.AddTransientDependency<IExtractionService, ExtractionService>();
+        provider.AddTransientDependency<IVideoExtractionService, VideoExtractionService>();
+        provider.AddTransientDependency<IImageExtractionService, ImageExtractionService>();
     }
 }

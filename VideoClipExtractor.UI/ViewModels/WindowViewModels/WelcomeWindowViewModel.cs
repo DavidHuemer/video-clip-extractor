@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
 using BaseUI.Services.FileServices;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
@@ -10,6 +11,7 @@ using VideoClipExtractor.UI.ViewModels.WelcomeViewModels;
 
 namespace VideoClipExtractor.UI.ViewModels.WindowViewModels;
 
+[Singleton]
 public class WelcomeWindowViewModel : WindowViewModel
 {
     public WelcomeWindowViewModel(IDependencyProvider provider)

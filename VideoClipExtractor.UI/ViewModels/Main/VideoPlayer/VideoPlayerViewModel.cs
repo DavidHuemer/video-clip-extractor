@@ -1,4 +1,5 @@
 ﻿using BaseUI.Handler.ViewModelHandler;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
@@ -9,15 +10,16 @@ using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 
+[Singleton]
 public class VideoPlayerViewModel : BaseViewModel, IVideoPlayerViewModel
 {
     public VideoPlayerViewModel(IDependencyProvider provider)
     {
         Provider = provider;
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        VideoPlayerNavigationVm = viewModelProvider.GetViewModel<IVideoPlayerNavigationViewModel>();
-        ExplorerViewModel = viewModelProvider.GetViewModel<IVideosExplorerViewModel>();
-        ControlPanelViewModel = viewModelProvider.GetViewModel<IControlPanelViewModel>();
+        VideoPlayerNavigationVm = viewModelProvider.Get<IVideoPlayerNavigationViewModel>();
+        ExplorerViewModel = viewModelProvider.Get<IVideosExplorerViewModel>();
+        ControlPanelViewModel = viewModelProvider.Get<IControlPanelViewModel>();
 
         var listener = new ViewModelPropertyListener(ExplorerViewModel);
         listener.AddPropertyListener(nameof(IVideosExplorerViewModel.SelectedVideo),

@@ -5,6 +5,18 @@
     <Compile Update="Controls\Timeline\TimelineContent.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Panels\Extraction\ExtractionNotStartedPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Panels\Extraction\ExtractionResultPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Panels\Extraction\ExtractionVisualizationPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Panels\Extraction\RunningExtractionPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Panels\MainControlPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -23,6 +35,18 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Timeline\TimelineContent.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Panels\Extraction\ExtractionNotStartedPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Panels\Extraction\ExtractionResultPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Panels\Extraction\ExtractionVisualizationPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Panels\Extraction\RunningExtractionPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Panels\MainControlPanel.xaml">

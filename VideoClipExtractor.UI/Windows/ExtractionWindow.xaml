@@ -11,7 +11,10 @@
         FontFamily="{materialDesign:MaterialDesignFont}"
         xmlns:windowVm="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels"
         mc:Ignorable="d"
+        xmlns:extractionPanels="clr-namespace:VideoClipExtractor.UI.Panels.Extraction"
         Title="ExtractionWindow" Height="450" Width="800"
         d:DataContext="{d:DesignInstance Type=windowVm:ExtractionWindowViewModel}">
-    <Grid />
+    <Grid>
+        <extractionPanels:ExtractionPanel DataContext="{Binding ExtractionViewModel}" />
+    </Grid>
 </Window>

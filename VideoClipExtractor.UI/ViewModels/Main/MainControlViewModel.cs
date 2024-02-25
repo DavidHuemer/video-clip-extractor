@@ -14,7 +14,7 @@ public class MainControlViewModel : BaseViewModel
     public MainControlViewModel(IDependencyProvider provider)
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        ExplorerVm = viewModelProvider.GetViewModel<IVideosExplorerViewModel>();
+        ExplorerVm = viewModelProvider.Get<IVideosExplorerViewModel>();
         VideoPlayerVm = new VideoPlayerViewModel(provider);
     }
 

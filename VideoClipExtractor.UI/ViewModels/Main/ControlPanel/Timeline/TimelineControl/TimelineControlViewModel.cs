@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
@@ -13,15 +14,16 @@ using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineContro
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl;
 
 [UsedImplicitly]
+[Singleton]
 public class TimelineControlViewModel : BaseViewModel, ITimelineControlViewModel
 {
     public TimelineControlViewModel(IDependencyProvider provider)
     {
         Provider = provider;
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        VideoNavigation = viewModelProvider.GetViewModel<IVideoNavigationViewModel>();
-        TimelineNavigationViewModel = viewModelProvider.GetViewModel<ITimelineNavigationViewModel>();
-        TimelineExtractionsViewModel = viewModelProvider.GetViewModel<ITimelineExtractionsViewModel>();
+        VideoNavigation = viewModelProvider.Get<IVideoNavigationViewModel>();
+        TimelineNavigationViewModel = viewModelProvider.Get<ITimelineNavigationViewModel>();
+        TimelineExtractionsViewModel = viewModelProvider.Get<ITimelineExtractionsViewModel>();
 
 
         var frameVisualizationHandler = provider.GetDependency<IFramesVisualizationHandler>();

@@ -20,13 +20,13 @@ public class TimelineMarkerEventHandler : ITimelineMarkerEventHandler
     private readonly IVideoPositionService _videoPositionService;
 
     private IFrameworkElement? _timelineControl;
-    private bool isMoving;
+    private bool _isMoving;
 
     public TimelineMarkerEventHandler(IDependencyProvider provider)
     {
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        _timelineNavigationViewModel = viewModelProvider.GetViewModel<ITimelineNavigationViewModel>();
-        _videoNavigationViewModel = viewModelProvider.GetViewModel<IVideoNavigationViewModel>();
+        _timelineNavigationViewModel = viewModelProvider.Get<ITimelineNavigationViewModel>();
+        _videoNavigationViewModel = viewModelProvider.Get<IVideoNavigationViewModel>();
 
         _videoPositionService = provider.GetDependency<IVideoPositionService>();
         _timelineFrameWidthHandler = provider.GetDependency<ITimelineFrameWidthHandler>();
@@ -40,18 +40,18 @@ public class TimelineMarkerEventHandler : ITimelineMarkerEventHandler
 
     public void StartMarkerMovement(Point position)
     {
-        isMoving = true;
+        _isMoving = true;
         UpdateMarkerPosition(position);
     }
 
     public void StopMarkerMovement()
     {
-        isMoving = false;
+        _isMoving = false;
     }
 
     private void OnTimelineMouseMove(object? sender, MouseEventArgsWrapper e)
     {
-        if (!isMoving || _timelineControl == null) return;
+        if (!_isMoving || _timelineControl == null) return;
 
         if (_videoNavigationViewModel.PlayStatus == PlayStatus.Playing)
             _videoNavigationViewModel.PlayStatus = PlayStatus.Paused;

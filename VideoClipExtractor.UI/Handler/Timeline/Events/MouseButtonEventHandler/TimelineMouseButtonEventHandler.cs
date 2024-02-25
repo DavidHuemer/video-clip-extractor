@@ -26,7 +26,7 @@ public class TimelineMouseButtonEventHandler(IDependencyProvider provider) : ITi
 
     private readonly ITimelineNavigationViewModel _timelineNavigationViewModel = provider
         .GetDependency<IViewModelProvider>()
-        .GetViewModel<ITimelineNavigationViewModel>();
+        .Get<ITimelineNavigationViewModel>();
 
     private IFrameworkElement? _timelineControl;
 

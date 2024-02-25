@@ -42,10 +42,10 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
     public void ImageExtractionIsAddedAtCorrectPosition()
     {
         _viewModel.Video = VideoExamples.GetVideoViewModelExample();
-        _viewModel.Video.ImageExtractions.Add(new ImageExtractionViewModel(new VideoPosition(20)));
-        _viewModel.Video.ImageExtractions.Add(new ImageExtractionViewModel(new VideoPosition(29)));
-        _viewModel.Video.ImageExtractions.Add(new ImageExtractionViewModel(new VideoPosition(31)));
-        _viewModel.Video.ImageExtractions.Add(new ImageExtractionViewModel(new VideoPosition(50)));
+        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(20)));
+        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(29)));
+        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(31)));
+        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(50)));
 
         _videoNavigationViewModelMock.SetupGet(x => x.VideoPosition)
             .Returns(new VideoPosition(30));
@@ -62,7 +62,7 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
     public void ImageExtractionCanBeAddedAtLastPosition()
     {
         _viewModel.Video = VideoExamples.GetVideoViewModelExample();
-        _viewModel.Video.ImageExtractions.Add(new ImageExtractionViewModel(new VideoPosition(20)));
+        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(20)));
 
         _videoNavigationViewModelMock.SetupGet(x => x.VideoPosition)
             .Returns(new VideoPosition(30));
