@@ -1,4 +1,5 @@
 ﻿using VideoClipExtractor.Data.Extractions.Basics;
+using VideoClipExtractor.Data.Extractions.Results;
 using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.Data.Extractions;
@@ -46,6 +47,8 @@ public class VideoExtraction : BaseExtractionViewModel, IExtraction
             OnPropertyChanged();
         }
     }
+
+    public ExtractionResult? Result { get; set; }
 
     public VideoExtractionPart Begin { get; set; }
 
