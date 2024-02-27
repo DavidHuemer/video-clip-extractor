@@ -10,4 +10,9 @@ public static class ExtractionResultExamples
     {
         return new ExtractionResult(Name, "This is a success message.", true);
     }
+
+    public static object? GetFailureResultExample()
+    {
+        return new ExtractionResult(Name, "This is a failure message.", false);
+    }
 }
