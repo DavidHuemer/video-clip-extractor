@@ -1,24 +1,47 @@
 ﻿namespace VideoClipExtractor.Data.Extractions.Results;
 
+/// <summary>
+/// The extraction result of a single extraction (image or video)
+/// </summary>
 public class ExtractionResult
 {
-    public ExtractionResult(Exception exception, string name = "")
+    public ExtractionResult(Exception exception, string path = "")
     {
-        Name = name;
+        Path = path;
         Success = false;
         Message = exception.Message;
     }
 
-    public ExtractionResult(string name, string message, bool success)
+    public ExtractionResult(string path)
     {
-        Name = name;
+        Path = path;
+        Success = true;
+    }
+
+    public ExtractionResult(string path, string message, bool success)
+    {
+        Path = path;
         Success = success;
         Message = message;
     }
 
-    public string Name { get; set; }
+    /// <summary>
+    /// The path to the extracted file
+    /// </summary>
+    public string Path { get; set; }
 
+    /// <summary>
+    /// The name of the extracted file
+    /// </summary>
+    public string Name => Path.Split('\\').Last();
+
+    /// <summary>
+    /// If the extraction was successful
+    /// </summary>
     public bool Success { get; set; }
 
-    public string Message { get; set; }
+    /// <summary>
+    /// The message of the extraction
+    /// </summary>
+    public string Message { get; } = string.Empty;
 }
