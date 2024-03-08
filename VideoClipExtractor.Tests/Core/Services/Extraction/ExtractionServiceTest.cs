@@ -1,11 +1,10 @@
 ﻿using Moq;
 using VideoClipExtractor.Core.Services.Extraction;
-using VideoClipExtractor.Core.Services.Extraction.FileExtractionService;
-using VideoClipExtractor.Data.Exceptions.ExtractionExceptions;
-using VideoClipExtractor.Data.Videos;
+using VideoClipExtractor.Core.Services.Extraction.Cleanup;
+using VideoClipExtractor.Core.Services.Extraction.ExtractionRunnerService;
+using VideoClipExtractor.Core.Services.Extraction.VideoValidationService;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
-using VideoClipExtractor.Tests.Basics.Mocks;
 
 namespace VideoClipExtractor.Tests.Core.Services.Extraction;
 
@@ -13,80 +12,99 @@ namespace VideoClipExtractor.Tests.Core.Services.Extraction;
 [TestOf(typeof(ExtractionService))]
 public class ExtractionServiceTest : BaseDependencyTest
 {
-    private FileServiceMock _fileService = null!;
-    private Mock<IFileExtractionService> _fileExtractionService = null!;
+    private Mock<IVideoValidationService> _videoValidationService = null!;
+    private Mock<IExtractionRunnerService> _extractionRunnerService = null!;
+    private Mock<IVideoCleanupService> _videoCleanupService = null!;
 
     private ExtractionService _extractionService = null!;
 
     public override void Setup()
     {
         base.Setup();
-        _fileService = new FileServiceMock();
-        DependencyMock.AddMockDependency(_fileService);
-        _fileExtractionService = DependencyMock.CreateMockDependency<IFileExtractionService>();
+        _videoValidationService = DependencyMock.CreateMockDependency<IVideoValidationService>();
+        _extractionRunnerService = DependencyMock.CreateMockDependency<IExtractionRunnerService>();
+        _videoCleanupService = DependencyMock.CreateMockDependency<IVideoCleanupService>();
         _extractionService = new ExtractionService(DependencyMock.Object);
     }
 
-
     [Test]
-    [TestCase(VideoStatus.Unset)]
-    [TestCase(VideoStatus.Skipped)]
-    [TestCase(VideoStatus.Exported)]
-    public void ExtractVideoWithoutReadyThrowsNotReadyException(VideoStatus videoStatus)
+    public async Task VideoValidationServiceIsCalledWithVideo()
     {
         var video = VideoExamples.GetVideoViewModelExample();
-        video.VideoStatus = videoStatus;
-
-        Assert.ThrowsAsync<VideoNotReadyForExportException>(() => _extractionService.Extract(video));
-    }
-
-    [Test]
-    public void ExtractNotExistingVideoThrowsFileNotFoundException()
-    {
-        _fileService.Setup(x => x.FileExists(It.IsAny<string>())).Returns(false);
-        var video = VideoExamples.GetVideoViewModelExample();
-        video.VideoStatus = VideoStatus.ReadyForExport;
-        Assert.ThrowsAsync<FileNotFoundException>(() => _extractionService.Extract(video));
-    }
-
-    [Test]
-    public async Task ExtractIsCalledForEachExtraction()
-    {
-        var video = VideoExamples.GetVideoViewModelExample();
-        video.VideoStatus = VideoStatus.ReadyForExport;
-
-        _fileService.Setup(x => x.FileExists(It.IsAny<string>())).Returns(true);
-
-        var imageExtractions = ExtractionExamples.GetImageExtractionExamples(5).ToList();
-        imageExtractions.ForEach(x => video.ImageExtractions.Add(x));
-
-        var videoExtractions = ExtractionExamples.GetVideoExtractionExamples(5).ToList();
-        videoExtractions.ForEach(x => video.VideoExtractions.Add(x));
-
         await _extractionService.Extract(video);
-
-        imageExtractions.ForEach(imageExtraction =>
-            _fileExtractionService.Verify(y => y.Extract(video, imageExtraction), Times.Once));
-
-        videoExtractions.ForEach(videoExtraction =>
-            _fileExtractionService.Verify(y => y.Extract(video, videoExtraction), Times.Once));
+        _videoValidationService.Verify(x => x.ValidateVideoForExtraction(video), Times.Once);
     }
 
-    // [Test]
-    // public void StartImageExtractionsIsInvoked()
-    // {
-    //     _fileService.Setup(x => x.Exists(It.IsAny<string>())).Returns(true);
-    //     var video = VideoExamples.GetVideoViewModelExample();
-    //     video.VideoStatus = VideoStatus.ReadyForExport;
-    //
-    //     var called = false;
-    //     _extractionService.StartImageExtractions += (_, _) => called = true;
-    //     _extractionService.Extract(video);
-    //
-    //     Assert.IsTrue(called);
-    // }
     [Test]
-    public void METHOD()
+    public async Task VideoValidationErrorReturnsFailingResult()
     {
+        var video = VideoExamples.GetVideoViewModelExample();
+        _videoValidationService.Setup(x => x.ValidateVideoForExtraction(video)).Throws<Exception>();
+
+        var result = await _extractionService.Extract(video);
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.Success);
+            Assert.That(result.ExtractionResults, Is.Empty);
+            Assert.That(result.CreatedBytes, Is.EqualTo(0));
+            Assert.That(result.SavedBytes, Is.EqualTo(0));
+            Assert.That(result.ByteDifference, Is.EqualTo(0));
+        });
+    }
+
+    [Test]
+    public async Task ExtractionRunnerServiceIsCalledWithVideo()
+    {
+        var video = VideoExamples.GetVideoViewModelExample();
+        await _extractionService.Extract(video);
+        _extractionRunnerService.Verify(x => x.ExtractVideo(video), Times.Once);
+    }
+
+    [Test]
+    public void ExtractionRunnerErrorReturnsFailingResult()
+    {
+        var video = VideoExamples.GetVideoViewModelExample();
+        _extractionRunnerService.Setup(x => x.ExtractVideo(video)).Throws<Exception>();
+
+        var result = _extractionService.Extract(video).Result;
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.Success);
+            Assert.That(result.ExtractionResults, Is.Empty);
+            Assert.That(result.CreatedBytes, Is.EqualTo(0));
+            Assert.That(result.SavedBytes, Is.EqualTo(0));
+            Assert.That(result.ByteDifference, Is.EqualTo(0));
+        });
+    }
+
+    [Test]
+    public async Task VideoCleanupServiceIsCalledWithVideoAndExtractionResults()
+    {
+        var video = VideoExamples.GetVideoViewModelExample();
+        var results = ExtractionResultExamples.GetSuccessResultExamples(4).ToList();
+
+        _extractionRunnerService.Setup(x => x.ExtractVideo(video)).ReturnsAsync(results);
+        await _extractionService.Extract(video);
+        _videoCleanupService.Verify(x => x.CleanupVideo(video, results), Times.Once);
+    }
+
+    [Test]
+    public async Task VideoCleanupErrorReturnsFailingResult()
+    {
+        var video = VideoExamples.GetVideoViewModelExample();
+        var results = ExtractionResultExamples.GetSuccessResultExamples(4).ToList();
+
+        _extractionRunnerService.Setup(x => x.ExtractVideo(video)).ReturnsAsync(results);
+        _videoCleanupService.Setup(x => x.CleanupVideo(video, results)).Throws<Exception>();
+
+        var result = await _extractionService.Extract(video);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.ExtractionResults.Count(), Is.EqualTo(results.Count));
+            Assert.That(result.ExtractionResults, Is.EqualTo(results));
+            Assert.IsFalse(result.Success);
+            Assert.That(result.CreatedBytes, Is.GreaterThan(0));
+        });
     }
 }

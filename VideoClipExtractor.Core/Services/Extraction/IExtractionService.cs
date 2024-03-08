@@ -1,4 +1,5 @@
-﻿using VideoClipExtractor.Data.Videos;
+﻿using VideoClipExtractor.Data.Extractions.Results;
+using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Core.Services.Extraction;
 
@@ -7,11 +8,10 @@ namespace VideoClipExtractor.Core.Services.Extraction;
 /// </summary>
 public interface IExtractionService
 {
-    event EventHandler? StartImageExtractions;
-
     /// <summary>
-    /// Extracts images and videos from the given video.
+    /// Extracts images and videos from a video file and returns the video extraction result.
     /// </summary>
-    /// <param name="video">The video out of which the images and videos should be extracted</param>
-    Task Extract(VideoViewModel video);
+    /// <param name="video">The video that should be extracted</param>
+    /// <returns>The result of the video extraction</returns>
+    Task<VideoExtractionResult> Extract(VideoViewModel video);
 }

@@ -1,46 +1,55 @@
-﻿using System.IO;
-using BaseUI.Services.FileServices;
+﻿using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
-using JetBrains.Annotations;
-using VideoClipExtractor.Core.Services.Extraction.FileExtractionService;
-using VideoClipExtractor.Data.Exceptions.ExtractionExceptions;
-using VideoClipExtractor.Data.Extractions.Basics;
+using VideoClipExtractor.Core.Services.Extraction.Cleanup;
+using VideoClipExtractor.Core.Services.Extraction.ExtractionRunnerService;
+using VideoClipExtractor.Core.Services.Extraction.VideoValidationService;
+using VideoClipExtractor.Data.Extractions.Results;
 using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Core.Services.Extraction;
 
-[UsedImplicitly]
+[Singleton]
 public class ExtractionService(IDependencyProvider provider) : IExtractionService
 {
-    private readonly IFileExtractionService _fileExtractionService = provider.GetDependency<IFileExtractionService>();
-    private readonly IFileService _fileService = provider.GetDependency<IFileService>();
+    private readonly IExtractionRunnerService _extractionRunnerService =
+        provider.GetDependency<IExtractionRunnerService>();
 
-    public event EventHandler? StartImageExtractions;
+    private readonly IVideoCleanupService _videoCleanupService =
+        provider.GetDependency<IVideoCleanupService>();
 
-    public async Task Extract(VideoViewModel video)
+    private readonly IVideoValidationService _videoValidationService =
+        provider.GetDependency<IVideoValidationService>();
+
+    public async Task<VideoExtractionResult> Extract(VideoViewModel video)
     {
-        ValidateVideo(video);
-        await ExtractExtractions(video);
-    }
-
-    private void ValidateVideo(VideoViewModel video)
-    {
-        if (video.VideoStatus != VideoStatus.ReadyForExport)
-            throw new VideoNotReadyForExportException(video.VideoStatus);
-
-        if (_fileService.FileExists(video.LocalPath) == false)
-            throw new FileNotFoundException(video.LocalPath);
-    }
-
-    private async Task ExtractExtractions(VideoViewModel video)
-    {
-        IEnumerable<IExtraction> imageExtractions = video.ImageExtractions.ToList();
-        IEnumerable<IExtraction> videoExtractions = video.VideoExtractions.ToList();
-        var extractions = imageExtractions.Concat(videoExtractions);
-
-        foreach (var extraction in extractions)
+        try
         {
-            await _fileExtractionService.Extract(video, extraction);
+            _videoValidationService.ValidateVideoForExtraction(video);
+            return await RunExtraction(video);
+        }
+        catch (Exception e)
+        {
+            return new VideoExtractionResult(e);
+        }
+    }
+
+    private async Task<VideoExtractionResult> RunExtraction(VideoViewModel video)
+    {
+        var extractionResults = await _extractionRunnerService
+            .ExtractVideo(video);
+
+        return CleanupVideo(video, extractionResults);
+    }
+
+    private VideoExtractionResult CleanupVideo(VideoViewModel video, List<ExtractionResult> extractionResults)
+    {
+        try
+        {
+            return _videoCleanupService.CleanupVideo(video, extractionResults);
+        }
+        catch (Exception e)
+        {
+            return new VideoExtractionResult(e, extractionResults);
         }
     }
 }
