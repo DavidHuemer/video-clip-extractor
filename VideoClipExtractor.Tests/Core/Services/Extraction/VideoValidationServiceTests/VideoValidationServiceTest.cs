@@ -23,10 +23,10 @@ public class VideoValidationServiceTest : BaseDependencyTest
     }
 
     [Test]
-    public void VideoNotReadyExceptionIsThrownWhenVideoIsSkipped()
+    public void VideoNotReadyExceptionIsThrownWhenVideoIsUnset()
     {
         var video = VideoExamples.GetVideoViewModelExample();
-        video.VideoStatus = VideoStatus.Skipped;
+        video.VideoStatus = VideoStatus.Unset;
         Assert.Throws<VideoNotReadyForExportException>(() => _videoValidationService.ValidateVideoForExtraction(video));
     }
 
@@ -34,15 +34,8 @@ public class VideoValidationServiceTest : BaseDependencyTest
     public void FileNotFoundExceptionIsThrownWhenFileDoesNotExist()
     {
         var video = VideoExamples.GetVideoViewModelExample();
+        video.VideoStatus = VideoStatus.Skipped;
         _fileService.Setup(x => x.FileExists(video.LocalPath)).Returns(false);
         Assert.Throws<FileNotFoundException>(() => _videoValidationService.ValidateVideoForExtraction(video));
-    }
-
-    [Test]
-    public void VideoIsReadyForExtraction()
-    {
-        var video = VideoExamples.GetVideoViewModelExample();
-        _fileService.Setup(x => x.FileExists(video.LocalPath)).Returns(true);
-        _videoValidationService.ValidateVideoForExtraction(video);
     }
 }

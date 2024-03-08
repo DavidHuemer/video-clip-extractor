@@ -30,12 +30,16 @@ public static class ExtractionResultExamples
         return new VideoExtractionResult([GetSuccessResultExample()]);
     }
 
-    public static IEnumerable<VideoExtractionResult> GetSuccessVideoExtractionResultExamples(int nrExtractions)
+    public static List<VideoExtractionResult> GetSuccessVideoExtractionResultExamples(int nrExtractions)
     {
+        var results = new List<VideoExtractionResult>();
+
         for (var i = 0; i < nrExtractions; i++)
         {
-            yield return new VideoExtractionResult([GetSuccessResultExample()]);
+            results.Add(new VideoExtractionResult([GetSuccessResultExample()], 150));
         }
+
+        return results;
     }
 
     public static VideoExtractionResult GetFailureVideoExtractionResultExample(
@@ -46,6 +50,6 @@ public static class ExtractionResultExamples
 
     public static ExtractionProcessResult GetSuccessExtractionProcessResultExample()
     {
-        return new ExtractionProcessResult([]);
+        return new ExtractionProcessResult(GetSuccessVideoExtractionResultExamples(5));
     }
 }

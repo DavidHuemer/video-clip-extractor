@@ -3,14 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:VideoClipExtractor.UI.Panels.Extraction"
-             xmlns:vm="clr-namespace:VideoClipExtractor.UI.ViewModels.Extraction"
+             xmlns:vm="clr-namespace:VideoClipExtractor.UI.ViewModels.DesignInstances.Extraction"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance vm:ExtractionPanelViewModel, IsDesignTimeCreatable=False}">
+             d:DesignHeight="500" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance vm:ExtractionPanelViewModelDesignInstance, IsDesignTimeCreatable=True}">
     <Grid>
-        <ListBox ItemsSource="{Binding Videos}" IsHitTestVisible="{Binding ExtractionFinished}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        </ListBox>
+        <ListBox ItemsSource="{Binding Videos}"
+                 SelectedItem="{Binding ExtractionNavigation.CurrentVideo, Mode=TwoWay}"
+                 IsHitTestVisible="{Binding ExtractionFinished}"
+                 ItemTemplate="{StaticResource VideoExtractionTemplate}"
+                 ItemContainerStyle="{StaticResource VideoItemContainerStyle}" />
+
+        <Button Content="Extract" Grid.Row="1"
+                Command="{Binding ExtractCommand}" Margin="10" />
     </Grid>
 </UserControl>

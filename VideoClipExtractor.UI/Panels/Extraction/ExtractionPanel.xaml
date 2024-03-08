@@ -4,26 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:VideoClipExtractor.UI.Panels.Extraction"
-             xmlns:vm="clr-namespace:VideoClipExtractor.UI.ViewModels.Extraction"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:vm="clr-namespace:VideoClipExtractor.UI.ViewModels.DesignInstances.Extraction"
+             xmlns:extractionVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Extraction"
+             xmlns:extractionVisualizationVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Extraction.ExtractionVisualization"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="600"
-             d:DataContext="{d:DesignInstance vm:ExtractionPanelViewModel, IsDesignTimeCreatable=False}">
+             d:DesignHeight="500" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance vm:ExtractionPanelViewModelDesignInstance, IsDesignTimeCreatable=True}">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type extractionVm:ExtractionPanelViewModel}">
+            <local:ExtractionNotStartedPanel />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type extractionVisualizationVm:ExtractionVisualizationViewModel}">
+            <local:ExtractionVisualizationPanel />
+        </DataTemplate>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="300" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <local:ExtractionVideosPanel></local:ExtractionVideosPanel>
+        <local:ExtractionVideosPanel />
 
-        <local:ExtractionNotStartedPanel Grid.Column="1"
-                                         Visibility="{Binding ShowVisualization, Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter={x:Static Visibility.Collapsed}}" />
-
-        <local:ExtractionVisualizationPanel Grid.Column="1"
-                                            Visibility="{Binding DataContext.ShowVisualization,
-                                                            RelativeSource={RelativeSource AncestorType=Grid},
-                                                            Converter={StaticResource BooleanToVisibilityConverter}}"
-                                            DataContext="{Binding ExtractionVisualization}" />
+        <ContentControl Grid.Column="1" Content="{Binding ActiveViewModel}" />
     </Grid>
 </UserControl>

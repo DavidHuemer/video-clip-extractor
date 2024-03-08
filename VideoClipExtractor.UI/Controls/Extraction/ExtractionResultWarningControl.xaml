@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="VideoClipExtractor.UI.Controls.Extraction.ExtractionResultWarningControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:VideoClipExtractor.UI.Controls.Extraction"
+             mc:Ignorable="d" 
+             d:DesignWidth="380">
+
+    <UserControl.Resources>
+        <Style x:Key="SideIcon" TargetType="{x:Type materialIcons:MaterialIcon}" BasedOn="{StaticResource {x:Type materialIcons:MaterialIcon}}">
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <materialDesign:Card>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <materialIcons:MaterialIcon Grid.Column="0" Kind="Warning" Style="{StaticResource SideIcon}"/>
+
+            <TextBlock TextWrapping="WrapWithOverflow" Grid.Column="1" Padding="0,10" VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Text="{Binding Message, RelativeSource={RelativeSource AncestorType={x:Type local:ExtractionResultWarningControl}}}"/>
+
+            <materialIcons:MaterialIcon Grid.Column="2" Kind="Warning" Style="{StaticResource SideIcon}"/>
+        </Grid>
+    </materialDesign:Card>
+</UserControl>

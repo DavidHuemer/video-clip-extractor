@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+                    xmlns:baseExtractions="clr-namespace:VideoClipExtractor.Data.Extractions.Basics;assembly=VideoClipExtractor.Data"
+                    xmlns:extractionConverters="clr-namespace:VideoClipExtractor.UI.Converters.ExtractionConverters">
+
+    <extractionConverters:ExtractionTypeToIconConverter x:Key="ExtractionTypeToIconConverter"/>
+    <extractionConverters:ExtractionNameToTextConverter x:Key="ExtractionNameToTextConverter"/>
+    <extractionConverters:ExtractionResultToIconConverter x:Key="ExtractionResultToIconConverter"/>
+
+    <Style x:Key="ExtractionIcon" TargetType="{x:Type materialIcons:MaterialIcon}" BasedOn="{StaticResource {x:Type materialIcons:MaterialIcon}}">
+        <Setter Property="Margin" Value="10"/>
+    </Style>
+    
+    <DataTemplate x:Key="ExtractionTemplate" DataType="{x:Type baseExtractions:IExtraction}">
+        <Grid Height="40">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <materialIcons:MaterialIcon x:Name="ExtractionTypeIcon" Style="{StaticResource ExtractionIcon}"
+                                        Kind="{Binding Converter={StaticResource ExtractionTypeToIconConverter}}" />
+
+            <Label Grid.Column="1" 
+                   Content="{Binding Converter={StaticResource ExtractionNameToTextConverter}}"
+                   VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+            <materialIcons:MaterialIcon Grid.Column="2" Style="{StaticResource ExtractionIcon}"
+                                        Kind="{Binding Converter={StaticResource ExtractionResultToIconConverter}}"/>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -23,46 +23,56 @@ public class ExtractionPanelViewModelTest : BaseViewModelTest
     }
 
     [Test]
+    public void ActiveViewModelIsSetToItselfAtBeginning()
+    {
+        Assert.That(_viewModel.ActiveViewModel, Is.SameAs(_viewModel));
+    }
+
+    [Test]
     public void ExtractCommandNotAllowedAtBeginning()
     {
         Assert.IsFalse(_viewModel.ExtractCommand.CanExecute(null));
     }
 
     [Test]
-    public void ShowVisualizationIsFalseAtBeginning()
+    public void ExtractCommandNotAllowedWhenVideosAreEmpty()
     {
-        Assert.IsFalse(_viewModel.ShowVisualization);
+        _viewModel.SetupExtraction(new List<VideoViewModel>());
+        Assert.IsFalse(_viewModel.ExtractCommand.CanExecute(null));
     }
 
     [Test]
     public void ExtractCommandAllowedWhenVideosAreAdded()
     {
-        var videos = GetVideos();
+        var videos = VideoExamples.GetRealisticVideoViewModels();
         _viewModel.SetupExtraction(videos);
         Assert.IsTrue(_viewModel.ExtractCommand.CanExecute(null));
     }
 
     [Test]
-    public void ShowVisualizationIsFalseWhenVideosAreAdded()
+    public void SetupExtractionSetsVideosCorrectly()
     {
-        var videos = GetVideos();
+        var videos = VideoExamples.GetRealisticVideoViewModels().ToList();
         _viewModel.SetupExtraction(videos);
-        Assert.IsFalse(_viewModel.ShowVisualization);
+
+        // Assert that only videos are set to the Videos Property that are not unset (VideoStatus Property)
+        Assert.That(_viewModel.Videos, Is.EquivalentTo(videos.Where(video => video.VideoStatus != VideoStatus.Unset)));
     }
 
     [Test]
-    public void ShowVisualizationIsTrueWhenExtractionStarted()
+    public void ActiveViewModelIsSetToVisualizationWhenExtracting()
     {
-        var videos = GetVideos();
+        var videos = VideoExamples.GetRealisticVideoViewModels().ToList();
         _viewModel.SetupExtraction(videos);
         _viewModel.ExtractCommand.Execute(null);
-        Assert.IsTrue(_viewModel.ShowVisualization);
+
+        Assert.That(_viewModel.ActiveViewModel, Is.SameAs(_extractionVisualizationViewModelMock.Object));
     }
 
     [Test]
     public void ExtractExtractsVideos()
     {
-        var videos = GetVideos();
+        var videos = VideoExamples.GetRealisticVideoViewModels();
         _viewModel.SetupExtraction(videos);
 
         _viewModel.ExtractCommand.Execute(null);
@@ -75,25 +85,11 @@ public class ExtractionPanelViewModelTest : BaseViewModelTest
     [Test]
     public void ExtractionFinishedTrueWhenExtractionFinished()
     {
-        var videos = GetVideos();
+        var videos = VideoExamples.GetRealisticVideoViewModels();
         _viewModel.SetupExtraction(videos);
 
         _viewModel.ExtractCommand.Execute(null);
 
         Assert.IsTrue(_viewModel.ExtractionFinished);
-    }
-
-    private static List<VideoViewModel> GetVideos()
-    {
-        var videos = new List<VideoViewModel>
-        {
-            VideoExamples.GetVideoViewModelExample(),
-            VideoExamples.GetVideoViewModelExample(),
-            VideoExamples.GetVideoViewModelExample(),
-        };
-
-        videos[0].VideoStatus = VideoStatus.ReadyForExport;
-        videos[1].VideoStatus = VideoStatus.ReadyForExport;
-        return videos;
     }
 }

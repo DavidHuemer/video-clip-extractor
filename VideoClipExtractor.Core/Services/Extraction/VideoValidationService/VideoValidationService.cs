@@ -14,7 +14,7 @@ public class VideoValidationService(IDependencyProvider provider) : IVideoValida
 
     public void ValidateVideoForExtraction(VideoViewModel video)
     {
-        if (video.VideoStatus == VideoStatus.Skipped)
+        if (video.VideoStatus == VideoStatus.Unset)
             throw new VideoNotReadyForExportException(video.VideoStatus);
 
         if (_fileService.FileExists(video.LocalPath) == false)

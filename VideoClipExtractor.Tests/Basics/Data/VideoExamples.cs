@@ -33,4 +33,39 @@ public static class VideoExamples
     {
         return new SourceVideo(SourcePath, 1048);
     }
+
+    public static IEnumerable<VideoViewModel> GetExampleVideos(int nrVideos)
+    {
+        var videos = new List<VideoViewModel>();
+        for (var i = 0; i < nrVideos; i++)
+        {
+            videos.Add(GetVideoViewModelExample());
+        }
+
+        return videos;
+    }
+
+    public static IEnumerable<VideoViewModel> GetRealisticVideoViewModels()
+    {
+        var videos = GetExampleVideos(8).ToList();
+        videos[0].ImageExtractions.Add(ExtractionExamples.GetImageExtractionExample());
+        videos[0].VideoStatus = VideoStatus.ReadyForExport;
+
+        videos[1].ImageExtractions.Add(ExtractionExamples.GetImageExtractionExample());
+        videos[1].ImageExtractions.Add(ExtractionExamples.GetImageExtractionExample("", 50));
+        videos[1].VideoStatus = VideoStatus.ReadyForExport;
+
+        videos[2].ImageExtractions.Add(ExtractionExamples.GetImageExtractionExample());
+        videos[2].VideoStatus = VideoStatus.Skipped;
+
+        videos[3].VideoExtractions.Add(ExtractionExamples.GetVideoExtractionExample());
+        videos[3].VideoStatus = VideoStatus.ReadyForExport;
+
+        videos[4].VideoStatus = VideoStatus.Skipped;
+
+        videos[5].ImageExtractions.Add(ExtractionExamples.GetImageExtractionExample());
+        videos[5].VideoStatus = VideoStatus.Unset;
+
+        return videos;
+    }
 }
