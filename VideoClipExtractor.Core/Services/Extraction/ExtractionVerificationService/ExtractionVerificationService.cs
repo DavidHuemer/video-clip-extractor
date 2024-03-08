@@ -30,4 +30,15 @@ public class ExtractionVerificationService(IDependencyProvider provider) : IExtr
             return new ExtractionResult(e, path);
         }
     }
+
+    public void ValidateExtractionResults(IEnumerable<ExtractionResult> extractions) =>
+        extractions.ToList().ForEach(ValidateExtractionResult);
+
+    private void ValidateExtractionResult(ExtractionResult extraction)
+    {
+        if (!extraction.Success) throw new Exception("Extraction failed");
+
+        if (!_fileService.FileExists(extraction.Path))
+            throw new FileNotFoundException(extraction.Path);
+    }
 }

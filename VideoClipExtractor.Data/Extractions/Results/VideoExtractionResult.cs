@@ -5,11 +5,12 @@
 /// </summary>
 public class VideoExtractionResult
 {
-    public VideoExtractionResult(List<ExtractionResult> extractionResults)
+    public VideoExtractionResult(List<ExtractionResult> extractionResults, long savedBytes = 0)
     {
         var failedExtractions = extractionResults.Where(e => !e.Success).ToList();
         Success = failedExtractions.Count == 0;
         ExtractionResults = extractionResults;
+        SavedBytes = savedBytes;
 
         if (failedExtractions.Count == 0)
         {
@@ -38,6 +39,11 @@ public class VideoExtractionResult
     }
 
     /// <summary>
+    /// The amount of bytes that were saved by the extractions
+    /// </summary>
+    public long SavedBytes { get; set; }
+
+    /// <summary>
     /// Whether the extraction of the video was successful
     /// </summary>
     public bool Success { get; set; }
@@ -51,4 +57,15 @@ public class VideoExtractionResult
     /// The results of the extractions of the video
     /// </summary>
     public IEnumerable<ExtractionResult> ExtractionResults { get; }
+
+    /// <summary>
+    /// The amount of bytes that were stored by the extractions
+    /// </summary>
+    public long CreatedBytes => ExtractionResults.Sum(e => e.Bytes);
+
+    /// <summary>
+    /// The difference between the saved and stored bytes.
+    /// <para>In other words, the result of the extraction</para>
+    /// </summary>
+    public long ByteDifference => SavedBytes - CreatedBytes;
 }

@@ -1,5 +1,8 @@
-﻿using VideoClipExtractor.Core.Services.Extraction.ExtractionVerificationService;
+﻿using Moq;
+using VideoClipExtractor.Core.Services.Extraction.ExtractionVerificationService;
+using VideoClipExtractor.Data.Extractions.Results;
 using VideoClipExtractor.Tests.Basics.BaseTests;
+using VideoClipExtractor.Tests.Basics.Data;
 using VideoClipExtractor.Tests.Basics.Mocks;
 
 namespace VideoClipExtractor.Tests.Core.Services.Extraction.ExtractionVerificationServiceTests;
@@ -70,5 +73,34 @@ public class ExtractionVerificationServiceTest : BaseDependencyTest
             Assert.That(result.Bytes, Is.EqualTo(40));
             Assert.That(result.Message, Is.Empty);
         });
+    }
+
+    [Test]
+    public void ValidateExtractionsWithFailedExtractionsThrowsException()
+    {
+        var extractionResults = new List<ExtractionResult>
+        {
+            ExtractionResultExamples.GetSuccessResultExample(),
+            ExtractionResultExamples.GetFailureResultExample(),
+            ExtractionResultExamples.GetSuccessResultExample(),
+        };
+
+        _fileServiceMock.Setup(x => x.FileExists(It.IsAny<string>())).Returns(true);
+        Assert.Throws<Exception>(() => _extractionVerificationService.ValidateExtractionResults(extractionResults));
+    }
+
+    [Test]
+    public void ValidateExtractionsWithNotExistingThrowsException()
+    {
+        var extractionResults = new List<ExtractionResult>
+        {
+            ExtractionResultExamples.GetSuccessResultExample(),
+            ExtractionResultExamples.GetSuccessResultExample(),
+            ExtractionResultExamples.GetSuccessResultExample(),
+        };
+
+        _fileServiceMock.Setup(x => x.FileExists(It.IsAny<string>())).Returns(false);
+        Assert.Throws<FileNotFoundException>(() =>
+            _extractionVerificationService.ValidateExtractionResults(extractionResults));
     }
 }

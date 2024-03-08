@@ -10,4 +10,6 @@ public interface IExtractionVerificationService
     /// <param name="path">The path to the extraction</param>
     /// <returns>If the extraction was successfully</returns>
     ExtractionResult CheckExtraction(string path);
+
+    void ValidateExtractionResults(IEnumerable<ExtractionResult> extractions);
 }
