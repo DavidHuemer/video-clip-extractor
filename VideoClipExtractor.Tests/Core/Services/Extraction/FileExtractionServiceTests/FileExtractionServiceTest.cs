@@ -50,13 +50,56 @@ public class FileExtractionServiceTest : BaseDependencyTest
     }
 
     [Test]
-    public async Task ExceptionThrown()
+    public async Task ImageExtractionErrorReturnsFailedResult()
+    {
+        var videoViewModel = VideoExamples.GetVideoViewModelExample();
+        var imageExtraction = ExtractionExamples.GetImageExtractionExample();
+
+        _imageExtractionService.Setup(x => x.Extract(videoViewModel, imageExtraction))
+            .ThrowsAsync(new Exception("Test"));
+
+        var result = await _fileExtractionService.Extract(videoViewModel, imageExtraction);
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.Success);
+            Assert.That(result.Path, Is.Empty);
+            Assert.That(result.Bytes, Is.EqualTo(0));
+            Assert.That(result.Message, Is.EqualTo("Test"));
+        });
+    }
+
+    [Test]
+    public async Task VideoExtractionErrorReturnsFailedResult()
+    {
+        var videoViewModel = VideoExamples.GetVideoViewModelExample();
+        var videoExtraction = ExtractionExamples.GetVideoExtractionExample();
+
+        _videoExtractionService.Setup(x => x.Extract(videoViewModel, videoExtraction))
+            .ThrowsAsync(new Exception("Test"));
+
+        var result = await _fileExtractionService.Extract(videoViewModel, videoExtraction);
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.Success);
+            Assert.That(result.Path, Is.Empty);
+            Assert.That(result.Bytes, Is.EqualTo(0));
+            Assert.That(result.Message, Is.EqualTo("Test"));
+        });
+    }
+
+    [Test]
+    public async Task UnknownExtractionReturnsFailedResult()
     {
         var videoViewModel = VideoExamples.GetVideoViewModelExample();
 
-        var extractionMock = new Mock<IExtraction>();
+        var videoExtractionMock = new Mock<IExtraction>();
 
-        Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
-            _fileExtractionService.Extract(videoViewModel, extractionMock.Object));
+        var result = await _fileExtractionService.Extract(videoViewModel, videoExtractionMock.Object);
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.Success);
+            Assert.That(result.Path, Is.Empty);
+            Assert.That(result.Bytes, Is.EqualTo(0));
+        });
     }
 }
