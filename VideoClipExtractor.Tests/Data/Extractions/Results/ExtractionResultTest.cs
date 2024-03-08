@@ -41,7 +41,7 @@ public class ExtractionResultTest
     [Test]
     public void ExtractionResultWithPathCreatesCorrectExtractionResult()
     {
-        var result = new ExtractionResult(ExtractionPath);
+        var result = new ExtractionResult(ExtractionPath, 40);
 
         Assert.Multiple(() =>
         {

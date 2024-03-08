@@ -12,10 +12,11 @@ public class ExtractionResult
         Message = exception.Message;
     }
 
-    public ExtractionResult(string path)
+    public ExtractionResult(string path, long bytes)
     {
         Path = path;
         Success = true;
+        Bytes = bytes;
     }
 
     public ExtractionResult(string path, string message, bool success)
@@ -44,4 +45,9 @@ public class ExtractionResult
     /// The message of the extraction
     /// </summary>
     public string Message { get; } = string.Empty;
+
+    /// <summary>
+    /// How many bytes the extracted file has
+    /// </summary>
+    public long Bytes { get; }
 }

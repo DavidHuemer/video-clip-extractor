@@ -9,14 +9,14 @@ public static class ExtractionResultExamples
 
     public static ExtractionResult GetSuccessResultExample()
     {
-        return new ExtractionResult(Path);
+        return new ExtractionResult(Path, 40);
     }
 
     public static IEnumerable<ExtractionResult> GetSuccessResultExamples(int nrExtractions)
     {
         for (var i = 0; i < nrExtractions; i++)
         {
-            yield return new ExtractionResult(Path);
+            yield return GetSuccessResultExample();
         }
     }
 

@@ -1,69 +1,55 @@
 ﻿using FFMpeg.Wrapper.Engine;
 using Moq;
-using VideoClipExtractor.Core.Services.Extraction.ExtractionNames;
-using VideoClipExtractor.Core.Services.Extraction.ExtractionVerificationService;
 using VideoClipExtractor.Core.Services.Extraction.VideoExtractions;
-using VideoClipExtractor.Data.Exceptions.ExtractionExceptions;
-using VideoClipExtractor.Tests.Basics.BaseTests;
+using VideoClipExtractor.Data.Extractions;
 using VideoClipExtractor.Tests.Basics.Data;
 
 namespace VideoClipExtractor.Tests.Core.Services.Extraction.VideoExtractions;
 
 [TestFixture]
 [TestOf(typeof(VideoExtractionService))]
-public class VideoExtractionServiceTest : BaseDependencyTest
+public class VideoExtractionServiceTest : BaseExtractionServiceTest
 {
-    private Mock<IExtractionNameService> _extractionNameService = null!;
     private Mock<IMpegEngine> _mpegEngine = null!;
-    private Mock<IExtractionVerificationService> _extractionVerificationService = null!;
+    private VideoExtraction _videoExtraction = null!;
     private VideoExtractionService _videoExtractionService = null!;
 
     public override void Setup()
     {
         base.Setup();
-        _extractionNameService = DependencyMock.CreateMockDependency<IExtractionNameService>();
         _mpegEngine = DependencyMock.CreateMockDependency<IMpegEngine>();
-        _extractionVerificationService = DependencyMock.CreateMockDependency<IExtractionVerificationService>();
+
+        _videoExtraction = ExtractionExamples.GetVideoExtractionExample();
         _videoExtractionService = new VideoExtractionService(DependencyMock.Object);
+        ExtractionPath = @"C\Output\Path\video.mp4";
     }
 
     [Test]
     public async Task VideoIsExtracted()
     {
-        var videoViewModel = VideoExamples.GetVideoViewModelExample();
-        var videoExtraction = ExtractionExamples.GetVideoExtractionExample();
+        SetupVideoPath();
+        SetupVerificationService();
 
-        _extractionNameService
-            .Setup(x => x.GetVideoPath(videoViewModel, videoExtraction))
-            .Returns(@"C\Output\Path\video.mp4");
-
-        _extractionVerificationService
-            .Setup(x => x.ExtractionSucceeded(@"C\Output\Path\video.mp4"))
-            .Returns(true);
-
-        await _videoExtractionService.Extract(videoViewModel, videoExtraction);
+        await _videoExtractionService.Extract(VideoViewModel, _videoExtraction);
 
         _mpegEngine.Verify(
-            x => x.ExtractVideoAsync(videoViewModel.LocalPath, @"C\Output\Path\video.mp4",
-                videoExtraction.Begin.Position.Duration.TimeSpan, videoExtraction.Position.Duration.TimeSpan),
+            x => x.ExtractVideoAsync(VideoViewModel.LocalPath, ExtractionPath,
+                _videoExtraction.Begin.Position.Duration.TimeSpan, _videoExtraction.Position.Duration.TimeSpan),
             Times.Once);
     }
 
     [Test]
-    public void ExtractionFailedThrowsExtractionFailedException()
+    public async Task VerificationServiceIsCalled()
     {
-        var videoViewModel = VideoExamples.GetVideoViewModelExample();
-        var videoExtraction = ExtractionExamples.GetVideoExtractionExample();
+        SetupVideoPath();
+        SetupVerificationService();
 
-        _extractionNameService
-            .Setup(x => x.GetVideoPath(videoViewModel, videoExtraction))
-            .Returns(@"C\Output\Path\video.mp4");
-
-        _extractionVerificationService
-            .Setup(x => x.ExtractionSucceeded(@"C\Output\Path\video.mp4"))
-            .Returns(false);
-
-        Assert.ThrowsAsync<ExtractionFailedException>(() =>
-            _videoExtractionService.Extract(videoViewModel, videoExtraction));
+        await _videoExtractionService.Extract(VideoViewModel, _videoExtraction);
+        ExtractionVerificationService.Verify(x => x.CheckExtraction(ExtractionPath), Times.Once);
     }
+
+    private void SetupVideoPath() =>
+        ExtractionNameService
+            .Setup(x => x.GetVideoPath(VideoViewModel, _videoExtraction))
+            .Returns(ExtractionPath);
 }

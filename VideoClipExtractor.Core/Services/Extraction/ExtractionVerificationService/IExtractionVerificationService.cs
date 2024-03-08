@@ -1,4 +1,6 @@
-﻿namespace VideoClipExtractor.Core.Services.Extraction.ExtractionVerificationService;
+﻿using VideoClipExtractor.Data.Extractions.Results;
+
+namespace VideoClipExtractor.Core.Services.Extraction.ExtractionVerificationService;
 
 public interface IExtractionVerificationService
 {
@@ -7,5 +9,5 @@ public interface IExtractionVerificationService
     /// </summary>
     /// <param name="path">The path to the extraction</param>
     /// <returns>If the extraction was successfully</returns>
-    bool ExtractionSucceeded(string path);
+    ExtractionResult CheckExtraction(string path);
 }
