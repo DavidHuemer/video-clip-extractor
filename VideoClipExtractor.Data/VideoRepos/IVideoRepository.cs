@@ -23,4 +23,10 @@ public interface IVideoRepository
     ///     Returns the videos from the repository.
     /// </summary>
     IEnumerable<SourceVideo> GetFiles();
+
+    /// <summary>
+    /// Removes the video from the repository by the given path.
+    /// </summary>
+    /// <param name="videoSourcePath">The path to the video that should be removed</param>
+    void RemoveVideoByPath(string videoSourcePath);
 }

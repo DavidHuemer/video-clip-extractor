@@ -21,4 +21,9 @@ public class PcVideoRepository(string path) : IVideoRepository
             .Where(file => VideoFileTypes.IsSupported(file.Extension.TrimStart('.')))
             .Select(file => new SourceVideo(file));
     }
+
+    public void RemoveVideoByPath(string videoSourcePath)
+    {
+        File.Delete(videoSourcePath);
+    }
 }

@@ -27,4 +27,9 @@ public class PhoneVideoRepository(MediaDevice device, string path) : IVideoRepos
             .Where(file => VideoFileTypes.IsSupported(file.Name.Split('.').Last()))
             .Select(file => new SourceVideo(file));
     }
+
+    public void RemoveVideoByPath(string videoSourcePath)
+    {
+        device.DeleteFile(videoSourcePath);
+    }
 }
