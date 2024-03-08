@@ -22,7 +22,7 @@ public class VideosSetupWindowViewModel : WindowViewModel
 
     #endregion
 
-    public VideosSetupWindowViewModel(IDependencyProvider provider, bool isInitializing)
+    public VideosSetupWindowViewModel(IDependencyProvider provider, bool isInitializing) : base(provider)
     {
         EnableSettings = isInitializing;
         _provider = provider;

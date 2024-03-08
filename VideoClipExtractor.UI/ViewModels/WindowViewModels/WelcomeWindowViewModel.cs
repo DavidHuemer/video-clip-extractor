@@ -14,7 +14,7 @@ namespace VideoClipExtractor.UI.ViewModels.WindowViewModels;
 [Singleton]
 public class WelcomeWindowViewModel : WindowViewModel
 {
-    public WelcomeWindowViewModel(IDependencyProvider provider)
+    public WelcomeWindowViewModel(IDependencyProvider provider) : base(provider)
     {
         _provider = provider;
         _welcomeViewModel = new WelcomeViewModel(_provider);

@@ -9,12 +9,12 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="{materialDesign:MaterialDesignFont}"
-        xmlns:windowVm="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels"
         mc:Ignorable="d"
         xmlns:extractionPanels="clr-namespace:VideoClipExtractor.UI.Panels.Extraction"
+        xmlns:extractionWindow="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels.ExtractionWindow"
         Title="ExtractionWindow" Height="450" Width="800"
-        d:DataContext="{d:DesignInstance Type=windowVm:ExtractionWindowViewModel}">
+        d:DataContext="{d:DesignInstance Type=extractionWindow:ExtractionWindowViewModel}">
     <Grid>
-        <extractionPanels:ExtractionPanel DataContext="{Binding ExtractionViewModel}" />
+        <extractionPanels:ExtractionPanel DataContext="{Binding ExtractionPanelViewModel}" />
     </Grid>
 </Window>

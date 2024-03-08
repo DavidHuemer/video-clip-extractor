@@ -34,4 +34,10 @@ public interface IFileService
     /// <param name="path">The path to the file</param>
     /// <returns>The size of the file in bytes</returns>
     int GetFileSize(string path);
+
+    /// <summary>
+    /// Deletes the file
+    /// </summary>
+    /// <param name="path">The path to the file</param>
+    void DeleteFile(string path);
 }

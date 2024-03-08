@@ -15,7 +15,7 @@ namespace VideoClipExtractor.UI.ViewModels.WindowViewModels;
 /// </summary>
 public class VideoRepositoryExplorerWindowViewModel : WindowViewModel
 {
-    public VideoRepositoryExplorerWindowViewModel(IDependencyProvider provider)
+    public VideoRepositoryExplorerWindowViewModel(IDependencyProvider provider) : base(provider)
     {
         var driveProvider = provider.GetDependency<IVideoRepositoryProvider>();
         Root = new ObservableCollection<VideoRepositoryDrive>(driveProvider.GetDrives());

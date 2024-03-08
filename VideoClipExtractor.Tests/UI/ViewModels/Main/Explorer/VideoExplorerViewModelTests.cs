@@ -1,16 +1,18 @@
-﻿using Moq;
-using VideoClipExtractor.Core.Managers.VideoManager;
+﻿using System.Collections.ObjectModel;
+using Moq;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
+using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Data.Videos.Events;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.UI.Managers.Extraction;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
 namespace VideoClipExtractor.Tests.UI.ViewModels.Main.Explorer;
 
 public class VideoExplorerViewModelTests : BaseViewModelTest
 {
-    private Mock<IVideoManager> _videoManagerMock = null!;
+    private Mock<IExtractionManager> _extractionManagerMock = null!;
     private Mock<IVideoProviderManager> _videoProviderManagerMock = null!;
 
     private VideosExplorerViewModel _viewModel = null!;
@@ -18,11 +20,9 @@ public class VideoExplorerViewModelTests : BaseViewModelTest
     public override void Setup()
     {
         base.Setup();
-        _videoProviderManagerMock = new Mock<IVideoProviderManager>();
-        _videoManagerMock = new Mock<IVideoManager>();
+        _videoProviderManagerMock = DependencyMock.CreateMockDependency<IVideoProviderManager>();
+        _extractionManagerMock = DependencyMock.CreateMockDependency<IExtractionManager>();
 
-        AddMockDependency(_videoProviderManagerMock);
-        AddMockDependency(_videoManagerMock);
         _viewModel = new VideosExplorerViewModel(DependencyMock.Object);
     }
 
@@ -53,5 +53,14 @@ public class VideoExplorerViewModelTests : BaseViewModelTest
         _videoProviderManagerMock.Raise(m => m.VideoAdded += null!, new VideoEventArgs(video));
 
         Assert.That(_viewModel.SelectedVideo, Is.Not.Null);
+    }
+
+    [Test]
+    public void ExportVideosCommandCallsExtractionManager()
+    {
+        var videos = VideoExamples.GetRealisticVideoViewModels();
+        _viewModel.Videos = new ObservableCollection<VideoViewModel>(videos);
+        _viewModel.ExportVideos.Execute(null);
+        _extractionManagerMock.Verify(m => m.ExtractVideos(_viewModel.Videos), Times.Once);
     }
 }

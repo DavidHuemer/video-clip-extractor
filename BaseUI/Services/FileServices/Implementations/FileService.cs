@@ -16,4 +16,6 @@ public class FileService : IFileService
         var fileInfo = new FileInfo(path);
         return (int)fileInfo.Length;
     }
+
+    public void DeleteFile(string path) => File.Delete(path);
 }

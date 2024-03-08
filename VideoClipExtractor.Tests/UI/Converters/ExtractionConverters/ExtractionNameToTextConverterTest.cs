@@ -69,18 +69,12 @@ public class ExtractionNameToTextConverterTest
         imageExtraction.Name = extractionName;
 
         var extractionResult = ExtractionResultExamples.GetSuccessResultExample();
-        extractionResult.Name = "";
+        extractionResult.Path = "";
         imageExtraction.Result = extractionResult;
 
         var result =
             _extractionNameToTextConverter.Convert(imageExtraction, typeof(string), null, CultureInfo.InvariantCulture);
 
         Assert.That(result, Is.EqualTo(expected));
-    }
-
-
-    [Test]
-    public void METHOD()
-    {
     }
 }

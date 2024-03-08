@@ -35,6 +35,7 @@ using VideoClipExtractor.UI.Managers.Extraction;
 using VideoClipExtractor.UI.Managers.Timeline.SelectionManager;
 using VideoClipExtractor.UI.Services.FileServices;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels;
+using VideoClipExtractor.UI.ViewModels.WindowViewModels.ExtractionWindow;
 using VideoClipExtractor.UI.Windows;
 
 namespace VideoClipExtractor;

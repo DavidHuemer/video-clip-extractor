@@ -1,7 +1,7 @@
 ﻿using BaseUI.Services.Provider.DependencyInjection;
-using BaseUI.Services.WindowService;
+using BaseUI.Services.Provider.ViewModelProvider;
 using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.UI.ViewModels.WindowViewModels;
+using VideoClipExtractor.UI.ViewModels.WindowViewModels.ExtractionWindow;
 
 namespace VideoClipExtractor.UI.Managers.Extraction;
 
@@ -9,10 +9,10 @@ public class ExtractionManager(IDependencyProvider provider) : IExtractionManage
 {
     public void ExtractVideos(IEnumerable<VideoViewModel> videos)
     {
-        
-        
-        var windowService = provider.GetDependency<IWindowService>();
-        var videoRepositoryExplorerVm = new ExtractionWindowViewModel(provider);
-        videoRepositoryExplorerVm.ShowDialog(windowService);
+        var viewModelProvider = provider.GetDependency<IViewModelProvider>();
+
+        var extractionWindowViewModel = viewModelProvider.Get<IExtractionWindowViewModel>();
+        extractionWindowViewModel.SetupExtraction(videos);
+        extractionWindowViewModel.ShowDialog();
     }
 }

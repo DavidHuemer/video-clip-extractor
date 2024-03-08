@@ -21,6 +21,8 @@
                 <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/VideoExplorerStyles.xaml" />
                 <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/Timeline/TimelineStyles.xaml" />
                 <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/Timeline/TimelineExtractionStyles.xaml" />
+                <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/Extractions/VideoStyles.xaml" />
+                <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/Extractions/ExtractionStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

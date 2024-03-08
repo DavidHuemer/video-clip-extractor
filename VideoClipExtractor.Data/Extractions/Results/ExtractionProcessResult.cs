@@ -5,12 +5,15 @@
 /// </summary>
 public class ExtractionProcessResult
 {
-    public ExtractionProcessResult(IEnumerable<VideoExtractionResult> videoExtractionResults)
+    public ExtractionProcessResult(List<VideoExtractionResult> videoExtractionResults)
     {
-        var failedVideoExtractions = videoExtractionResults
+        VideoExtractionResults = videoExtractionResults;
+
+        var failedVideoExtractions = VideoExtractionResults
             .Where(x => !x.Success).ToList();
 
         Success = failedVideoExtractions.Count == 0;
+        SavedBytes = VideoExtractionResults.Sum(x => x.SavedBytes);
 
         if (failedVideoExtractions.Count == 0)
         {
@@ -27,7 +30,16 @@ public class ExtractionProcessResult
     {
         Success = false;
         Message = e.Message;
+        VideoExtractionResults = [];
     }
+
+    public IEnumerable<VideoExtractionResult> VideoExtractionResults { get; }
+
+    public IEnumerable<VideoExtractionResult> SuccessfulVideoExtractions => VideoExtractionResults
+        .Where(x => x.Success);
+
+    public IEnumerable<VideoExtractionResult> FailedVideoExtractions => VideoExtractionResults
+        .Where(x => !x.Success);
 
     /// <summary>
     /// If the extraction process was successful
@@ -38,4 +50,14 @@ public class ExtractionProcessResult
     /// The message of the extraction process
     /// </summary>
     public string Message { get; }
+
+    /// <summary>
+    /// How many bytes were saved
+    /// </summary>
+    public long SavedBytes { get; set; }
+
+    /// <summary>
+    /// The amount of bytes that were stored by the extractions
+    /// </summary>
+    public long StoredBytes => VideoExtractionResults.Sum(x => x.CreatedBytes);
 }

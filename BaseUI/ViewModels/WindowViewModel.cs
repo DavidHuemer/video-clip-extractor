@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.WindowService;
 
 namespace BaseUI.ViewModels;
@@ -7,13 +8,12 @@ namespace BaseUI.ViewModels;
 /// <summary>
 ///     Base class for all window view models.
 /// </summary>
-public class WindowViewModel : BaseViewModel
+public class WindowViewModel : BaseViewModel, IWindowViewModel
 {
-    #region Private Fields
-
-    private IWindow? _window;
-
-    #endregion
+    public WindowViewModel(IDependencyProvider provider)
+    {
+        _windowService = provider.GetDependency<IWindowService>();
+    }
 
     #region Properties
 
@@ -23,6 +23,12 @@ public class WindowViewModel : BaseViewModel
     public string Title { get; set; } = "Title";
 
     #endregion
+
+    public void ShowDialog()
+    {
+        _window = GetWindow(_windowService);
+        _windowService.ShowDialog(_window);
+    }
 
     /// <summary>
     ///     Shows the window.
@@ -54,6 +60,14 @@ public class WindowViewModel : BaseViewModel
     protected virtual void SetupEvents(IWindow window)
     {
     }
+
+    #region Private Fields
+
+    private IWindow? _window;
+
+    private readonly IWindowService _windowService;
+
+    #endregion
 
     #region Commands
 

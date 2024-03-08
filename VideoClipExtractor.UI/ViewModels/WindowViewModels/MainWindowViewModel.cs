@@ -24,7 +24,7 @@ public class MainWindowViewModel : WindowViewModel
 
     #endregion
 
-    public MainWindowViewModel(IDependencyProvider provider)
+    public MainWindowViewModel(IDependencyProvider provider) : base(provider)
     {
         _provider = provider;
         MenuViewModel = new MenuViewModel(provider);
