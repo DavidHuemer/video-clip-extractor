@@ -63,7 +63,7 @@ public class SourceVideo
     /// <summary>
     /// The size in bytes of the video file.
     /// </summary>
-    public int Size { get; init; }
+    public long Size { get; init; }
 
     public bool Checked { get; set; } = false;
 
