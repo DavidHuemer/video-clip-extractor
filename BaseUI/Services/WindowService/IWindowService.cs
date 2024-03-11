@@ -9,7 +9,7 @@ public interface IWindowService
 {
     void Register<TViewModel, TWindow>()
         where TViewModel : WindowViewModel
-        where TWindow : Window, IWindow, new();
+        where TWindow : IWindow, new();
 
     void ShowWindow(IWindow window);
     void ShowDialog(IWindow window);
