@@ -9,10 +9,10 @@ namespace BaseUI.Services.Provider;
 /// </summary>
 public abstract class BaseProvider
 {
-    protected readonly Dictionary<Type, Type> SingletonDependencies = new();
+    private readonly Dictionary<Type, Type> _singletonDependencies = new();
 
-    protected readonly Dictionary<Type, object> StoredSingletons = new();
-    protected readonly Dictionary<Type, Type> TransientDependencies = new();
+    private readonly Dictionary<Type, object> _storedSingletons = new();
+    private readonly Dictionary<Type, Type> _transientDependencies = new();
 
     protected abstract TInterface Instantiate<TInterface>(Type t) where TInterface : class;
     protected abstract Type? FindDependency<TInterface>() where TInterface : class;
@@ -26,7 +26,7 @@ public abstract class BaseProvider
     /// <typeparam name="TImplementation">The actual implementation</typeparam>
     protected void AddSingleton<TInterface, TImplementation>() where TImplementation : class, TInterface
     {
-        AddDependency<TInterface, TImplementation>(SingletonDependencies);
+        AddDependency<TInterface, TImplementation>(_singletonDependencies);
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public abstract class BaseProvider
     /// <typeparam name="TImplementation">The actual implementation</typeparam>
     protected void AddTransient<TInterface, TImplementation>() where TImplementation : TInterface
     {
-        AddDependency<TInterface, TImplementation>(TransientDependencies);
+        AddDependency<TInterface, TImplementation>(_transientDependencies);
     }
 
     private void AddDependency<TInterface, TImplementation>(Dictionary<Type, Type> dependencies)
@@ -59,20 +59,20 @@ public abstract class BaseProvider
     protected TInterface Get<TInterface>() where TInterface : class
     {
         // Check if the requested dependency is already stored as a singleton
-        if (StoredSingletons.ContainsKey(typeof(TInterface)))
-            return (TInterface)StoredSingletons[typeof(TInterface)];
+        if (_storedSingletons.ContainsKey(typeof(TInterface)))
+            return (TInterface)_storedSingletons[typeof(TInterface)];
 
         // Check if the requested dependency is registered as a singleton
-        if (SingletonDependencies.ContainsKey(typeof(TInterface)))
+        if (_singletonDependencies.ContainsKey(typeof(TInterface)))
         {
-            var instance = Instantiate<TInterface>(SingletonDependencies[typeof(TInterface)]);
-            StoredSingletons.Add(typeof(TInterface), instance);
+            var instance = Instantiate<TInterface>(_singletonDependencies[typeof(TInterface)]);
+            _storedSingletons.Add(typeof(TInterface), instance);
             return instance;
         }
 
         // Check if the requested dependency is registered as a transient
-        if (TransientDependencies.ContainsKey(typeof(TInterface)))
-            return Instantiate<TInterface>(TransientDependencies[typeof(TInterface)]);
+        if (_transientDependencies.ContainsKey(typeof(TInterface)))
+            return Instantiate<TInterface>(_transientDependencies[typeof(TInterface)]);
 
         // If the requested dependency is not registered, try to find it
         var foundInstance = GetByResolving<TInterface>();
@@ -93,15 +93,13 @@ public abstract class BaseProvider
         if (foundDependency.GetCustomAttribute<SingletonAttribute>() != null)
         {
             var instance = Instantiate<TInterface>(foundDependency);
-            StoredSingletons.Add(typeof(TInterface), instance);
+            _storedSingletons.Add(typeof(TInterface), instance);
             return instance;
         }
 
-        TransientDependencies.Add(typeof(TInterface), foundDependency);
+        _transientDependencies.Add(typeof(TInterface), foundDependency);
         return Instantiate<TInterface>(foundDependency);
     }
 
     #endregion
-
-    //public DependencyInstanceBuilder DependencyInstanceBuilder { get; set; } = new();
 }
