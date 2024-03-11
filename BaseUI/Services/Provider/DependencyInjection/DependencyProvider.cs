@@ -5,11 +5,12 @@ namespace BaseUI.Services.Provider.DependencyInjection;
 public class DependencyProvider : BaseProvider, IDependencyProvider
 {
     private readonly IDependencyFinder _dependencyFinder;
-    private readonly DependencyInstanceBuilder _instanceBuilder;
+    private readonly IDependencyInstanceBuilder _instanceBuilder;
 
-    public DependencyProvider(IDependencyFinder? dependencyFinder = null)
+    public DependencyProvider(IDependencyInstanceBuilder? instanceBuilder = null,
+        IDependencyFinder? dependencyFinder = null)
     {
-        _instanceBuilder = new DependencyInstanceBuilder(this);
+        _instanceBuilder = instanceBuilder ?? new DependencyInstanceBuilder(this);
         _dependencyFinder = dependencyFinder ?? new DependencyFinder();
     }
 

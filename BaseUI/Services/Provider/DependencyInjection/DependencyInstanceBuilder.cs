@@ -1,21 +1,15 @@
-﻿namespace BaseUI.Services.Provider.DependencyInjection;
+﻿using BaseUI.Services.Provider.InstanceBuilderService;
+
+namespace BaseUI.Services.Provider.DependencyInjection;
 
 /// <summary>
 ///     Responsible for building instances of dependencies
 /// </summary>
-public class DependencyInstanceBuilder(IDependencyProvider provider)
+public class DependencyInstanceBuilder(IDependencyProvider provider, IInstanceBuilderService? instanceBuilder = null)
+    : IDependencyInstanceBuilder
 {
-    /// <summary>
-    ///     Instantiates a type
-    /// </summary>
-    /// <typeparam name="TInterface">The interface of the type that should be instantiated</typeparam>
-    /// <typeparam name="TImplementation">The type that should be instantiated</typeparam>
-    /// <returns>The instantiated type</returns>
-    public TInterface InstantiateType<TInterface, TImplementation>() where TImplementation : class, TInterface
-    {
-        var implementationType = typeof(TImplementation);
-        return InstantiateType<TInterface>(implementationType);
-    }
+    private readonly IInstanceBuilderService _instanceBuilderService =
+        instanceBuilder ?? new InstanceBuilderService.InstanceBuilderService();
 
     /// <summary>
     ///     Instantiates a type
@@ -29,22 +23,14 @@ public class DependencyInstanceBuilder(IDependencyProvider provider)
         // Check if implementationType has parameterless constructor
         var parameterlessConstructor = implementationType.GetConstructor(Type.EmptyTypes);
         if (parameterlessConstructor != null)
-        {
-            if (Activator.CreateInstance(implementationType) is not TInterface instance)
-                throw new InvalidOperationException($"Failed to instantiate type {implementationType.Name}");
-
-            return instance;
-        }
+            return _instanceBuilderService.InstantiateType<TInterface>(implementationType);
 
         // Check if implementationType has constructor with only IDependencyProvider as parameter
         var dependencyProviderConstructor = implementationType.GetConstructor([typeof(IDependencyProvider)]);
         if (dependencyProviderConstructor == null)
             throw new InvalidOperationException($"No suitable constructor found for type {implementationType.Name}");
         {
-            if (Activator.CreateInstance(implementationType, provider) is not TInterface instance)
-                throw new InvalidOperationException($"Failed to instantiate type {implementationType.Name}");
-
-            return instance;
+            return _instanceBuilderService.InstantiateType<TInterface>(implementationType, new object[] { provider });
         }
     }
 }
