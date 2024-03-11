@@ -3,7 +3,7 @@
 namespace BaseUI.Services.WindowService.ActiveWindow;
 
 [UsedImplicitly]
-internal class ActiveWindowManager : IActiveWindowManager
+public class ActiveWindowManager : IActiveWindowManager
 {
     /// <summary>
     ///     The list of open windows.
@@ -20,10 +20,10 @@ internal class ActiveWindowManager : IActiveWindowManager
 
     private void OnWindowClosed(object? sender, EventArgs e)
     {
-        if (sender is not IWindow window)
-            return;
-
-        window.Closed -= OnWindowClosed;
-        _openWindows.Remove(window);
+        if (sender is IWindow window)
+        {
+            window.Closed -= OnWindowClosed;
+            _openWindows.Remove(window);
+        }
     }
 }
