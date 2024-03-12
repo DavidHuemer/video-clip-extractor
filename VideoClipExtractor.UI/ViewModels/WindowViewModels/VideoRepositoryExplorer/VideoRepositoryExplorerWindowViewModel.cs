@@ -8,12 +8,12 @@ using VideoClipExtractor.Core.Services.VideoRepositoryServices.Provider;
 using VideoClipExtractor.Data.VideoRepos.Builder;
 using VideoClipExtractor.Data.VideoRepos.Explorer;
 
-namespace VideoClipExtractor.UI.ViewModels.WindowViewModels;
+namespace VideoClipExtractor.UI.ViewModels.WindowViewModels.VideoRepositoryExplorer;
 
 /// <summary>
 ///     Responsible for browsing a video repository
 /// </summary>
-public class VideoRepositoryExplorerWindowViewModel : WindowViewModel
+public class VideoRepositoryExplorerWindowViewModel : WindowViewModel, IVideoRepositoryExplorerWindowViewModel
 {
     public VideoRepositoryExplorerWindowViewModel(IDependencyProvider provider) : base(provider)
     {
