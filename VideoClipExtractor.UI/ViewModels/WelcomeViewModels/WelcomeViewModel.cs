@@ -5,24 +5,17 @@ using BaseUI.Data;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.ViewModels;
-using VideoClipExtractor.Data.Project;
+using VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
 
 namespace VideoClipExtractor.UI.ViewModels.WelcomeViewModels;
 
-public class WelcomeViewModel(IDependencyProvider provider) : BaseViewModel
+public class WelcomeViewModel(IDependencyProvider provider) : BaseViewModel, IWelcomeViewModel
 {
-    private void OpenRecentlyOpenedFile(RecentlyOpenedFileInfo fileInfo)
-    {
-        OpenRecentProjectRequested?.Invoke(null, new OpenRecentlyOpenedEventArgs(fileInfo.Path));
-    }
+    private readonly IOpenProjectManager _openProjectManager = provider.GetDependency<IOpenProjectManager>();
 
     #region Events
 
     public event EventHandler? NewProjectRequested;
-
-    public event EventHandler? OpenProjectRequested;
-
-    public event EventHandler<OpenRecentlyOpenedEventArgs>? OpenRecentProjectRequested;
 
     #endregion
 
@@ -38,13 +31,10 @@ public class WelcomeViewModel(IDependencyProvider provider) : BaseViewModel
         get => _selectedRecentlyOpenedFile;
         set
         {
-            _selectedRecentlyOpenedFile = value;
-            OnPropertyChanged();
+            SetProperty(ref _selectedRecentlyOpenedFile, value);
 
-            if (value is null)
-                return;
-
-            OpenRecentlyOpenedFile(value);
+            if (value is not null)
+                _openProjectManager.OpenProjectByPath(value.Path);
         }
     }
 
@@ -54,17 +44,11 @@ public class WelcomeViewModel(IDependencyProvider provider) : BaseViewModel
 
     public ICommand NewProject => new RelayCommand<string>(DoNewProject, _ => true);
 
-    private void DoNewProject(string? obj)
-    {
-        NewProjectRequested?.Invoke(null, EventArgs.Empty);
-    }
+    private void DoNewProject(string? obj) => NewProjectRequested?.Invoke(null, EventArgs.Empty);
 
     public ICommand OpenProject => new RelayCommand<string>(DoOpenProject, _ => true);
 
-    private void DoOpenProject(string? obj)
-    {
-        OpenProjectRequested?.Invoke(null, EventArgs.Empty);
-    }
+    private void DoOpenProject(string? obj) => _openProjectManager.OpenProjectByExplorer();
 
     #endregion
 }
