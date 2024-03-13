@@ -7,20 +7,24 @@ namespace VideoClipExtractor.Core.Managers.ProjectManager;
 /// </summary>
 public interface IProjectManager
 {
+    #region Properties
+
+    public Project? Project { get; }
+
+    #endregion
+
+    #region Events
+
+    event EventHandler<ProjectOpenedEventArgs>? ProjectOpened;
+
+    #endregion
+
     #region Storage
 
     /// <summary>
     ///     Stores the currently opened project.
     /// </summary>
     void StoreProject();
-
-    #endregion
-
-    #region Properties
-
-    public string? Path { get; }
-
-    public Project? Project { get; }
 
     #endregion
 
@@ -32,15 +36,6 @@ public interface IProjectManager
     /// <param name="project">The open project</param>
     /// <param name="path">The path of the project that is currently opened</param>
     void SetOpenedProject(Project project, string path);
-
-    /// <summary>
-    ///     Sets the currently opened project by using the <see cref="ProjectOpenedEventArgs" /> event.
-    /// </summary>
-    /// <param name="e">
-    ///     The <see cref="ProjectOpenedEventArgs" /> event
-    ///     that contains the currently opened project
-    /// </param>
-    void SetOpenedProject(ProjectOpenedEventArgs e);
 
     #endregion
 }

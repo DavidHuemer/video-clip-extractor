@@ -1,4 +1,5 @@
-﻿using BaseUI.Services.Provider.DependencyInjection;
+﻿using BaseUI.Services.Provider.Attributes;
+using BaseUI.Services.Provider.DependencyInjection;
 using JetBrains.Annotations;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Data.Project;
@@ -6,31 +7,31 @@ using VideoClipExtractor.Data.Project;
 namespace VideoClipExtractor.Core.Managers.ProjectManager;
 
 [UsedImplicitly]
+[Singleton]
 public class ProjectManager(IDependencyProvider provider) : IProjectManager
 {
     public void SetOpenedProject(Project project, string path)
     {
         Project = project;
-        Path = path;
+        _path = path;
+        ProjectOpened?.Invoke(this, new ProjectOpenedEventArgs(project, path));
     }
 
-    public void SetOpenedProject(ProjectOpenedEventArgs e)
-    {
-        SetOpenedProject(e.Project, e.Path);
-    }
+    public event EventHandler<ProjectOpenedEventArgs>? ProjectOpened;
 
     public void StoreProject()
     {
-        if (Project == null || Path == null)
+        if (Project == null || _path == null)
             return;
 
-        provider.GetDependency<IProjectSerializer>().StoreProject(Project, Path);
+        provider.GetDependency<IProjectSerializer>().StoreProject(Project, _path);
     }
 
     #region Properties
 
-    public string? Path { get; private set; }
     public Project? Project { get; private set; }
+
+    private string? _path;
 
     #endregion
 }
