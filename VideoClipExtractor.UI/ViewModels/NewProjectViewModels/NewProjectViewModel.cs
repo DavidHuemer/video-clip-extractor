@@ -2,30 +2,22 @@
 using BaseUI.Commands;
 using BaseUI.Services.FileServices;
 using BaseUI.Services.Provider.DependencyInjection;
-using BaseUI.Services.WindowService;
 using BaseUI.ViewModels;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos.Builder;
-using VideoClipExtractor.UI.ViewModels.WindowViewModels;
+using VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+using VideoClipExtractor.UI.ViewModels.WindowViewModels.VideoRepositoryExplorer;
 
 namespace VideoClipExtractor.UI.ViewModels.NewProjectViewModels;
 
 /// <summary>
 ///     ViewModel for the new project panel
 /// </summary>
-public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
+public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModelContainer(provider), INewProjectViewModel
 {
-    #region Events
-
-    public event EventHandler<ProjectCreatedEventArgs>? ProjectCreated;
-
-    #endregion
-
-    private void OnVideoRepositorySelected(object? sender, VideoRepositoryBlueprintEventArgs e)
-    {
+    private void OnVideoRepositorySelected(object? sender, VideoRepositoryBlueprintEventArgs e) =>
         VideoRepositoryBlueprint = e.Blueprint;
-    }
 
     #region Properties
 
@@ -39,7 +31,7 @@ public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
     /// </summary>
     public string ProjectPath { get; set; } = string.Empty;
 
-    public VideoRepositoryBlueprint? VideoRepositoryBlueprint { get; private set; }
+    public VideoRepositoryBlueprint? VideoRepositoryBlueprint { get; set; }
 
     /// <summary>
     ///     The path where the extracted images and videos should be stored
@@ -57,7 +49,7 @@ public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
 
     private void DoBrowseProjectPath(string? obj)
     {
-        var projectFile = provider.GetDependency<IProjectFileExplorer>().GetSaveProjectFilePath();
+        var projectFile = DependencyProvider.GetDependency<IProjectFileExplorer>().GetSaveProjectFilePath();
         if (!string.IsNullOrEmpty(projectFile)) ProjectPath = projectFile;
     }
 
@@ -65,18 +57,16 @@ public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
 
     private void DoBrowseVideoRepository(string? obj)
     {
-        var windowService = provider.GetDependency<IWindowService>();
-        var videoRepositoryExplorerVm = new VideoRepositoryExplorerWindowViewModel(provider);
+        var videoRepositoryExplorerVm = ViewModelProvider.Get<IVideoRepositoryExplorerWindowViewModel>();
         videoRepositoryExplorerVm.VideoRepositoryBlueprintSelected += OnVideoRepositorySelected;
-        videoRepositoryExplorerVm.ShowDialog(windowService);
+        videoRepositoryExplorerVm.ShowDialog();
     }
 
     public ICommand BrowseImageDirectory => new RelayCommand<string>(DoBrowseImageDirectory, _ => true);
 
     private void DoBrowseImageDirectory(string? obj)
     {
-        Console.WriteLine("Browse Image Directory");
-        var directory = provider.GetDependency<IFileExplorer>().GetBrowseDirectoryPath();
+        var directory = DependencyProvider.GetDependency<IFileExplorer>().GetBrowseDirectoryPath();
         if (!string.IsNullOrEmpty(directory)) ImageDirectoryPath = directory;
     }
 
@@ -86,16 +76,15 @@ public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModel
     {
         if (VideoRepositoryBlueprint == null) return;
 
-
         var project = new Project
         {
             VideoRepositoryBlueprint = VideoRepositoryBlueprint,
             ImageDirectory = ImageDirectoryPath,
         };
 
-        var projectSerializer = provider.GetDependency<IProjectSerializer>();
+        var projectSerializer = DependencyProvider.GetDependency<IProjectSerializer>();
         projectSerializer.StoreProject(project, ProjectPath);
-        ProjectCreated?.Invoke(this, new ProjectCreatedEventArgs(project, ProjectPath));
+        DependencyProvider.GetDependency<IOpenProjectManager>().OpenProjectByPath(ProjectPath);
     }
 
     #endregion
