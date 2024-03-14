@@ -7,8 +7,22 @@ namespace VideoClipExtractor.Tests.Basics.Data;
 /// </summary>
 public static class VideoExamples
 {
-    private const string SourcePath = @"C:\Source\Video.mp4";
+    private const string SourcePath = @$"{VideoRepositoryExamples.VideoRepositoryPath}\Video.mp4";
     private const string LocalPath = @"C:\Cached\Video.mp4";
+
+    public static SourceVideo GetSourceVideoExample(string path = SourcePath, int size = 1048) => new(path, size);
+
+    public static List<SourceVideo> GetSourceVideoExamples(int nrVideos)
+    {
+        var videos = new List<SourceVideo>();
+        for (var i = 0; i < nrVideos; i++)
+        {
+            var path = @$"{VideoRepositoryExamples.VideoRepositoryPath}\Video{i}.mp4";
+            videos.Add(GetSourceVideoExample(path));
+        }
+
+        return videos;
+    }
 
     public static Video GetVideoExample()
     {
