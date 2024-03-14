@@ -1,32 +1,24 @@
-﻿using VideoClipExtractor.Data.Extractions.Basics;
+﻿using System.Text.Json.Serialization;
+using VideoClipExtractor.Data.Extractions.Basics;
 using VideoClipExtractor.Data.Extractions.Results;
 using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.Data.Extractions;
 
-public class ImageExtraction(VideoPosition position) : BaseExtractionViewModel, IExtraction
+[method: JsonConstructor]
+public sealed class ImageExtraction(VideoPosition position) : BaseExtractionViewModel, IExtraction
 {
-    private string _name = "";
+    public override VideoPosition Position { get; set; } = position;
+    public string Name { get; set; } = "";
 
-    public override VideoPosition Position
+    [JsonIgnore] public ExtractionResult? Result { get; set; }
+
+    public override bool Equals(object? obj)
     {
-        get => position;
-        set
-        {
-            position = value;
-            OnPropertyChanged();
-        }
+        return obj is ImageExtraction extraction &&
+               Name == extraction.Name &&
+               Position.Equals(extraction.Position);
     }
 
-    public string Name
-    {
-        get => _name;
-        set
-        {
-            _name = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ExtractionResult? Result { get; set; }
+    public override int GetHashCode() => 0;
 }

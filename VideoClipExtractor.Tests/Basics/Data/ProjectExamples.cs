@@ -1,6 +1,7 @@
 ﻿using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos.Builder;
 using VideoClipExtractor.Data.Videos;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 
 namespace VideoClipExtractor.Tests.Basics.Data;
 
@@ -12,7 +13,9 @@ public static class ProjectExamples
     public const string ImageDirectory = @"C:\Images";
 
     public static Project GetExampleProject(string imageDirectory = ImageDirectory,
-        List<SourceVideo>? sourceVideos = null, VideoRepositoryBlueprint? videoRepositoryBlueprint = null)
+        List<SourceVideo>? sourceVideos = null,
+        VideoRepositoryBlueprint? videoRepositoryBlueprint = null,
+        List<VideoViewModel>? workingVideos = null)
     {
         return new Project
         {
@@ -20,6 +23,7 @@ public static class ProjectExamples
             Videos = sourceVideos ?? [],
             VideoRepositoryBlueprint =
                 videoRepositoryBlueprint ?? VideoRepositoryExamples.GetVideoRepositoryBlueprintExample(),
+            WorkingVideos = workingVideos ?? [],
         };
     }
 
@@ -31,6 +35,8 @@ public static class ProjectExamples
     /// <returns>Realistic project</returns>
     public static Project GetRealisticProject()
     {
-        return GetExampleProject();
+        var realisticSourceVideos = SourceVideoExamples.GetRealisticSourceVideos();
+        var realisticWorkingVideos = VideoExamples.VideoExamples.GetRealisticVideoViewModels();
+        return GetExampleProject(sourceVideos: realisticSourceVideos, workingVideos: realisticWorkingVideos);
     }
 }

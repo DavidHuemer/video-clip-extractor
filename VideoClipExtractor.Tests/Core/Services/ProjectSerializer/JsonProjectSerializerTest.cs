@@ -2,8 +2,10 @@
 using BaseUI.Services.FileServices;
 using Moq;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
+using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 using VideoClipExtractor.Tests.Basics.Extensions;
 
 namespace VideoClipExtractor.Tests.Core.Services.ProjectSerializer;
@@ -31,87 +33,100 @@ public class JsonProjectSerializerTest : BaseDependencyTest
     }
 
     [Test]
-    public void EmptyProjectIsStored()
+    public async Task EmptyProjectIsStored()
     {
         var project = ProjectExamples.GetEmptyProject();
-        var filePath = _tempFolder.GetFilePath("emptyProject.vce");
-        _jsonProjectSerializer.StoreProject(project, filePath);
-
+        var filePath = await StoreProject(project, "emptyProject.vce");
         Assert.IsTrue(File.Exists(filePath));
     }
 
     [Test]
-    public void EmptyProjectCanBeLoaded()
+    public async Task EmptyProjectCanBeLoaded()
     {
         var project = ProjectExamples.GetEmptyProject();
-        var filePath = _tempFolder.GetFilePath("emptyProject.vce");
-
-        _fileServiceMock.Setup(x => x.FileExists(filePath))
-            .Returns(true);
-        _jsonProjectSerializer.StoreProject(project, filePath);
-
-        var loadedProject = _jsonProjectSerializer.LoadProject(filePath);
+        var filePath = await StoreProject(project, "emptyProject.vce");
+        var loadedProject = await _jsonProjectSerializer.LoadProject(filePath);
         Assert.That(loadedProject, Is.EqualTo(project));
     }
 
     [Test]
-    public void ProjectWithSourceVideosCanBeStored()
+    public async Task ProjectWithSourceVideosCanBeStored()
     {
-        var sourceVideos = VideoExamples.GetSourceVideoExamples(10);
+        var sourceVideos = SourceVideoExamples.GetSourceVideoExamples(10);
         var project = ProjectExamples.GetExampleProject(sourceVideos: sourceVideos);
-        var filePath = _tempFolder.GetFilePath("projectWithSourceVideos.vce");
-        _jsonProjectSerializer.StoreProject(project, filePath);
+        var filePath = await StoreProject(project, "projectWithSourceVideos.vce");
         Assert.IsTrue(File.Exists(filePath));
     }
 
     [Test]
-    public void ProjectWithSourceVideosCanBeLoaded()
+    public async Task ProjectWithSourceVideosCanBeLoaded()
     {
-        var sourceVideos = VideoExamples.GetSourceVideoExamples(10);
+        var sourceVideos = SourceVideoExamples.GetSourceVideoExamples(10);
         var project = ProjectExamples.GetExampleProject(sourceVideos: sourceVideos);
-        var filePath = _tempFolder.GetFilePath("projectWithSourceVideos.vce");
-
-        _fileServiceMock.Setup(x => x.FileExists(filePath))
-            .Returns(true);
-        _jsonProjectSerializer.StoreProject(project, filePath);
-        var loadedProject = _jsonProjectSerializer.LoadProject(filePath);
+        var filePath = await StoreProject(project, "projectWithSourceVideos.vce");
+        var loadedProject = await _jsonProjectSerializer.LoadProject(filePath);
         Assert.That(loadedProject, Is.EqualTo(project));
     }
 
     [Test]
-    public void ProjectWithWorkingVideosCanBeStored()
+    public async Task ProjectWithWorkingVideosCanBeStored()
     {
-        var workingVideos = VideoExamples.GetExampleVideos(10).ToList();
+        var workingVideos = VideoExamples.GetVideoViewModelExamples(10).ToList();
         var project = ProjectExamples.GetExampleProject();
         project.WorkingVideos = workingVideos;
-        var filePath = _tempFolder.GetFilePath("projectWithWorkingVideos.vce");
-        _jsonProjectSerializer.StoreProject(project, filePath);
+        var filePath = await StoreProject(project, "projectWithWorkingVideos.vce");
         Assert.IsTrue(File.Exists(filePath));
     }
 
     [Test]
-    public void ProjectWithWorkingVideosCanBeLoaded()
+    public async Task ProjectWithWorkingVideosCanBeLoaded()
     {
-        var workingVideos = VideoExamples.GetExampleVideos(10).ToList();
+        var workingVideos = VideoExamples.GetVideoViewModelExamples(10).ToList();
         var project = ProjectExamples.GetExampleProject();
         project.WorkingVideos = workingVideos;
-        var filePath = _tempFolder.GetFilePath("projectWithWorkingVideos.vce");
-
-        _fileServiceMock.Setup(x => x.FileExists(filePath))
-            .Returns(true);
-        _jsonProjectSerializer.StoreProject(project, filePath);
-        var loadedProject = _jsonProjectSerializer.LoadProject(filePath);
+        var filePath = await StoreProject(project, "projectWithWorkingVideos.vce");
+        var loadedProject = await _jsonProjectSerializer.LoadProject(filePath);
         Assert.That(loadedProject, Is.EqualTo(project));
     }
 
     [Test]
-    public void InvalidProjectThrowsJsonException()
+    public async Task RealisticProjectCanBeStored()
+    {
+        var project = ProjectExamples.GetRealisticProject();
+        var filePath = await StoreProject(project, "realisticProject.vcs");
+        Assert.IsTrue(File.Exists(filePath));
+    }
+
+    [Test]
+    public async Task RealisticProjectCanBeLoaded()
+    {
+        var project = ProjectExamples.GetRealisticProject();
+        var filePath = await StoreProject(project, "realisticProject.vcs");
+        var loadedProject = await _jsonProjectSerializer.LoadProject(filePath);
+        Assert.That(loadedProject, Is.EqualTo(project));
+    }
+
+    [Test]
+    public async Task InvalidProjectThrowsJsonException()
     {
         var filePath = _tempFolder.GetFilePath("invalidProject.vce");
-        File.WriteAllText(filePath, "This is not a valid project file.");
+        await File.WriteAllTextAsync(filePath, "This is not a valid project file.");
 
+        SetupFileServiceMock(filePath);
+        Assert.ThrowsAsync<JsonException>(() => _jsonProjectSerializer.LoadProject(filePath));
+    }
+
+    private async Task<string> StoreProject(Project project, string name)
+    {
+        var filePath = _tempFolder.GetFilePath(name);
+        await _jsonProjectSerializer.StoreProject(project, filePath);
+        SetupFileServiceMock(filePath);
+        return filePath;
+    }
+
+    private void SetupFileServiceMock(string filePath)
+    {
         _fileServiceMock.Setup(x => x.FileExists(filePath))
             .Returns(true);
-        Assert.Throws<JsonException>(() => _jsonProjectSerializer.LoadProject(filePath));
     }
 }

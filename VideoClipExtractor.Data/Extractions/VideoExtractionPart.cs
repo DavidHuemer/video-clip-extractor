@@ -1,19 +1,21 @@
-﻿using VideoClipExtractor.Data.Extractions.Basics;
+﻿using System.Text.Json.Serialization;
+using VideoClipExtractor.Data.Extractions.Basics;
 using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.Data.Extractions;
 
-public class VideoExtractionPart(VideoPosition videoPosition) : BaseExtractionViewModel
+/// <summary>
+/// The part of a <see cref="VideoExtraction"/>
+/// </summary>
+/// <param name="position">The position of the video extraction part</param>
+[method: JsonConstructor]
+public sealed class VideoExtractionPart(VideoPosition position) : BaseExtractionViewModel
 {
-    private VideoPosition _position = videoPosition;
+    public override VideoPosition Position { get; set; } = position;
 
-    public override VideoPosition Position
-    {
-        get => _position;
-        set
-        {
-            _position = value;
-            OnPropertyChanged();
-        }
-    }
+    public override bool Equals(object? obj) =>
+        obj is VideoExtractionPart part &&
+        Position.Equals(part.Position);
+
+    public override int GetHashCode() => 0;
 }

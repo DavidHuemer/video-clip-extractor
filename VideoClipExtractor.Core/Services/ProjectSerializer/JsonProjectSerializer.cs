@@ -10,20 +10,18 @@ public class JsonProjectSerializer(IDependencyProvider provider) : IProjectSeria
 {
     private readonly IFileService _fileService = provider.GetDependency<IFileService>();
 
-    public void StoreProject(Project project, string path)
+    public async Task StoreProject(Project project, string path)
     {
         var json = JsonSerializer.Serialize(project);
-        File.WriteAllText(path, json);
+        await File.WriteAllTextAsync(path, json);
     }
 
-    public Project LoadProject(string path)
+    public async Task<Project> LoadProject(string path)
     {
         if (!_fileService.FileExists(path)) throw new FileNotFoundException("File not found.", path);
-        var json = File.ReadAllText(path);
-        var project = JsonSerializer.Deserialize<Project>(json);
+        var json = await File.ReadAllTextAsync(path);
 
-        if (project is null) throw new JsonException("Project could not be deserialized.");
-
-        return project;
+        return JsonSerializer.Deserialize<Project>(json) ??
+               throw new JsonException("Project could not be deserialized.");
     }
 }

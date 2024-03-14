@@ -1,4 +1,5 @@
-﻿using VideoClipExtractor.Data.Extractions.Basics;
+﻿using System.Text.Json.Serialization;
+using VideoClipExtractor.Data.Extractions.Basics;
 using VideoClipExtractor.Data.Extractions.Results;
 using VideoClipExtractor.Data.UI.Video;
 
@@ -12,7 +13,12 @@ public class VideoExtraction : BaseExtractionViewModel, IExtraction
         End = new VideoExtractionPart(end);
     }
 
-    //public override VideoPosition Position => Begin.Position;
+    [JsonConstructor]
+    public VideoExtraction(VideoExtractionPart begin, VideoExtractionPart end)
+    {
+        Begin = begin;
+        End = end;
+    }
 
     public override VideoPosition Position
     {
@@ -34,27 +40,27 @@ public class VideoExtraction : BaseExtractionViewModel, IExtraction
         End.SetupSelection(selectionCallback);
     }
 
+    public override bool Equals(object? obj)
+    {
+        return obj is VideoExtraction extraction &&
+               Name == extraction.Name &&
+               Begin.Equals(extraction.Begin) &&
+               End.Equals(extraction.End);
+    }
+
+    public override int GetHashCode() => HashCode.Combine(Begin, End);
+
     #region Properties
 
-    private string _name = "";
-
-    public string Name
-    {
-        get => _name;
-        set
-        {
-            _name = value;
-            OnPropertyChanged();
-        }
-    }
+    public string Name { get; set; } = "";
 
     public ExtractionResult? Result { get; set; }
 
-    public VideoExtractionPart Begin { get; set; }
+    public VideoExtractionPart Begin { get; }
 
-    public VideoExtractionPart End { get; set; }
+    public VideoExtractionPart End { get; }
 
-    public int FrameCount => End.Position.Frame - Begin.Position.Frame;
+    [JsonIgnore] public int FrameCount => End.Position.Frame - Begin.Position.Frame;
 
     #endregion
 }

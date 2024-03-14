@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Runtime.Versioning;
+using System.Text.Json.Serialization;
 using MediaDevices;
 
 namespace VideoClipExtractor.Data.Videos;
@@ -48,6 +49,7 @@ public class SourceVideo
     /// <summary>
     /// The name of the video file without its extension.
     /// </summary>
+    [JsonIgnore]
     public string Name => FullName.Split('.').First();
 
     /// <summary>
@@ -58,6 +60,7 @@ public class SourceVideo
     /// <summary>
     /// The extension of the video file.
     /// </summary>
+    [JsonIgnore]
     public string Extension => Path.Split('.').Last();
 
     /// <summary>
@@ -65,10 +68,11 @@ public class SourceVideo
     /// </summary>
     public long Size { get; init; }
 
-    public bool Checked { get; set; } = false;
+    public bool Checked { get; set; }
 
-    public override string ToString()
-    {
-        return $"{FullName} - {Size} bytes";
-    }
+    public override string ToString() => $"{FullName} - {Size} bytes";
+
+    public override bool Equals(object? obj) => obj is SourceVideo video && video.Path == Path && video.Size == Size;
+
+    public override int GetHashCode() => Path.GetHashCode() + Size.GetHashCode();
 }
