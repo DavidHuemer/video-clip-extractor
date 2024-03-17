@@ -5,6 +5,7 @@ using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos;
+using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Core.Services.VideoCaching.CacheRunner;
 
@@ -17,15 +18,13 @@ public class CacheRunner(IDependencyProvider provider) : ICacheRunner
 
     private bool IsSetup => _cacheInformation != null;
 
-    public void StoreVideo(string sourcePath)
+    public CachedVideo StoreVideo(SourceVideo sourceVideo)
     {
         if (!IsSetup)
             throw new NotSetupException(nameof(CacheRunner), nameof(StoreVideo));
 
         // Check if the video already exists
-        var fileName = Path.GetFileName(sourcePath);
-
-        var localPath = Path.Combine(_cacheInformation!.LocalCachePath, fileName);
+        var localPath = Path.Combine(_cacheInformation!.LocalCachePath, sourceVideo.FullName);
         var videoExists = _fileService.FileExists(localPath);
 
         if (videoExists)
@@ -34,7 +33,8 @@ public class CacheRunner(IDependencyProvider provider) : ICacheRunner
             _fileService.DeleteFile(localPath);
         }
 
-        _cacheInformation!.Repository.CopyFileByPath(sourcePath, localPath);
+        _cacheInformation!.Repository.CopyFileByPath(sourceVideo.Path, localPath);
+        return new CachedVideo(sourceVideo, localPath);
     }
 
     public void Setup(Project project, IVideoRepository repository) =>

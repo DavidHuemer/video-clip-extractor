@@ -29,7 +29,8 @@ public class CacheRunnerTest : BaseDependencyTest
     [Test]
     public void StoreVideoWithoutSetupThrowsSetupException()
     {
-        Assert.Throws<NotSetupException>(() => _cacheRunner.StoreVideo(""));
+        var sourceVideo = SourceVideoExamples.GetSourceVideoExample();
+        Assert.Throws<NotSetupException>(() => _cacheRunner.StoreVideo(sourceVideo));
     }
 
     [Test]
@@ -41,8 +42,8 @@ public class CacheRunnerTest : BaseDependencyTest
         var project = ProjectExamples.GetEmptyProject();
         _cacheRunner.Setup(project, _repo.Object);
 
-        var sourcePath = SourceVideoExamples.GetSourcePath(videoName);
-        _cacheRunner.StoreVideo(sourcePath);
+        var sourceVideo = SourceVideoExamples.GetSourceVideoExampleByFullName(videoName);
+        _cacheRunner.StoreVideo(sourceVideo);
 
         var expectedLocalPath = $@"{project.ImageDirectory}\{videoName}";
         _fileService.Verify(x => x.FileExists(expectedLocalPath), Times.Once);
@@ -60,8 +61,8 @@ public class CacheRunnerTest : BaseDependencyTest
         var expectedLocalPath = $@"{project.ImageDirectory}\{videoName}";
         _fileService.Setup(x => x.FileExists(expectedLocalPath)).Returns(true);
 
-        var sourcePath = SourceVideoExamples.GetSourcePath(videoName);
-        _cacheRunner.StoreVideo(sourcePath);
+        var sourceVideo = SourceVideoExamples.GetSourceVideoExampleByFullName(videoName);
+        _cacheRunner.StoreVideo(sourceVideo);
 
         _fileService.Verify(x => x.DeleteFile(expectedLocalPath), Times.Once);
     }
@@ -75,10 +76,10 @@ public class CacheRunnerTest : BaseDependencyTest
         var project = ProjectExamples.GetEmptyProject();
         _cacheRunner.Setup(project, _repo.Object);
 
-        var sourcePath = SourceVideoExamples.GetSourcePath(videoName);
-        _cacheRunner.StoreVideo(sourcePath);
+        var sourceVideo = SourceVideoExamples.GetSourceVideoExampleByFullName(videoName);
+        _cacheRunner.StoreVideo(sourceVideo);
 
         var expectedLocalPath = $@"{project.ImageDirectory}\{videoName}";
-        _repo.Verify(x => x.CopyFileByPath(sourcePath, expectedLocalPath), Times.Once);
+        _repo.Verify(x => x.CopyFileByPath(sourceVideo.Path, expectedLocalPath), Times.Once);
     }
 }

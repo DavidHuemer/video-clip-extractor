@@ -1,5 +1,6 @@
 ﻿using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos;
+using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Core.Services.VideoCaching.CacheRunner;
 
@@ -8,7 +9,7 @@ namespace VideoClipExtractor.Core.Services.VideoCaching.CacheRunner;
 /// </summary>
 public interface ICacheRunner
 {
-    void StoreVideo(string sourcePath);
+    CachedVideo StoreVideo(SourceVideo sourcePath);
 
     void Setup(Project project, IVideoRepository repository);
 }
