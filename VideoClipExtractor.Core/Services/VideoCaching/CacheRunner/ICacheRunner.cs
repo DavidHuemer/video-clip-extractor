@@ -9,6 +9,7 @@ namespace VideoClipExtractor.Core.Services.VideoCaching.CacheRunner;
 /// </summary>
 public interface ICacheRunner
 {
+    bool IsSetup { get; }
     CachedVideo StoreVideo(SourceVideo sourcePath);
 
     void Setup(Project project, IVideoRepository repository);

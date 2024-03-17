@@ -16,7 +16,7 @@ public class CacheRunner(IDependencyProvider provider) : ICacheRunner
 
     private VideoCacheInformation? _cacheInformation;
 
-    private bool IsSetup => _cacheInformation != null;
+    public bool IsSetup => _cacheInformation != null;
 
     public CachedVideo StoreVideo(SourceVideo sourceVideo)
     {
