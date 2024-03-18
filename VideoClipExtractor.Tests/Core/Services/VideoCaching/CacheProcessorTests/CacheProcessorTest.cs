@@ -3,6 +3,7 @@ using Moq;
 using VideoClipExtractor.Core.Services.VideoCaching.CacheProcessor;
 using VideoClipExtractor.Core.Services.VideoCaching.CacheRunner;
 using VideoClipExtractor.Data.VideoRepos;
+using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
 using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 
@@ -10,14 +11,14 @@ namespace VideoClipExtractor.Tests.Core.Services.VideoCaching.CacheProcessorTest
 
 [TestFixture]
 [TestOf(typeof(CacheProcessor))]
-public class CacheProcessorTest
+public class CacheProcessorTest : BaseDependencyTest
 {
     [SetUp]
     public void Setup()
     {
-        _cacheRunner = new Mock<ICacheRunner>();
+        _cacheRunner = DependencyMock.CreateMockDependency<ICacheRunner>();
         _videoRepo = new Mock<IVideoRepository>();
-        _cacheProcessor = new CacheProcessor(_cacheRunner.Object);
+        _cacheProcessor = new CacheProcessor(DependencyMock.Object);
     }
 
     private Mock<ICacheRunner> _cacheRunner = null!;

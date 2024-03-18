@@ -1,5 +1,7 @@
 ﻿using BaseUI.Exceptions.Basics;
 using BaseUI.Handler;
+using BaseUI.Services.Provider.Attributes;
+using BaseUI.Services.Provider.DependencyInjection;
 using VideoClipExtractor.Core.Services.VideoCaching.CacheRunner;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos;
@@ -7,9 +9,13 @@ using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Core.Services.VideoCaching.CacheProcessor;
 
-public class CacheProcessor(ICacheRunner cacheRunner) : AsyncQueueProcessor<SourceVideo, CachedVideo>, ICacheProcessor
+[Transient]
+public class CacheProcessor(IDependencyProvider provider)
+    : AsyncQueueProcessor<SourceVideo, CachedVideo>, ICacheProcessor
 {
-    private bool IsSetup => cacheRunner.IsSetup;
+    private readonly ICacheRunner _cacheRunner = provider.GetDependency<ICacheRunner>();
+
+    private bool IsSetup => _cacheRunner.IsSetup;
 
     public void AddVideo(SourceVideo video)
     {
@@ -20,10 +26,10 @@ public class CacheProcessor(ICacheRunner cacheRunner) : AsyncQueueProcessor<Sour
     }
 
     public void Setup(Project project, IVideoRepository repository) =>
-        cacheRunner.Setup(project, repository);
+        _cacheRunner.Setup(project, repository);
 
     protected override CachedVideo Process(SourceVideo sourceVideo)
     {
-        return cacheRunner.StoreVideo(sourceVideo);
+        return _cacheRunner.StoreVideo(sourceVideo);
     }
 }
