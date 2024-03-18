@@ -15,7 +15,7 @@ public class CacheProcessor(IDependencyProvider provider)
 {
     private readonly ICacheRunner _cacheRunner = provider.GetDependency<ICacheRunner>();
 
-    private bool IsSetup => _cacheRunner.IsSetup;
+    public bool IsSetup => _cacheRunner.IsSetup;
 
     public void AddVideo(SourceVideo video)
     {

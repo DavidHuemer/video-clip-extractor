@@ -9,6 +9,7 @@ namespace VideoClipExtractor.Core.Services.VideoCaching.CacheProcessor;
 /// </summary>
 public interface ICacheProcessor
 {
+    bool IsSetup { get; }
     void AddVideo(SourceVideo video);
 
     void Setup(Project project, IVideoRepository repository);

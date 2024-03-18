@@ -1,22 +1,53 @@
 ﻿using BaseUI.Exceptions.Basics;
+using Moq;
 using VideoClipExtractor.Core.Services.VideoCaching;
+using VideoClipExtractor.Core.Services.VideoCaching.CacheProcessor;
+using VideoClipExtractor.Data.VideoRepos;
+using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 
 namespace VideoClipExtractor.Tests.Core.Services.VideoCaching;
 
-public class VideoCacheServiceTests
+public class VideoCacheServiceTests : BaseDependencyTest
 {
-    private VideoCacheService? _videoCacheService;
+    private Mock<ICacheProcessor> _cacheProcessorMock = null!;
+    private VideoCacheService _videoCacheService = null!;
 
-    [SetUp]
-    public void Setup()
+    public override void Setup()
     {
-        _videoCacheService = new VideoCacheService();
+        base.Setup();
+        _cacheProcessorMock = DependencyMock.CreateMockDependency<ICacheProcessor>();
+        _videoCacheService = new VideoCacheService(DependencyMock.Object);
     }
 
     [Test]
     public void ThrowsNotSetupExceptionWhenCacheVideoIsCalledBeforeSetup()
     {
-        Assert.Throws<NotSetupException>(() => _videoCacheService?.CacheVideo(VideoExamples.GetSourceVideo()));
+        _cacheProcessorMock.SetupGet(x => x.IsSetup).Returns(false);
+
+        Assert.Throws<NotSetupException>(() =>
+            _videoCacheService?.CacheVideo(SourceVideoExamples.GetSourceVideoExample()));
+    }
+
+    [Test]
+    public void SetupSetsUpCacheProcessor()
+    {
+        var project = ProjectExamples.GetEmptyProject();
+        var repository = new Mock<IVideoRepository>();
+
+        _videoCacheService.Setup(project, repository.Object);
+
+        _cacheProcessorMock.Verify(x => x.Setup(project, repository.Object), Times.Once);
+    }
+
+    [Test]
+    public void CacheVideoCallsCacheProcessor()
+    {
+        _cacheProcessorMock.SetupGet(x => x.IsSetup).Returns(true);
+        var sourceVideo = SourceVideoExamples.GetSourceVideoExample();
+        _videoCacheService.CacheVideo(sourceVideo);
+
+        _cacheProcessorMock.Verify(x => x.AddVideo(sourceVideo), Times.Once);
     }
 }
