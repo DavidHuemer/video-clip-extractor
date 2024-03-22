@@ -26,6 +26,11 @@ public static class VideoExamples
             .ToList();
     }
 
+    public static VideoViewModel GetVideoViewModelBySourceVideo(SourceVideo sourceVideo)
+    {
+        return new VideoViewModel(CachedVideoExamples.GetCachedVideoExampleBySourceVideo(sourceVideo));
+    }
+
     private static VideoViewModel GetRealisticVideoViewModel(int index)
     {
         var videoStatus = RealisticVideos.VideoStatusArray[index];

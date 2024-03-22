@@ -19,6 +19,12 @@ public static class SourceVideoExamples
         return GetSourceVideoExample(path, size);
     }
 
+    public static SourceVideo GetSourceVideoExampleByFullName(string fullName, int size = 1048, bool isChecked = false)
+    {
+        var path = GetSourcePath(fullName);
+        return GetSourceVideoExample(path, size, isChecked);
+    }
+
     public static List<SourceVideo> GetSourceVideoExamples(int nrVideos)
     {
         var videos = new List<SourceVideo>();
@@ -43,4 +49,6 @@ public static class SourceVideoExamples
                 isChecked: videoIndex <= RealisticVideos.ExtractedVideosCount))
             .ToList();
     }
+
+    public static string GetSourcePath(string fullName) => @$"{VideoRepositoryExamples.VideoRepositoryPath}\{fullName}";
 }

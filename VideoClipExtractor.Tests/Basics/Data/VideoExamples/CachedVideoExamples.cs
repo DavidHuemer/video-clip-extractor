@@ -18,4 +18,9 @@ public static class CachedVideoExamples
 
         return new CachedVideo(SourceVideoExamples.GetSourceVideoExample(sourcePath), localPath);
     }
+
+    public static CachedVideo GetCachedVideoExampleBySourceVideo(SourceVideo sourceVideo) =>
+        new CachedVideo(sourceVideo, GetLocalPath(sourceVideo.FullName));
+
+    public static string GetLocalPath(string fullName) => @$"C:\Cached\{fullName}";
 }
