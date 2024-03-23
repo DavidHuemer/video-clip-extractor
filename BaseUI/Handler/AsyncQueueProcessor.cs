@@ -2,7 +2,7 @@
 
 namespace BaseUI.Handler;
 
-public abstract class AsyncQueueProcessor<TInput, TOutput>
+public abstract class AsyncQueueProcessor<TInput, TOutput> : IProcessing<TOutput>
 {
     /// <summary>
     /// The cancellation token source for the processing task
@@ -12,9 +12,9 @@ public abstract class AsyncQueueProcessor<TInput, TOutput>
     /// <summary>
     /// The queue of items to process
     /// </summary>
-    private readonly ConcurrentQueue<TInput> _inputQueue = new ConcurrentQueue<TInput>();
+    private readonly ConcurrentQueue<TInput> _inputQueue = new();
 
-    protected bool IsProcessing;
+    private bool _isProcessing;
 
     /// <summary>
     /// Invoked when a result has been processed
@@ -46,7 +46,7 @@ public abstract class AsyncQueueProcessor<TInput, TOutput>
             }
             else
             {
-                IsProcessing = false;
+                _isProcessing = false;
                 return;
             }
         }
@@ -55,15 +55,15 @@ public abstract class AsyncQueueProcessor<TInput, TOutput>
     protected void Enqueue(TInput item)
     {
         _inputQueue.Enqueue(item);
-        if (IsProcessing) return;
-        IsProcessing = true;
+        if (_isProcessing) return;
+        _isProcessing = true;
         _ = ProcessQueueAsync();
     }
 
     public async Task StopProcessingAsync()
     {
         await _cancellationTokenSource.CancelAsync();
-        IsProcessing = false;
+        _isProcessing = false;
         await Task.CompletedTask;
     }
 }
