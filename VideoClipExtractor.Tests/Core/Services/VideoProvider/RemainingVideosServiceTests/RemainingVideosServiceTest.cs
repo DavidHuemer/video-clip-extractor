@@ -18,18 +18,24 @@ public class RemainingVideosServiceTest
     private RemainingVideosService _remainingVideosService = null!;
 
     [Test]
+    public void AllowedCacheSizeIsZeroAtBeginning()
+    {
+        Assert.That(_remainingVideosService.AllowedCacheSize, Is.EqualTo(0));
+    }
+
+    [Test]
     [TestCase(0, 0, 0)]
     [TestCase(2, 0, 2)]
     [TestCase(10, 0, 10)]
     [TestCase(20, 0, 20)]
     [TestCase(20, 2, 18)]
-    public void RemainingSourceVideosAreSetBySetup(int nrSourceVideos, int nrCachedVideos, int expected)
+    public void RemainingSourceVideosAreSetBySetup(int nrSourceVideos, int nrWorkingVideos, int expected)
     {
         var project = ProjectExamples.GetEmptyProject();
         var sourceVideos = SourceVideoExamples.GetSourceVideoExamples(nrSourceVideos);
         project.Videos = sourceVideos;
 
-        for (var i = 0; i < nrCachedVideos; i++)
+        for (var i = 0; i < nrWorkingVideos; i++)
         {
             var video = VideoExamples.GetVideoViewModelBySourceVideo(sourceVideos[i]);
             project.WorkingVideos.Add(video);
@@ -37,6 +43,22 @@ public class RemainingVideosServiceTest
 
         _remainingVideosService.Setup(project);
         Assert.That(_remainingVideosService.RemainingVideosCount, Is.EqualTo(expected));
+    }
+
+    [Test]
+    [TestCase(0, 0)]
+    [TestCase(1, 1)]
+    [TestCase(9, 9)]
+    [TestCase(10, 10)]
+    [TestCase(11, 10)]
+    public void AllowedCacheSizeIsCorrect(int nrSourceVideos, int expected)
+    {
+        var project = ProjectExamples.GetEmptyProject();
+        var sourceVideos = SourceVideoExamples.GetSourceVideoExamples(nrSourceVideos);
+        project.Videos = sourceVideos;
+
+        _remainingVideosService.Setup(project);
+        Assert.That(_remainingVideosService.AllowedCacheSize, Is.EqualTo(expected));
     }
 
     [Test]

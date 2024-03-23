@@ -8,7 +8,10 @@ namespace VideoClipExtractor.Core.Services.VideoProvider.RemainingVideosService;
 /// </summary>
 public interface IRemainingVideosService
 {
-    int RemainingVideosCount { get; }
+    int AllowedCacheSize { get; }
+
+    bool IsVideoRemaining { get; }
+
     void Setup(Project project);
 
     SourceVideo GetNextVideo();

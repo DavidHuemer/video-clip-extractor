@@ -5,10 +5,18 @@ using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Core.Services.VideoProvider.RemainingVideosService;
 
+/// <summary>
+/// Responsible for managing the remaining videos that are not yet processed.
+/// </summary>
 [Transient]
 public class RemainingVideosService : IRemainingVideosService
 {
     private Queue<SourceVideo> _remainingVideos = new();
+
+    public int RemainingVideosCount => _remainingVideos.Count;
+
+    public int AllowedCacheSize => Math.Min(VideoProvider.CacheSize, RemainingVideosCount);
+    public bool IsVideoRemaining => _remainingVideos.Count > 0;
 
     public void Setup(Project project)
     {
@@ -18,11 +26,9 @@ public class RemainingVideosService : IRemainingVideosService
         _remainingVideos = new Queue<SourceVideo>(sourceVideos);
     }
 
-    public int RemainingVideosCount => _remainingVideos.Count;
-
     public SourceVideo GetNextVideo()
     {
-        if (_remainingVideos.Count == 0)
+        if (!IsVideoRemaining)
             throw new RemainingVideosEmptyException();
 
         return _remainingVideos.Dequeue();
