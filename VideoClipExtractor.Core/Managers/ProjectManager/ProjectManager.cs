@@ -1,12 +1,11 @@
 ﻿using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
-using JetBrains.Annotations;
+using VideoClipExtractor.Core.Managers.VideoRepositoryManager;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Data.Project;
 
 namespace VideoClipExtractor.Core.Managers.ProjectManager;
 
-[UsedImplicitly]
 [Singleton]
 public class ProjectManager(IDependencyProvider provider) : IProjectManager
 {
@@ -15,6 +14,8 @@ public class ProjectManager(IDependencyProvider provider) : IProjectManager
         Project = project;
         _path = path;
         ProjectOpened?.Invoke(this, new ProjectOpenedEventArgs(project, path));
+
+        provider.GetDependency<IVideoRepositoryManager>().SetupRepositoryByBlueprint(project.VideoRepositoryBlueprint);
     }
 
     public event EventHandler<ProjectOpenedEventArgs>? ProjectOpened;

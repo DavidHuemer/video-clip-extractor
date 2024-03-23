@@ -1,5 +1,6 @@
 ﻿using Moq;
 using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.Core.Managers.VideoRepositoryManager;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Tests.Basics.BaseTests;
@@ -12,12 +13,14 @@ namespace VideoClipExtractor.Tests.Core.Managers.ProjectManagerTests;
 public class ProjectManagerTest : BaseDependencyTest
 {
     private Mock<IProjectSerializer> _projectSerializer = null!;
+    private Mock<IVideoRepositoryManager> _videoRepositoryManager = null!;
     private ProjectManager _projectManager = null!;
 
     public override void Setup()
     {
         base.Setup();
         _projectSerializer = DependencyMock.CreateMockDependency<IProjectSerializer>();
+        _videoRepositoryManager = DependencyMock.CreateMockDependency<IVideoRepositoryManager>();
         _projectManager = new ProjectManager(DependencyMock.Object);
     }
 
@@ -50,6 +53,14 @@ public class ProjectManagerTest : BaseDependencyTest
         _projectManager.ProjectOpened += (_, _) => eventInvoked = true;
         _projectManager.SetOpenedProject(project, "path");
         Assert.That(eventInvoked, Is.True);
+    }
+
+    [Test]
+    public void SetOpenedProjectsSetsUpVideoRepositoryManager()
+    {
+        var project = ProjectExamples.GetExampleProject();
+        _projectManager.SetOpenedProject(project, "path");
+        _videoRepositoryManager.Verify(x => x.SetupRepositoryByBlueprint(project.VideoRepositoryBlueprint), Times.Once);
     }
 
     [Test]
