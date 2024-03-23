@@ -9,11 +9,11 @@ public interface IOpenProjectManager
     /// Opens an explorer to select a project.
     /// After the project is selected, the project is opened.
     /// </summary>
-    void OpenProjectByExplorer();
+    Task OpenProjectByExplorer();
 
     /// <summary>
     /// Opens a project by a given path.
     /// </summary>
     /// <param name="projectPath">The path to the project</param>
-    void OpenProjectByPath(string projectPath);
+    Task OpenProjectByPath(string projectPath);
 }
