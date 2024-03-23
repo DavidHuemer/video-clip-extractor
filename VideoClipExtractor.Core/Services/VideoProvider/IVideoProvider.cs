@@ -1,12 +1,12 @@
 ﻿using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos;
-using VideoClipExtractor.Data.Videos.Events;
+using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Core.Services.VideoProvider;
 
 public interface IVideoProvider
 {
-    event EventHandler<VideoEventArgs>? VideoAdded;
+    event Action<VideoViewModel> VideoAdded;
 
     void Setup(Project project, IVideoRepository repository);
 

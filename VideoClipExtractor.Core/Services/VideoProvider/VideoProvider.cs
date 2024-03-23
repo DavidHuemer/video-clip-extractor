@@ -1,117 +1,107 @@
-﻿using BaseUI.Exceptions.Basics;
+﻿using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
-using VideoClipExtractor.Core.Services.VideoCaching;
+using VideoClipExtractor.Core.Managers.VideoCacheManager;
+using VideoClipExtractor.Core.Services.VideoProvider.CachedVideosService;
+using VideoClipExtractor.Core.Services.VideoProvider.RemainingVideosService;
+using VideoClipExtractor.Core.Services.VideoProvider.RequestedVideosService;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos;
 using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.Data.Videos.Events;
 
 namespace VideoClipExtractor.Core.Services.VideoProvider;
 
 /// <summary>
 ///     Provides videos from the repository.
 /// </summary>
+[Transient]
 public class VideoProvider : IVideoProvider
 {
-    public VideoProvider(IDependencyProvider provider)
-    {
-        _cacheHandler = provider.GetDependency<IVideoCacheService>();
-        _cacheHandler.VideoCached += OnFileCached;
-    }
-
-    #region Events
-
-    public event EventHandler<VideoEventArgs>? VideoAdded;
-
-    #endregion
-
-    public void Setup(Project project, IVideoRepository repository)
-    {
-        _cacheHandler.Setup(repository, project.ImageDirectory);
-        InitVideos(project);
-        _isSetup = true;
-    }
-
-    public void Next()
-    {
-        if (!_isSetup) throw new NotSetupException(nameof(VideoProvider), nameof(Setup));
-
-        ExtendCache();
-
-        if (_cache.Count > 0)
-            ProvideVideo();
-        else
-            _requestedVideos++;
-    }
-
-    private void InitVideos(Project project)
-    {
-        var sourceVideosList = project.Videos.ToList().OrderByDescending(sourceVideo => sourceVideo.Size)
-            .ThenBy(sourceVideo => sourceVideo.FullName)
-            .SkipWhile(sourceVideo => sourceVideo.Checked)
-            .ToList();
-
-        _remainingSourceVideos = new Queue<SourceVideo>(sourceVideosList);
-        _requestedVideos = 1;
-
-        var cacheCount = Math.Min(CacheSize, _remainingSourceVideos.Count);
-        for (var i = 0; i < cacheCount; i++) ExtendCache();
-    }
-
-    /// <summary>
-    ///     Extends the cache by one video.
-    ///     It takes the next video from the <see cref="_remainingSourceVideos" /> and caches it.
-    /// </summary>
-    private void ExtendCache()
-    {
-        if (_remainingSourceVideos.Count <= 0) return;
-
-        var sourceVideo = _remainingSourceVideos.Dequeue();
-        _cacheHandler.CacheVideo(sourceVideo);
-    }
-
-    private void ProvideVideo()
-    {
-        var cachedVideo = _cache.Dequeue();
-        var video = new Video(cachedVideo);
-        VideoAdded?.Invoke(this, new VideoEventArgs(video));
-    }
-
-    private void OnFileCached(object? sender, VideoCachedEventArgs e)
-    {
-        _cache.Enqueue(e.CachedVideo);
-
-        if (_requestedVideos <= 0) return;
-        _requestedVideos--;
-        ProvideVideo();
-    }
-
     #region Private Fields
 
     /// <summary>
     ///     The maximum size of the cache.
     /// </summary>
-    private const int CacheSize = 10;
-
-    private readonly IVideoCacheService _cacheHandler;
-
-    /// <summary>
-    ///     Contains the cached videos.
-    /// </summary>
-    private readonly Queue<CachedVideo> _cache = new();
-
-    /// <summary>
-    ///     Contains the remaining videos that are not done and not cached.
-    /// </summary>
-    private Queue<SourceVideo> _remainingSourceVideos = new();
-
-    /// <summary>
-    ///     The number of videos that are currently requested.
-    ///     In other words: The number of videos that are expected.
-    /// </summary>
-    private int _requestedVideos;
-
-    private bool _isSetup;
+    public const int CacheSize = 10;
 
     #endregion
+
+    private readonly ICachedVideosService _cachedVideosService;
+    private readonly IVideoCacheManager _cacheManager;
+    private readonly IRemainingVideosService _remainingVideosService;
+    private readonly IRequestedVideosService _requestedVideosService;
+
+    public VideoProvider(IDependencyProvider provider)
+    {
+        _cacheManager = provider.GetDependency<IVideoCacheManager>();
+        _cacheManager.VideoCached += OnFileCached;
+        _cacheManager.Error += OnError;
+
+        _remainingVideosService = provider.GetDependency<IRemainingVideosService>();
+        _requestedVideosService = provider.GetDependency<IRequestedVideosService>();
+        _cachedVideosService = provider.GetDependency<ICachedVideosService>();
+    }
+
+    #region Events
+
+    public event Action<VideoViewModel>? VideoAdded;
+
+    #endregion
+
+    public void Setup(Project project, IVideoRepository repository)
+    {
+        _cacheManager.Setup(project, repository);
+        _remainingVideosService.Setup(project);
+        _requestedVideosService.Setup(project);
+
+        var workingSourceVideos = project.WorkingVideos.Select(video => video.SourceVideo).ToList();
+        _cacheManager.CacheVideos(workingSourceVideos);
+
+        for (var i = 0; i < _remainingVideosService.AllowedCacheSize; i++) ExtendCache();
+    }
+
+    public void Next()
+    {
+        ExtendCache();
+
+        if (_cachedVideosService.IsVideoCached)
+        {
+            ProvideVideo();
+        }
+        else
+        {
+            _requestedVideosService.Request();
+        }
+    }
+
+    private void OnError(object? sender, EventArgs e)
+    {
+        _requestedVideosService.ErrorOccured();
+        ExtendCache();
+    }
+
+    private void OnFileCached(CachedVideo video)
+    {
+        _cachedVideosService.Add(video);
+
+        if (!_requestedVideosService.IsVideoRequested) return;
+        ProvideVideo();
+        ExtendCache();
+    }
+
+    /// <summary>
+    ///     Extends the cache by one video.
+    /// </summary>
+    private void ExtendCache()
+    {
+        if (!_remainingVideosService.IsVideoRemaining) return;
+
+        var sourceVideo = _remainingVideosService.GetNextVideo();
+        _cacheManager.CacheVideo(sourceVideo);
+    }
+
+    private void ProvideVideo()
+    {
+        var cachedVideo = _cachedVideosService.GetNextCachedVideo();
+        VideoAdded?.Invoke(_requestedVideosService.GetNextRequestedVideo(cachedVideo));
+    }
 }
