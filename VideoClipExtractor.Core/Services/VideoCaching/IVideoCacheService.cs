@@ -1,7 +1,6 @@
 ﻿using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos;
 using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.Data.Videos.Events;
 
 namespace VideoClipExtractor.Core.Services.VideoCaching;
 
@@ -11,9 +10,14 @@ namespace VideoClipExtractor.Core.Services.VideoCaching;
 public interface IVideoCacheService
 {
     /// <summary>
-    ///     Is called when a video has been cached
+    ///     Is invoked when a video has been cached
     /// </summary>
-    public event EventHandler<VideoCachedEventArgs>? VideoCached;
+    public event Action<CachedVideo>? VideoCached;
+
+    /// <summary>
+    /// Is invoked when an error occurs
+    /// </summary>
+    public event Action<Exception>? Error;
 
     /// <summary>
     ///     Sets up the cache service

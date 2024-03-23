@@ -5,15 +5,23 @@ using VideoClipExtractor.Core.Services.VideoCaching.CacheProcessor;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos;
 using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.Data.Videos.Events;
 
 namespace VideoClipExtractor.Core.Services.VideoCaching;
 
 [Transient]
-public class VideoCacheService(IDependencyProvider provider) : IVideoCacheService
+public class VideoCacheService : IVideoCacheService
 {
-    private readonly ICacheProcessor _cacheProcessor = provider.GetDependency<ICacheProcessor>();
-    public event EventHandler<VideoCachedEventArgs>? VideoCached;
+    private readonly ICacheProcessor _cacheProcessor;
+
+    public VideoCacheService(IDependencyProvider provider)
+    {
+        _cacheProcessor = provider.GetDependency<ICacheProcessor>();
+        _cacheProcessor.OnResultProcessed += OnVideoCached;
+        _cacheProcessor.OnErrorOccurred += OnErrorOccured;
+    }
+
+    public event Action<CachedVideo>? VideoCached;
+    public event Action<Exception>? Error;
 
     public void Setup(Project project, IVideoRepository repository)
     {
@@ -27,4 +35,10 @@ public class VideoCacheService(IDependencyProvider provider) : IVideoCacheServic
 
         _cacheProcessor.AddVideo(video);
     }
+
+    private void OnVideoCached(CachedVideo video) =>
+        VideoCached?.Invoke(video);
+
+    private void OnErrorOccured(Exception exception) =>
+        Error?.Invoke(exception);
 }

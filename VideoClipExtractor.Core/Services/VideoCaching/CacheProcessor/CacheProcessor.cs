@@ -28,8 +28,6 @@ public class CacheProcessor(IDependencyProvider provider)
     public void Setup(Project project, IVideoRepository repository) =>
         _cacheRunner.Setup(project, repository);
 
-    protected override CachedVideo Process(SourceVideo sourceVideo)
-    {
-        return _cacheRunner.StoreVideo(sourceVideo);
-    }
+    protected override CachedVideo Process(SourceVideo sourceVideo) =>
+        _cacheRunner.StoreVideo(sourceVideo);
 }

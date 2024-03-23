@@ -13,9 +13,9 @@ namespace VideoClipExtractor.Tests.Core.Services.VideoCaching.CacheProcessorTest
 [TestOf(typeof(CacheProcessor))]
 public class CacheProcessorTest : BaseDependencyTest
 {
-    [SetUp]
-    public void Setup()
+    public override void Setup()
     {
+        base.Setup();
         _cacheRunner = DependencyMock.CreateMockDependency<ICacheRunner>();
         _videoRepo = new Mock<IVideoRepository>();
         _cacheProcessor = new CacheProcessor(DependencyMock.Object);
@@ -51,8 +51,28 @@ public class CacheProcessorTest : BaseDependencyTest
 
         var sourceVideos = SourceVideoExamples.GetSourceVideoExamples(5);
         sourceVideos.ForEach(sourceVideo => _cacheProcessor.AddVideo(sourceVideo));
-
-        // Assert that the cache runner's StoreVideo method was called for each source video
         sourceVideos.ForEach(sourceVideo => _cacheRunner.Verify(x => x.StoreVideo(sourceVideo), Times.Once));
+    }
+
+    [Test]
+    public void OnResultProcessedIsInvoked()
+    {
+        _cacheRunner.SetupGet(x => x.IsSetup).Returns(true);
+        var sourceVideo = SourceVideoExamples.GetSourceVideoExample();
+        var cachedVideo = CachedVideoExamples.GetCachedVideoExample();
+        _cacheRunner.Setup(x => x.StoreVideo(sourceVideo)).Returns(cachedVideo);
+        _cacheProcessor.OnResultProcessed += video => Assert.That(video, Is.EqualTo(cachedVideo));
+        _cacheProcessor.AddVideo(sourceVideo);
+    }
+
+    [Test]
+    public void ErrorIsInvoked()
+    {
+        _cacheRunner.SetupGet(x => x.IsSetup).Returns(true);
+        var sourceVideo = SourceVideoExamples.GetSourceVideoExample();
+        var exception = new Exception();
+        _cacheRunner.Setup(x => x.StoreVideo(sourceVideo)).Throws(exception);
+        _cacheProcessor.OnErrorOccurred += ex => Assert.That(ex, Is.EqualTo(exception));
+        _cacheProcessor.AddVideo(sourceVideo);
     }
 }
