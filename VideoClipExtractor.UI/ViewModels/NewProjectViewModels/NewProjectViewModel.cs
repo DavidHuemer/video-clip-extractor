@@ -16,6 +16,8 @@ namespace VideoClipExtractor.UI.ViewModels.NewProjectViewModels;
 /// </summary>
 public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModelContainer(provider), INewProjectViewModel
 {
+    public event Action<Project>? ProjectCreated;
+
     private void OnVideoRepositorySelected(object? sender, VideoRepositoryBlueprintEventArgs e) =>
         VideoRepositoryBlueprint = e.Blueprint;
 
@@ -85,6 +87,7 @@ public class NewProjectViewModel(IDependencyProvider provider) : BaseViewModelCo
         var projectSerializer = DependencyProvider.GetDependency<IProjectSerializer>();
         projectSerializer.StoreProject(project, ProjectPath);
         DependencyProvider.GetDependency<IOpenProjectManager>().OpenProjectByPath(ProjectPath);
+        ProjectCreated?.Invoke(project);
     }
 
     #endregion
