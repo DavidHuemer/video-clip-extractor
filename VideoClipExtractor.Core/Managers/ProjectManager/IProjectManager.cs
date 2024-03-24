@@ -13,12 +13,6 @@ public interface IProjectManager
 
     #endregion
 
-    #region Events
-
-    event EventHandler<ProjectOpenedEventArgs>? ProjectOpened;
-
-    #endregion
-
     #region Storage
 
     /// <summary>
@@ -36,6 +30,14 @@ public interface IProjectManager
     /// <param name="project">The open project</param>
     /// <param name="path">The path of the project that is currently opened</param>
     void SetOpenedProject(Project project, string path);
+
+    #endregion
+
+    #region Events
+
+    event EventHandler<ProjectOpenedEventArgs>? ProjectOpened;
+
+    event Action<Project?>? ProjectChanged;
 
     #endregion
 }

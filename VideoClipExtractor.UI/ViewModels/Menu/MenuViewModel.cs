@@ -1,18 +1,29 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using PropertyChanged;
 using VideoClipExtractor.Core.Managers.ProjectManager;
-using VideoClipExtractor.Data.Project;
+using VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+using VideoClipExtractor.UI.ViewModels.WindowViewModels.NewProjectWindow;
 
 namespace VideoClipExtractor.UI.ViewModels.Menu;
 
-public class MenuViewModel(IDependencyProvider provider) : BaseViewModel
+[Singleton]
+public class MenuViewModel : BaseViewModelContainer, IMenuViewModel
 {
+    private readonly IProjectManager _projectManager;
+
+    public MenuViewModel(IDependencyProvider provider) : base(provider)
+    {
+        _projectManager = provider.GetDependency<IProjectManager>();
+        _projectManager.ProjectChanged += project => CanSave = project != null;
+    }
+
     #region Properties
 
-    [DoNotNotify] public Project? Project { get; set; }
+    [DoNotNotify] private bool CanSave { get; set; }
 
     #endregion
 
@@ -20,16 +31,24 @@ public class MenuViewModel(IDependencyProvider provider) : BaseViewModel
 
     public ICommand NewProject => new RelayCommand<string>(DoNewProject, _ => true);
 
-    private static void DoNewProject(string? obj)
+    private void DoNewProject(string? obj)
     {
-        Console.WriteLine("New Project");
+        var newProjectWindow = ViewModelProvider.Get<INewProjectWindowViewModel>();
+        newProjectWindow.ShowDialog();
     }
 
-    public ICommand SaveProject => new RelayCommand<string>(DoSaveProject, _ => Project != null);
+    public ICommand OpenProject => new RelayCommand<string>(DoOpenProject, _ => true);
+
+    private void DoOpenProject(string? obj)
+    {
+        DependencyProvider.GetDependency<IOpenProjectManager>().OpenProjectByExplorer();
+    }
+
+    public ICommand SaveProject => new RelayCommand<string>(DoSaveProject, _ => CanSave);
 
     private void DoSaveProject(string? obj)
     {
-        provider.GetDependency<IProjectManager>().StoreProject();
+        _projectManager.StoreProject();
     }
 
     #endregion

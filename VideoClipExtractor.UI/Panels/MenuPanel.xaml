@@ -10,9 +10,8 @@
     <Menu>
         <MenuItem Header="File">
             <MenuItem Header="New Project" Command="{Binding NewProject}" />
-            <MenuItem Header="Open Project" />
+            <MenuItem Header="Open Project" Command="{Binding OpenProject}" />
             <MenuItem Header="Save" Command="{Binding SaveProject}" />
-            <MenuItem Header="Save As" />
         </MenuItem>
     </Menu>
 </UserControl>

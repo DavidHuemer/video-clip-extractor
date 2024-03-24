@@ -14,11 +14,13 @@ public class ProjectManager(IDependencyProvider provider) : IProjectManager
         Project = project;
         _path = path;
         ProjectOpened?.Invoke(this, new ProjectOpenedEventArgs(project, path));
+        ProjectChanged?.Invoke(project);
 
         provider.GetDependency<IVideoRepositoryManager>().SetupRepositoryByBlueprint(project.VideoRepositoryBlueprint);
     }
 
     public event EventHandler<ProjectOpenedEventArgs>? ProjectOpened;
+    public event Action<Project?>? ProjectChanged;
 
     public void StoreProject()
     {
