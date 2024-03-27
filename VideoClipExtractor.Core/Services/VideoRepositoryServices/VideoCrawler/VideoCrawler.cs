@@ -1,70 +1,70 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using System.Windows.Threading;
+﻿using BaseUI.Basics.CurrentApplicationWrapper;
+using BaseUI.Data;
+using BaseUI.Exceptions.Basics;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
-using JetBrains.Annotations;
-using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
-using VideoClipExtractor.Data.Basics.Events;
+using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.Core.Managers.VideoRepositoryManager;
+using VideoClipExtractor.Data.Exceptions.VideoRepositoryExceptions;
+using VideoClipExtractor.Data.Project;
+using VideoClipExtractor.Data.VideoRepos;
 using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.Data.Videos.Events;
 
 namespace VideoClipExtractor.Core.Services.VideoRepositoryServices.VideoCrawler;
 
-[UsedImplicitly]
+[Transient]
 public class VideoCrawler(IDependencyProvider provider) : IVideoCrawler
 {
+    public const int BufferSize = 25;
+
     #region Private Fields
 
-    private readonly BackgroundWorker _worker = new();
+    private readonly ICurrentApplicationWrapper _currentApplicationWrapper =
+        provider.GetDependency<ICurrentApplicationWrapper>();
 
     #endregion
 
-    public void CrawlVideos()
-    {
-        _worker.DoWork += (_, _) => { RunCrawler(); };
-        _worker.RunWorkerCompleted += OnWorkerCompleted;
-        _worker.WorkerReportsProgress = true;
-        _worker.ProgressChanged += OnProgressChanged;
-        _worker.RunWorkerAsync();
-    }
-
-    private void RunCrawler()
-    {
-        try
-        {
-            var repo = provider.GetDependency<IVideoRepositoryManager>().VideoRepository;
-            if (repo == null) return;
-            var files = repo.GetFiles();
-
-            foreach (var file in files) _worker.ReportProgress(0, file);
-        }
-        catch (Exception e)
-        {
-            Application.Current.Dispatcher?.Invoke(
-                () => { ExceptionThrown?.Invoke(this, new ExceptionEventArgs(e)); },
-                DispatcherPriority.Normal);
-        }
-    }
-
-    private void OnWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
-    {
-        CrawlerFinished?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void OnProgressChanged(object? sender, ProgressChangedEventArgs e)
-    {
-        if (e.UserState is not SourceVideo file) return;
-
-        VideoAdded?.Invoke(this, new SourceVideoEventArgs(file));
-    }
+    public async Task CrawlVideos() =>
+        await Task.Run(RunCrawler);
 
     #region Events
 
-    public event EventHandler<SourceVideoEventArgs>? VideoAdded;
-
-    public event EventHandler? CrawlerFinished;
-
-    public event EventHandler<ExceptionEventArgs>? ExceptionThrown;
+    public event Action<List<SourceVideo>>? VideosAdded;
 
     #endregion
+
+    private void RunCrawler()
+    {
+        var project = provider.GetDependency<IProjectManager>().Project;
+        if (project == null)
+            throw new ProjectNotSetException();
+
+        var repo = provider.GetDependency<IVideoRepositoryManager>().VideoRepository;
+        if (repo == null)
+            throw new VideoRepositoryNotSetException();
+
+        RunCrawlerWithProjectAndRepo(project, repo);
+    }
+
+    private void RunCrawlerWithProjectAndRepo(Project project, IVideoRepository repo)
+    {
+        var buffer = new ElementBuffer<SourceVideo>(BufferSize, Report);
+        var sourceVideos = project.Videos.ToList();
+
+        var files = repo
+            .GetFiles()
+            .Where(sourceVideo => SourceVideoCrawlingHandler.ShouldCrawl(sourceVideo, sourceVideos));
+
+        foreach (var file in files)
+        {
+            buffer.Add(file);
+        }
+
+        buffer.Flush();
+    }
+
+    private void Report(List<SourceVideo> videos)
+    {
+        _currentApplicationWrapper.Run(() => { VideosAdded?.Invoke(videos); });
+    }
 }

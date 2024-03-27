@@ -1,5 +1,4 @@
-﻿using VideoClipExtractor.Data.Basics.Events;
-using VideoClipExtractor.Data.Videos.Events;
+﻿using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Core.Services.VideoRepositoryServices.VideoCrawler;
 
@@ -11,24 +10,11 @@ public interface IVideoCrawler
     /// <summary>
     ///     Crawls videos from a source.
     /// </summary>
-    void CrawlVideos();
+    Task CrawlVideos();
 
     #region Events
 
-    /// <summary>
-    ///     Occurs when a video is added.
-    /// </summary>
-    event EventHandler<SourceVideoEventArgs>? VideoAdded;
-
-    /// <summary>
-    ///     Occurs when the crawler has finished.
-    /// </summary>
-    event EventHandler? CrawlerFinished;
-
-    /// <summary>
-    ///     Occurs when an exception is thrown.
-    /// </summary>
-    event EventHandler<ExceptionEventArgs>? ExceptionThrown;
+    event Action<List<SourceVideo>> VideosAdded;
 
     #endregion
 }
