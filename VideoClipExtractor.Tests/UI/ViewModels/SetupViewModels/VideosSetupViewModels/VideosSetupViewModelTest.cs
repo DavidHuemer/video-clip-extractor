@@ -114,7 +114,7 @@ public class VideosSetupViewModelTest : BaseViewModelTest
         var project = ProjectExamples.GetEmptyProject();
         _projectManager.SetupGet(x => x.Project).Returns(project);
         var finishInvoked = false;
-        _videosSetupViewModel.Finish += (sender, args) => finishInvoked = true;
+        _videosSetupViewModel.Finish += (_, _) => finishInvoked = true;
 
         _videoSetupResultViewModel.Raise(x => x.VideosAdded += null!, new List<SourceVideo>());
         Assert.That(finishInvoked, Is.True);

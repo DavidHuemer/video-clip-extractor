@@ -2,7 +2,7 @@
 using BaseUI.Services.RecentlyOpened;
 using Moq;
 using VideoClipExtractor.Tests.Basics.BaseTests;
-using VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+using VideoClipExtractor.UI.Managers.ProjectManagers.OpenProjectManager;
 using VideoClipExtractor.UI.ViewModels.WelcomeViewModels;
 
 namespace VideoClipExtractor.Tests.UI.ViewModels.WelcomeViewModels;

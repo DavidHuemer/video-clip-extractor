@@ -4,7 +4,7 @@ using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos.Builder;
 using VideoClipExtractor.Tests.Basics.BaseTests;
-using VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+using VideoClipExtractor.UI.Managers.ProjectManagers.OpenProjectManager;
 using VideoClipExtractor.UI.ViewModels.NewProjectViewModels;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels.VideoRepositoryExplorer;
 

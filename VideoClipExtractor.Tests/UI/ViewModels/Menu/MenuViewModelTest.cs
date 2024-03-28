@@ -2,7 +2,7 @@
 using VideoClipExtractor.Core.Managers.ProjectManager;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
-using VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+using VideoClipExtractor.UI.Managers.ProjectManagers.OpenProjectManager;
 using VideoClipExtractor.UI.ViewModels.Menu;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels.NewProjectWindow;
 
