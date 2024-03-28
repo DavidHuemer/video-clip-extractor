@@ -6,7 +6,7 @@ using BaseUI.ViewModels;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.VideoRepos.Builder;
-using VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+using VideoClipExtractor.UI.Managers.ProjectManagers.OpenProjectManager;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels.VideoRepositoryExplorer;
 
 namespace VideoClipExtractor.UI.ViewModels.NewProjectViewModels;

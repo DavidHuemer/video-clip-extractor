@@ -5,7 +5,7 @@ using BaseUI.Data;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.RecentlyOpened;
 using BaseUI.ViewModels;
-using VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+using VideoClipExtractor.UI.Managers.ProjectManagers.OpenProjectManager;
 
 namespace VideoClipExtractor.UI.ViewModels.WelcomeViewModels;
 
