@@ -1,17 +1,20 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Input;
+using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
+/// <summary>
+/// View model for the videos explorer.
+/// </summary>
 public interface IVideosExplorerViewModel : INotifyPropertyChanged
 {
     public VideoViewModel? SelectedVideo { get; }
 
     public int SelectedIndex { get; set; }
 
-    ICommand ExportVideos { get; }
+    public Project Project { set; }
 
     ObservableCollection<VideoViewModel> Videos { get; }
 }

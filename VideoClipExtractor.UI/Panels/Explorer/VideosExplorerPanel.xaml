@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <ToolBar>
-            <Button>
+            <Button Command="{Binding ActionBar.RefreshVideos}">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <wpf:MaterialIcon Kind="Reload" />
@@ -23,7 +23,7 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <Button Command="{Binding ExportVideos}">
+            <Button Command="{Binding ActionBar.ExportVideos}">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <wpf:MaterialIcon Kind="Export" />

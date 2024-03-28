@@ -1,13 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
-using BaseUI.Commands;
 using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
-using VideoClipExtractor.Core.Managers.VideoProviderManager;
+using VideoClipExtractor.Core.Managers.WorkspaceManager;
+using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.Data.Videos.Events;
-using VideoClipExtractor.UI.Managers.Extraction;
+using VideoClipExtractor.UI.ViewModels.Main.Explorer.ExplorerActionBar;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
@@ -15,47 +13,47 @@ namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
 ///     The view model for the videos explorer
 /// </summary>
 [Singleton]
-public class VideosExplorerViewModel : BaseViewModel, IVideosExplorerViewModel
+public class VideosExplorerViewModel : BaseViewModelContainer, IVideosExplorerViewModel
 {
-    private readonly IExtractionManager _extractionManager;
+    private readonly IWorkspaceManager _workspaceManager;
 
-    public VideosExplorerViewModel(IDependencyProvider provider)
+    public VideosExplorerViewModel(IDependencyProvider provider) : base(provider)
     {
-        _extractionManager = provider.GetDependency<IExtractionManager>();
-
-        var videoProviderManager = provider.GetDependency<IVideoProviderManager>();
-        videoProviderManager.VideoAdded += OnVideoAdded;
+        ActionBar = ViewModelProvider.Get<IExplorerActionBarViewModel>();
+        _workspaceManager = provider.GetDependency<IWorkspaceManager>();
+        _workspaceManager.VideoAdded += OnVideoAdded;
+        _workspaceManager.Clear += OnWorkspaceCleared;
     }
 
-    private void OnVideoAdded(object? sender, VideoEventArgs e)
+    private void OnWorkspaceCleared(object? sender, EventArgs e)
     {
-        var videoViewModel = new VideoViewModel(e.Video);
+        Videos.Clear();
+        SelectedVideo = null;
+    }
 
-        Videos.Add(videoViewModel);
-        SelectedVideo = videoViewModel;
+    private void OnVideoAdded(VideoViewModel video)
+    {
+        Videos.Add(video);
+        SelectedVideo = video;
     }
 
     #region Properties
 
+    public IExplorerActionBarViewModel ActionBar { get; }
+
+    public Project Project
+    {
+        set => ActionBar.Project = value;
+    }
+
     /// <summary>
     /// The currently opened videos
     /// </summary>
-    public ObservableCollection<VideoViewModel> Videos { get; set; } = [];
+    public ObservableCollection<VideoViewModel> Videos { get; } = [];
 
     public VideoViewModel? SelectedVideo { get; set; }
 
     public int SelectedIndex { get; set; }
-
-    #endregion
-
-    #region Commands
-
-    public ICommand ExportVideos => new RelayCommand<string>(DoExportVideos, _ => true);
-
-    private void DoExportVideos(string? obj)
-    {
-        _extractionManager.ExtractVideos(Videos);
-    }
 
     #endregion
 }

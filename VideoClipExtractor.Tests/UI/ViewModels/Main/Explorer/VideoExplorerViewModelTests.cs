@@ -1,28 +1,25 @@
-﻿using System.Collections.ObjectModel;
-using Moq;
-using VideoClipExtractor.Core.Managers.VideoProviderManager;
-using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.Data.Videos.Events;
+﻿using Moq;
+using VideoClipExtractor.Core.Managers.WorkspaceManager;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
-using VideoClipExtractor.UI.Managers.Extraction;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
+using VideoClipExtractor.UI.ViewModels.Main.Explorer.ExplorerActionBar;
 
 namespace VideoClipExtractor.Tests.UI.ViewModels.Main.Explorer;
 
 public class VideoExplorerViewModelTests : BaseViewModelTest
 {
-    private Mock<IExtractionManager> _extractionManagerMock = null!;
-    private Mock<IVideoProviderManager> _videoProviderManagerMock = null!;
+    private Mock<IExplorerActionBarViewModel> _actionBarMock = null!;
 
     private VideosExplorerViewModel _viewModel = null!;
+    private Mock<IWorkspaceManager> _workspaceManagerMock = null!;
 
     public override void Setup()
     {
         base.Setup();
-        _videoProviderManagerMock = DependencyMock.CreateMockDependency<IVideoProviderManager>();
-        _extractionManagerMock = DependencyMock.CreateMockDependency<IExtractionManager>();
-
+        _workspaceManagerMock = DependencyMock.CreateMockDependency<IWorkspaceManager>();
+        _actionBarMock = ViewModelProviderMock.CreateViewModelMock<IExplorerActionBarViewModel>();
         _viewModel = new VideosExplorerViewModel(DependencyMock.Object);
     }
 
@@ -39,28 +36,35 @@ public class VideoExplorerViewModelTests : BaseViewModelTest
     }
 
     [Test]
+    public void ProjectSetsActionBarProject()
+    {
+        var project = ProjectExamples.GetExampleProject();
+        _viewModel.Project = project;
+        _actionBarMock.VerifySet(m => m.Project = project);
+    }
+
+    [Test]
     public void VideosAreAddedWhenVideoAddedEventIsRaised()
     {
-        var video = VideoExamples.GetVideoExample();
-        _videoProviderManagerMock.Raise(m => m.VideoAdded += null!, new VideoEventArgs(video));
+        var video = VideoExamples.GetVideoViewModelExample();
+        _workspaceManagerMock.Raise(m => m.VideoAdded += null!, video);
         Assert.That(_viewModel.Videos, Has.Count.EqualTo(1));
     }
 
     [Test]
     public void SelectedVideoIsSetWhenVideoAddedEventIsRaised()
     {
-        var video = VideoExamples.GetVideoExample();
-        _videoProviderManagerMock.Raise(m => m.VideoAdded += null!, new VideoEventArgs(video));
-
+        var video = VideoExamples.GetVideoViewModelExample();
+        _workspaceManagerMock.Raise(m => m.VideoAdded += null!, video);
         Assert.That(_viewModel.SelectedVideo, Is.Not.Null);
     }
 
     [Test]
-    public void ExportVideosCommandCallsExtractionManager()
+    public void VideosClearedWhenWorkspaceClearedEventIsRaised()
     {
-        var videos = VideoExamples.GetRealisticVideoViewModels();
-        _viewModel.Videos = new ObservableCollection<VideoViewModel>(videos);
-        _viewModel.ExportVideos.Execute(null);
-        _extractionManagerMock.Verify(m => m.ExtractVideos(_viewModel.Videos), Times.Once);
+        var video = VideoExamples.GetVideoViewModelExample();
+        _workspaceManagerMock.Raise(m => m.VideoAdded += null!, video);
+        _workspaceManagerMock.Raise(m => m.Clear += null!, EventArgs.Empty);
+        Assert.That(_viewModel.Videos, Is.Empty);
     }
 }
