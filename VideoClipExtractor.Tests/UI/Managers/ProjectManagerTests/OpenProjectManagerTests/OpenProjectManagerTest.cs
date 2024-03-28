@@ -5,7 +5,8 @@ using VideoClipExtractor.Core.Managers.ProjectManager;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
-using VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
+using VideoClipExtractor.UI.Managers.ProjectManagers.OpenProjectManager;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels.VideosSetupWindow;
 
 namespace VideoClipExtractor.Tests.UI.Managers.ProjectManagerTests.OpenProjectManagerTests;
@@ -74,6 +75,20 @@ public class OpenProjectManagerTest : BaseViewModelTest
 
         await _openProjectManager.OpenProjectByPath("path");
         _videosSetupWindowViewModel.Verify(x => x.ShowDialog(), Times.Once);
+    }
+
+    [Test]
+    public async Task OpenProjectByPathWithoutEmptyVideosShowsNotSetupVideos()
+    {
+        var project = ProjectExamples.GetExampleProject();
+        var sourceVideos = SourceVideoExamples.GetSourceVideoExamples(2);
+        project.Videos = sourceVideos;
+
+        _projectSerializer.Setup(x => x.LoadProject(It.IsAny<string>()))
+            .ReturnsAsync(project);
+
+        await _openProjectManager.OpenProjectByPath("path");
+        _videosSetupWindowViewModel.Verify(x => x.ShowDialog(), Times.Never);
     }
 
     [Test]

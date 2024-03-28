@@ -1,4 +1,4 @@
-﻿namespace VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+﻿namespace VideoClipExtractor.UI.Managers.ProjectManagers.OpenProjectManager;
 
 /// <summary>
 /// Responsible for opening a project.

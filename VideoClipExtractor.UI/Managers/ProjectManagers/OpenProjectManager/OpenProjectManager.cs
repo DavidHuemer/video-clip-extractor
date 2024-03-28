@@ -5,9 +5,10 @@ using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
 using VideoClipExtractor.Core.Managers.ProjectManager;
 using VideoClipExtractor.Core.Services.ProjectSerializer;
+using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels.VideosSetupWindow;
 
-namespace VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+namespace VideoClipExtractor.UI.Managers.ProjectManagers.OpenProjectManager;
 
 [Singleton]
 public class OpenProjectManager(IDependencyProvider provider) : IOpenProjectManager
@@ -29,13 +30,21 @@ public class OpenProjectManager(IDependencyProvider provider) : IOpenProjectMana
             var projectSerializer = provider.GetDependency<IProjectSerializer>();
             var project = await projectSerializer.LoadProject(projectPath);
             _projectManager.SetOpenedProject(project, projectPath);
-            var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-            var viewModel = viewModelProvider.Get<IVideosSetupWindowViewModel>();
-            viewModel.ShowDialog();
+            HandleSetupVideos(project);
         }
         catch (Exception e)
         {
             provider.GetDependency<IDialogService>().Show(e);
         }
+    }
+
+    private void HandleSetupVideos(Project project)
+    {
+        var sourceVideosExist = project.Videos.Any(x => !x.Checked);
+        if (sourceVideosExist) return;
+
+        var viewModelProvider = provider.GetDependency<IViewModelProvider>();
+        var viewModel = viewModelProvider.Get<IVideosSetupWindowViewModel>();
+        viewModel.ShowDialog();
     }
 }
