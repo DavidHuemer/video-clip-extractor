@@ -41,7 +41,7 @@ public class VideosExplorerViewModel : BaseViewModelContainer, IVideosExplorerVi
 
     public IExplorerActionBarViewModel ActionBar { get; }
 
-    public Project Project
+    public Project? Project
     {
         set => ActionBar.Project = value;
     }

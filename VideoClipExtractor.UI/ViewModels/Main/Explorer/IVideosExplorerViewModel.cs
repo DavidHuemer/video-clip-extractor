@@ -14,7 +14,7 @@ public interface IVideosExplorerViewModel : INotifyPropertyChanged
 
     public int SelectedIndex { get; set; }
 
-    public Project Project { set; }
+    public Project? Project { set; }
 
     ObservableCollection<VideoViewModel> Videos { get; }
 }
