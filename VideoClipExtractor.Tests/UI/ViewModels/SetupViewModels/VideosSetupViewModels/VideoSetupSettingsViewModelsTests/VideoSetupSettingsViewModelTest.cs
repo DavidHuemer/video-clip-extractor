@@ -31,6 +31,18 @@ public class VideoSetupSettingsViewModelTest : BaseViewModelTest
     }
 
     [Test]
+    public void ShowProgressIsFalseAtBeginning()
+    {
+        Assert.IsFalse(_videoSetupSettingsViewModel.ShowProgress);
+    }
+
+    [Test]
+    public void ShowStatisticsIsFalseAtBeginning()
+    {
+        Assert.IsFalse(_videoSetupSettingsViewModel.ShowStatistics);
+    }
+
+    [Test]
     public void LoadVideosCommandNotAllowedAtBeginning()
     {
         Assert.IsFalse(_videoSetupSettingsViewModel.LoadVideos.CanExecute(null));
@@ -88,5 +100,51 @@ public class VideoSetupSettingsViewModelTest : BaseViewModelTest
         _videoSetupSettingsViewModel.Project = project;
         _videoSetupSettingsViewModel.LoadVideos.Execute(null);
         Assert.IsFalse(_videoSetupSettingsViewModel.LoadVideos.CanExecute(null));
+    }
+
+    [Test]
+    public void ShowProgressTrueWhenLoading()
+    {
+        var project = ProjectExamples.GetExampleProject();
+        project.Videos.AddRange(SourceVideoExamples.GetSourceVideoExamples(4));
+        _videoSetupSettingsViewModel.Project = project;
+        _videoSetupSettingsViewModel.LoadVideos.Execute(null);
+
+        Assert.IsTrue(_videoSetupSettingsViewModel.ShowProgress);
+    }
+
+    [Test]
+    public void ShowStatisticsTrueWhenLoading()
+    {
+        var project = ProjectExamples.GetExampleProject();
+        project.Videos.AddRange(SourceVideoExamples.GetSourceVideoExamples(4));
+        _videoSetupSettingsViewModel.Project = project;
+        _videoSetupSettingsViewModel.LoadVideos.Execute(null);
+
+        Assert.IsTrue(_videoSetupSettingsViewModel.ShowStatistics);
+    }
+
+    [Test]
+    public void ShowProgressFalseWhenLoadingFinished()
+    {
+        var project = ProjectExamples.GetExampleProject();
+        project.Videos.AddRange(SourceVideoExamples.GetSourceVideoExamples(4));
+        _videoSetupSettingsViewModel.Project = project;
+        _videoSetupSettingsViewModel.LoadVideos.Execute(null);
+
+        _videoSetupSettingsViewModel.LoadingFinished();
+        Assert.IsFalse(_videoSetupSettingsViewModel.ShowProgress);
+    }
+
+    [Test]
+    public void ShowStatisticsTrueWhenLoadingFinished()
+    {
+        var project = ProjectExamples.GetExampleProject();
+        project.Videos.AddRange(SourceVideoExamples.GetSourceVideoExamples(4));
+        _videoSetupSettingsViewModel.Project = project;
+        _videoSetupSettingsViewModel.LoadVideos.Execute(null);
+
+        _videoSetupSettingsViewModel.LoadingFinished();
+        Assert.IsTrue(_videoSetupSettingsViewModel.ShowStatistics);
     }
 }

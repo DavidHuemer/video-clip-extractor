@@ -25,7 +25,7 @@ public class VideosSetupViewModel : BaseViewModelContainer, IVideosSetupViewMode
     }
 
     private IProjectManager ProjectManager => DependencyProvider.GetDependency<IProjectManager>();
-    public event EventHandler Finish;
+    public event EventHandler? Finish;
 
     private void SetupProject()
     {
@@ -37,6 +37,7 @@ public class VideosSetupViewModel : BaseViewModelContainer, IVideosSetupViewMode
     private async void OnLoadVideosRequested(VideoSetupSettings settings)
     {
         await ResultViewModel.LoadVideos();
+        SettingsViewModel.LoadingFinished();
     }
 
     private void OnVideosAdded(List<SourceVideo> videos)

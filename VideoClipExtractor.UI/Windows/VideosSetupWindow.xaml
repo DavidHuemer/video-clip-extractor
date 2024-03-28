@@ -5,7 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:windowViewModels="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels"
+        xmlns:videosSetupWindow="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels.VideosSetupWindow"
+        xmlns:panels="clr-namespace:VideoClipExtractor.UI.Panels"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
@@ -13,78 +14,14 @@
         FontFamily="{materialDesign:MaterialDesignFont}"
         WindowStartupLocation="CenterScreen"
         Title="VideosSetupWindow" Height="450" Width="800"
-        d:DataContext="{d:DesignInstance windowViewModels:VideosSetupWindowViewModel}">
+        d:DataContext="{d:DesignInstance videosSetupWindow:VideosSetupWindowViewModel}">
     <materialDesign:DialogHost CloseOnClickAway="False" Identifier="VideosSetupWindow">
         <materialDesign:DialogHost.DialogContent>
             <Grid Margin="20">
                 <TextBlock Text="My first Dialog" />
             </Grid>
         </materialDesign:DialogHost.DialogContent>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <!--Left-->
-            <StackPanel Orientation="Vertical" Margin="10">
-                <GroupBox Header="Settings"
-                          IsEnabled="{Binding EnableSettings, Mode=OneWay}">
-
-                    <!--Settings container-->
-                    <StackPanel>
-                        <CheckBox Content="Keep skipped Videos"
-                                  IsChecked="{Binding KeepSkippedVideos}" />
-                    </StackPanel>
-                </GroupBox>
-
-                <Button Content="Get Videos" Margin="0,10"
-                        Command="{Binding GetVideos}" />
-
-                <StackPanel Orientation="Vertical"
-                            Visibility="{Binding IsCrawling, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ProgressBar IsIndeterminate="True" Height="10" />
-                    <Label Content="Processing..." />
-                </StackPanel>
-
-                <GroupBox Header="Statistics">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Label Content="Nr. Videos" />
-                        <Label Grid.Column="1" Content="{Binding VideosCount}" />
-                    </Grid>
-                </GroupBox>
-            </StackPanel>
-
-            <!--Right-->
-            <Grid Grid.Column="1" Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <GroupBox Grid.Row="0" Header="Videos" Margin="0,0,0,10">
-                    <ListBox ItemsSource="{Binding CrawledVideos}" />
-                </GroupBox>
-
-                <DockPanel Grid.Row="1">
-                    <Button Content="Ok" HorizontalAlignment="Right" DockPanel.Dock="Right"
-                            Command="{Binding Finish}" />
-                    <Button Content="Cancel" Command="{Binding Cancel}"
-                            HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="0,0,10,0" />
-                </DockPanel>
-            </Grid>
-        </Grid>
-    </materialDesign:DialogHost>
-
-
+        
+        <panels:SetupVideosPanel DataContext="{Binding VideosSetupViewModel}"/>
+     </materialDesign:DialogHost>
 </Window>

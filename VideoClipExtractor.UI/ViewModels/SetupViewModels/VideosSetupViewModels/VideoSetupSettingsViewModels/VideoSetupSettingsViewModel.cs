@@ -1,7 +1,6 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
 using BaseUI.ViewModels;
-using PropertyChanged;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.Videos;
 
@@ -11,13 +10,22 @@ public class VideoSetupSettingsViewModel : BaseViewModel, IVideoSetupSettingsVie
 {
     private Project? _project;
 
-    [DoNotNotify] private bool IsLoading { get; set; }
+    private bool IsLoading { get; set; }
 
     private bool CanLoadVideos => Project != null && !IsLoading;
+
+    public bool ShowProgress => IsLoading;
+
+    public bool ShowStatistics { get; set; }
     public bool EnableSettings { get; private set; }
 
     public bool ReconsiderSkippedVideos { get; set; }
     public event Action<VideoSetupSettings>? LoadVideosRequested;
+
+    public void LoadingFinished()
+    {
+        IsLoading = false;
+    }
 
     public Project? Project
     {
@@ -41,6 +49,7 @@ public class VideoSetupSettingsViewModel : BaseViewModel, IVideoSetupSettingsVie
         };
 
         IsLoading = true;
+        ShowStatistics = true;
         LoadVideosRequested?.Invoke(settings);
     }
 
