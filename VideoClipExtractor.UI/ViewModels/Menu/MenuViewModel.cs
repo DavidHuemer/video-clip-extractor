@@ -5,7 +5,7 @@ using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using PropertyChanged;
 using VideoClipExtractor.Core.Managers.ProjectManager;
-using VideoClipExtractor.UI.Managers.Project.OpenProjectManager;
+using VideoClipExtractor.UI.Managers.ProjectManagers.OpenProjectManager;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels.NewProjectWindow;
 
 namespace VideoClipExtractor.UI.ViewModels.Menu;
