@@ -1,6 +1,7 @@
 ﻿using BaseUI.Services.Dialogs;
 using Moq;
 using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.Core.Managers.WorkspaceManager;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Tests.Basics.BaseTests;
@@ -19,9 +20,9 @@ public class VideosSetupViewModelTest : BaseViewModelTest
     private Mock<IVideoSetupSettingsViewModel> _videoSetupSettingsViewModel = null!;
     private Mock<IVideoSetupResultViewModel> _videoSetupResultViewModel = null!;
 
-
     private Mock<IProjectManager> _projectManager = null!;
     private Mock<IDialogService> _dialogService = null!;
+    private Mock<IWorkspaceManager> _workspaceManager = null!;
 
     private VideosSetupViewModel _videosSetupViewModel = null!;
 
@@ -33,6 +34,7 @@ public class VideosSetupViewModelTest : BaseViewModelTest
 
         _projectManager = DependencyMock.CreateMockDependency<IProjectManager>();
         _dialogService = DependencyMock.CreateMockDependency<IDialogService>();
+        _workspaceManager = DependencyMock.CreateMockDependency<IWorkspaceManager>();
 
         _videosSetupViewModel = new VideosSetupViewModel(DependencyMock.Object);
     }
@@ -116,5 +118,15 @@ public class VideosSetupViewModelTest : BaseViewModelTest
 
         _videoSetupResultViewModel.Raise(x => x.VideosAdded += null!, new List<SourceVideo>());
         Assert.That(finishInvoked, Is.True);
+    }
+
+    [Test]
+    public void WorkspaceManagerNotifiedAfterVideosAdded()
+    {
+        var project = ProjectExamples.GetEmptyProject();
+        _projectManager.SetupGet(x => x.Project).Returns(project);
+
+        _videoSetupResultViewModel.Raise(x => x.VideosAdded += null!, new List<SourceVideo>());
+        _workspaceManager.Verify(x => x.SourceVideosChanged(), Times.Once);
     }
 }

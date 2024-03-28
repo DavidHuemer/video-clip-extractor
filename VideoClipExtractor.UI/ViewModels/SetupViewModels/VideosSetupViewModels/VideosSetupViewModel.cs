@@ -4,6 +4,7 @@ using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.Core.Managers.WorkspaceManager;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.UI.ViewModels.SetupViewModels.VideosSetupViewModels.VideoSetupResultViewModels;
 using VideoClipExtractor.UI.ViewModels.SetupViewModels.VideosSetupViewModels.VideoSetupSettingsViewModels;
@@ -51,6 +52,8 @@ public class VideosSetupViewModel : BaseViewModelContainer, IVideosSetupViewMode
             project.Videos.Clear();
             project.Videos.AddRange(videos);
             ProjectManager.StoreProject();
+
+            DependencyProvider.GetDependency<IWorkspaceManager>().SourceVideosChanged();
             Finish?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception e)

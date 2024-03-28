@@ -1,14 +1,15 @@
 ﻿using VideoClipExtractor.Data.VideoRepos;
 using VideoClipExtractor.Data.VideoRepos.Builder;
 
-namespace VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
+namespace VideoClipExtractor.Core.Managers.VideoRepositoryManager;
 
 /// <summary>
-///     Responsible for managing a <see cref="IVideoRepository" />
+///     Responsible for managing the current <see cref="IVideoRepository" />
 /// </summary>
 public interface IVideoRepositoryManager
 {
     public IVideoRepository? VideoRepository { get; set; }
+    event Action<IVideoRepository?> VideoRepositoryChanged;
 
     /// <summary>
     ///     Sets the <see cref="IVideoRepository" /> by using the given <see cref="VideoRepositoryBlueprint" />
@@ -17,5 +18,5 @@ public interface IVideoRepositoryManager
     ///     The template that holds the required information to create the
     ///     <see cref="IVideoRepository" />
     /// </param>
-    void SetupRepository(VideoRepositoryBlueprint blueprint);
+    void SetupRepositoryByBlueprint(VideoRepositoryBlueprint blueprint);
 }

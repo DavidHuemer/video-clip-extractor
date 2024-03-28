@@ -1,24 +1,22 @@
-﻿using BaseUI.Services.Provider.DependencyInjection;
-using JetBrains.Annotations;
+﻿using BaseUI.Services.Provider.Attributes;
+using BaseUI.Services.Provider.DependencyInjection;
 using VideoClipExtractor.Core.Services.VideoRepositoryServices.Builder;
 using VideoClipExtractor.Data.VideoRepos;
 using VideoClipExtractor.Data.VideoRepos.Builder;
 
-namespace VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
+namespace VideoClipExtractor.Core.Managers.VideoRepositoryManager;
 
-[UsedImplicitly]
+[Singleton]
 public class VideoRepositoryManager(IDependencyProvider provider) : IVideoRepositoryManager
 {
-    #region Properties
-
+    public event Action<IVideoRepository?>? VideoRepositoryChanged;
     public IVideoRepository? VideoRepository { get; set; }
 
-    #endregion
-
-    public void SetupRepository(VideoRepositoryBlueprint blueprint)
+    public void SetupRepositoryByBlueprint(VideoRepositoryBlueprint blueprint)
     {
         var videoRepoBuilder = provider.GetDependency<IVideoRepositoryBuilder>();
         VideoRepository = videoRepoBuilder.Build(blueprint);
         VideoRepository.Connect();
+        VideoRepositoryChanged?.Invoke(VideoRepository);
     }
 }

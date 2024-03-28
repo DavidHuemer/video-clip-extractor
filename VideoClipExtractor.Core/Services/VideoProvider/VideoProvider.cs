@@ -62,14 +62,11 @@ public class VideoProvider : IVideoProvider
     public void Next()
     {
         ExtendCache();
+        _requestedVideosService.Request();
 
         if (_cachedVideosService.IsVideoCached)
         {
             ProvideVideo();
-        }
-        else
-        {
-            _requestedVideosService.Request();
         }
     }
 

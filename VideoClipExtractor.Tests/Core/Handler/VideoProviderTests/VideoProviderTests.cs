@@ -48,6 +48,7 @@ public class VideoProviderTests : BaseDependencyTest
     [Test]
     [TestCase(0)]
     [TestCase(2)]
+    [TestCase(20)]
     public void WorkingVideosAreCached(int nrWorkingVideos)
     {
         var project = ProjectExamples.GetExampleProject();

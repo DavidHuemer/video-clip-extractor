@@ -3,12 +3,15 @@ using Moq;
 using VideoClipExtractor.Core.Services.VideoCaching;
 using VideoClipExtractor.Core.Services.VideoCaching.CacheProcessor;
 using VideoClipExtractor.Data.VideoRepos;
+using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
 using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 
 namespace VideoClipExtractor.Tests.Core.Services.VideoCaching;
 
+[TestFixture]
+[TestOf(typeof(VideoCacheService))]
 public class VideoCacheServiceTests : BaseDependencyTest
 {
     private Mock<ICacheProcessor> _cacheProcessorMock = null!;
@@ -49,5 +52,27 @@ public class VideoCacheServiceTests : BaseDependencyTest
         _videoCacheService.CacheVideo(sourceVideo);
 
         _cacheProcessorMock.Verify(x => x.AddVideo(sourceVideo), Times.Once);
+    }
+
+    [Test]
+    public void CacheProcessorInvokesVideoCached()
+    {
+        var cachedVideo = CachedVideoExamples.GetCachedVideoExample();
+
+        CachedVideo actualCachedVideo = null!;
+        _videoCacheService.VideoCached += video => actualCachedVideo = video;
+        _cacheProcessorMock.Raise(x => x.OnResultProcessed += null, cachedVideo);
+        Assert.That(actualCachedVideo, Is.EqualTo(cachedVideo));
+    }
+
+    [Test]
+    public void CacheProcessorInvokesError()
+    {
+        var exception = new Exception();
+
+        Exception actualException = null!;
+        _videoCacheService.Error += ex => actualException = ex;
+        _cacheProcessorMock.Raise(x => x.OnErrorOccurred += null, exception);
+        Assert.That(actualException, Is.EqualTo(exception));
     }
 }
