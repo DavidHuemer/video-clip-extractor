@@ -15,7 +15,7 @@ public class MpegEngine(string ffMpegPath) : IMpegEngine
 
     public async Task<string> RunCommandAsync(string command)
     {
-        command = $"-loglevel repeat+level+fatal {command}";
+        command = $"{command}";
 
         var psi = CreateProcessStartInfo(command);
 

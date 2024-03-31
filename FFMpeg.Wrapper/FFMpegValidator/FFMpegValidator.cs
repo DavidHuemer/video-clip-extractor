@@ -13,7 +13,7 @@ public static class FfMpegValidator
 
     private static void CheckNotExisting(string output)
     {
-        var pattern = @"\[fatal\] Error opening input files: No such file or directory";
+        var pattern = "Error opening input files: No such file or directory";
         var match = Regex.Match(output, pattern);
         if (match.Success)
             throw new FileNotFoundException("Error opening input files: No such file or directory");
@@ -21,7 +21,7 @@ public static class FfMpegValidator
 
     private static void CheckAlreadyExisting(string output)
     {
-        var pattern = @"\[fatal\] File '(?<filename>.*)' already exists.";
+        var pattern = @"File '(?<filename>.*)' already exists. Exiting.";
         var match = Regex.Match(output, pattern);
         if (match.Success)
             throw new IOException($"File '{match.Groups["filename"].Value}' already exists.");
