@@ -1,17 +1,13 @@
-﻿using BaseUI.Services.Dialogs;
-using BaseUI.Services.Provider.Attributes;
+﻿using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
-using BaseUI.Services.RecentlyOpened;
 using BaseUI.Services.WindowService;
 using BaseUI.ViewModels;
 using PropertyChanged;
-using VideoClipExtractor.Core.Managers.ProjectManager;
-using VideoClipExtractor.Core.Managers.VideoProviderManager;
-using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.UI.ViewModels.Main;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel;
 using VideoClipExtractor.UI.ViewModels.Menu;
+using VideoClipExtractor.UI.ViewModels.WindowViewModels.WelcomeWindow;
 
 namespace VideoClipExtractor.UI.ViewModels.WindowViewModels;
 
@@ -27,8 +23,9 @@ public class MainWindowViewModel : WindowViewModel
     public MainWindowViewModel(IDependencyProvider provider) : base(provider)
     {
         _provider = provider;
-        MenuViewModel = new MenuViewModel(provider);
-        MainControlViewModel = new MainControlViewModel(provider);
+        MainControlViewModel = ViewModelProvider.Get<IMainControlViewModel>();
+        MenuViewModel = ViewModelProvider.Get<IMenuViewModel>();
+        ControlPanelViewModel = ViewModelProvider.Get<IControlPanelViewModel>();
     }
 
     protected override void SetupEvents(IWindow window)
@@ -39,10 +36,8 @@ public class MainWindowViewModel : WindowViewModel
 
     private void WindowOnContentRendered(object? sender, EventArgs e)
     {
-        var windowService = _provider.GetDependency<IWindowService>();
-        var welcomeWindow = new WelcomeWindowViewModel(_provider);
-        welcomeWindow.ProjectOpened += OnProjectOpened;
-        welcomeWindow.ShowDialog(windowService);
+        var welcomeWindow = ViewModelProvider.Get<IWelcomeWindowViewModel>();
+        welcomeWindow.ShowDialog();
     }
 
     /// <summary>
@@ -52,54 +47,48 @@ public class MainWindowViewModel : WindowViewModel
     /// <param name="e">Event that contains the opened project</param>
     private void OnProjectOpened(object? sender, ProjectOpenedEventArgs e)
     {
-        var recentlyOpenedFilesService = _provider.GetDependency<IRecentlyOpenedFilesService>();
-        recentlyOpenedFilesService.AddFile(e.Path);
-
-        try
-        {
-            var repoManager = _provider.GetDependency<IVideoRepositoryManager>();
-            repoManager.SetupRepository(e.Project.VideoRepositoryBlueprint);
-
-            Project = e.Project;
-            _provider.GetDependency<IProjectManager>().SetOpenedProject(e);
-
-            _provider.GetDependency<IVideoProviderManager>().Setup(e.Project, repoManager.VideoRepository!);
-
-            if (Project.Videos.Count == 0) ShowSetupVideos();
-        }
-        catch (Exception exception)
-        {
-            _provider.GetDependency<IDialogService>().Show(exception);
-        }
+        // var recentlyOpenedFilesService = _provider.GetDependency<IRecentlyOpenedFilesService>();
+        // recentlyOpenedFilesService.AddFile(e.Path);
+        //
+        // try
+        // {
+        //     var repoManager = _provider.GetDependency<IVideoRepositoryManager>();
+        //     repoManager.SetupRepository(e.Project.VideoRepositoryBlueprint);
+        //
+        //     Project = e.Project;
+        //     _provider.GetDependency<IProjectManager>().SetOpenedProject(e);
+        //
+        //     _provider.GetDependency<IVideoProviderManager>().Setup(e.Project, repoManager.VideoRepository!);
+        //
+        //     if (Project.Videos.Count == 0) ShowSetupVideos();
+        // }
+        // catch (Exception exception)
+        // {
+        //     _provider.GetDependency<IDialogService>().Show(exception);
+        // }
     }
 
-    private void ShowSetupVideos()
-    {
-        var windowService = _provider.GetDependency<IWindowService>();
-        var setupVideosWindow = new VideosSetupWindowViewModel(_provider, true);
-        setupVideosWindow.Show(windowService);
-    }
+    // private void ShowSetupVideos()
+    // {
+    //     var setupVideosWindow = new VideosSetupWindowViewModel(_provider, true);
+    //     setupVideosWindow.Show();
+    // }
 
     #region Properties
 
-    [DoNotNotify] public MenuViewModel MenuViewModel { get; set; }
+    [DoNotNotify] public IMenuViewModel MenuViewModel { get; }
 
-    [DoNotNotify] public MainControlViewModel MainControlViewModel { get; set; }
+    [DoNotNotify] public IMainControlViewModel MainControlViewModel { get; }
 
     private Project? _project;
 
     private Project? Project
     {
         get => _project;
-        set
-        {
-            _project = value;
-            MenuViewModel.Project = value;
-        }
+        set { _project = value; }
     }
 
-    [DoNotNotify]
-    public IControlPanelViewModel ControlPanelViewModel => MainControlViewModel.VideoPlayerVm.ControlPanelViewModel;
+    [DoNotNotify] public IControlPanelViewModel ControlPanelViewModel { get; }
 
     #endregion
 }

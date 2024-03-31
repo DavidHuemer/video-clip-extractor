@@ -9,12 +9,12 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="{materialDesign:MaterialDesignFont}"
-        xmlns:windowVm="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels"
         xmlns:extensions="clr-namespace:BaseUI.Extensions;assembly=BaseUI"
+        xmlns:videoRepositoryExplorer="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels.VideoRepositoryExplorer"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         Title="VideoRepositoryExplorerWindow" Height="550" Width="400"
-        d:DataContext="{d:DesignInstance Type=windowVm:VideoRepositoryExplorerWindowViewModel}">
+        d:DataContext="{d:DesignInstance Type=videoRepositoryExplorer:VideoRepositoryExplorerWindowViewModel}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

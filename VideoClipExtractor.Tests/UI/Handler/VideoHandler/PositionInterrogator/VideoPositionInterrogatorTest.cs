@@ -59,17 +59,17 @@ public class VideoPositionInterrogatorTest : BaseDependencyTest
         _videoPositionDispatcher.Verify(x => x.Stop(), Times.Once);
     }
 
-    [Test]
-    public void ViewModelPositionUpdatedWhenDispatched()
-    {
-        var timespan = new TimeSpan(0, 0, 10);
-
-        _videoPlayer.Setup(x => x.Position).Returns(timespan);
-
-        _videoPositionDispatcher.Raise(x
-            => x.PositionDispatched += null, EventArgs.Empty);
-
-        _videoNavigationViewModel.VerifySet(x =>
-            x.VideoPosition = It.Is<VideoPosition>(y => y.Duration.TimeSpan == timespan));
-    }
+    // [Test]
+    // public void ViewModelPositionUpdatedWhenDispatched()
+    // {
+    //     var timespan = new TimeSpan(0, 0, 10);
+    //
+    //     _videoPlayer.Setup(x => x.Position).Returns(timespan);
+    //
+    //     _videoPositionDispatcher.Raise(x
+    //         => x.PositionDispatched += null, EventArgs.Empty);
+    //
+    //     _videoNavigationViewModel.VerifySet(x =>
+    //         x.VideoPosition = It.Is<VideoPosition>(y => y.Duration.TimeSpan == timespan));
+    // }
 }

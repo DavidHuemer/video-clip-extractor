@@ -25,8 +25,7 @@ namespace VideoClipExtractor.UI.DesignData
         {
             var sourceVideo = new SourceVideo(@"C\Source\az_123.mp4", 500);
             var cachedVideo = new CachedVideo(sourceVideo, @"C\Cached\az_123.mp4");
-            var video = new Video(cachedVideo);
-            var videoViewModel = new VideoViewModel(video);
+            var videoViewModel = new VideoViewModel(cachedVideo);
             videoViewModel.VideoStatus = status;
             videoViewModel.ExtractionResult = videoExtractionResult;
 

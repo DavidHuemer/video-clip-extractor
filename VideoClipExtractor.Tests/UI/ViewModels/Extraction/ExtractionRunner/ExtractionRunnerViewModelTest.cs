@@ -3,6 +3,7 @@ using VideoClipExtractor.Core.Services.Extraction;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 using VideoClipExtractor.UI.ViewModels.Extraction.ExtractionNavigation;
 using VideoClipExtractor.UI.ViewModels.Extraction.ExtractionRunner;
 
@@ -29,7 +30,10 @@ public class ExtractionRunnerViewModelTest : BaseViewModelTest
     [Test]
     public async Task CurrentVideoIsSetForAllVideos()
     {
-        var videos = VideoExamples.GetExampleVideos(5).ToList();
+        _extractionServiceMock.Setup(x => x.Extract(It.IsAny<VideoViewModel>()))
+            .ReturnsAsync(ExtractionResultExamples.GetSuccessVideoExtractionResultExample());
+
+        var videos = VideoExamples.GetVideoViewModelExamples(5).ToList();
         await _extractionRunnerViewModel.ExtractVideos(videos);
 
         foreach (var video in videos)
@@ -42,7 +46,7 @@ public class ExtractionRunnerViewModelTest : BaseViewModelTest
     [Test]
     public async Task ExtractIsCalledForAllVideos()
     {
-        var videos = VideoExamples.GetExampleVideos(5).ToList();
+        var videos = VideoExamples.GetVideoViewModelExamples(5).ToList();
         await _extractionRunnerViewModel.ExtractVideos(videos);
 
         foreach (var video in videos)
@@ -54,7 +58,7 @@ public class ExtractionRunnerViewModelTest : BaseViewModelTest
     [Test]
     public async Task ExtractIsCalledForAllVideosWhenExceptionIsThrown()
     {
-        var videos = VideoExamples.GetExampleVideos(5).ToList();
+        var videos = VideoExamples.GetVideoViewModelExamples(5).ToList();
         _extractionServiceMock.Setup(x => x.Extract(It.IsAny<VideoViewModel>()))
             .Throws<Exception>();
 

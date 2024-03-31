@@ -8,6 +8,9 @@ using VideoClipExtractor.Core.Services.RecentlyOpened;
 using VideoClipExtractor.UI.Services.FileServices;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels.ExtractionWindow;
+using VideoClipExtractor.UI.ViewModels.WindowViewModels.NewProjectWindow;
+using VideoClipExtractor.UI.ViewModels.WindowViewModels.VideoRepositoryExplorer;
+using VideoClipExtractor.UI.ViewModels.WindowViewModels.VideosSetupWindow;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels.WelcomeWindow;
 using VideoClipExtractor.UI.Windows;
 
@@ -32,7 +35,7 @@ public partial class App
         dependencyProvider.AddTransientDependency<IProjectSerializer, JsonProjectSerializer>();
         dependencyProvider.AddTransientDependency<IRecentlyOpenedFilesService, RecentlyOpenedFilesService>();
         SetupWindows(dependencyProvider);
-        new MainWindowViewModel(dependencyProvider).Show(dependencyProvider.GetDependency<IWindowService>());
+        new MainWindowViewModel(dependencyProvider).Show();
     }
 
     private void SetupWindows(IDependencyProvider provider)
@@ -43,5 +46,6 @@ public partial class App
         windowService.Register<VideoRepositoryExplorerWindowViewModel, VideoRepositoryExplorerWindow>();
         windowService.Register<VideosSetupWindowViewModel, VideosSetupWindow>();
         windowService.Register<ExtractionWindowViewModel, ExtractionWindow>();
+        windowService.Register<NewProjectWindowViewModel, NewProjectWindow>();
     }
 }

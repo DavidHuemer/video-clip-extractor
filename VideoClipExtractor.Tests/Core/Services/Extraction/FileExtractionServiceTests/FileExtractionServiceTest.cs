@@ -5,6 +5,7 @@ using VideoClipExtractor.Core.Services.Extraction.VideoExtractions;
 using VideoClipExtractor.Data.Extractions.Basics;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 
 namespace VideoClipExtractor.Tests.Core.Services.Extraction.FileExtractionServiceTests;
 

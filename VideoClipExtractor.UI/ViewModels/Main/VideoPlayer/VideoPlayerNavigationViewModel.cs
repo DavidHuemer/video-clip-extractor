@@ -4,8 +4,8 @@ using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
-using JetBrains.Annotations;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
+using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
@@ -14,7 +14,6 @@ namespace VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 ///     Viewmodel for the navigation part of the video player.
 ///     Choosing next video, export, ...
 /// </summary>
-[UsedImplicitly]
 [Singleton]
 public class VideoPlayerNavigationViewModel : BaseViewModel, IVideoPlayerNavigationViewModel
 {
@@ -58,17 +57,15 @@ public class VideoPlayerNavigationViewModel : BaseViewModel, IVideoPlayerNavigat
 
     public ICommand Skip => new RelayCommand<string>(DoSkip, _ => VideoExplorer.SelectedVideo != null);
 
-    private void DoSkip(string? obj)
-    {
-        VideoExplorer.SelectedVideo!.VideoStatus = Data.Videos.VideoStatus.Skipped;
-        AccessNext();
-    }
+    private void DoSkip(string? obj) => SetVideoStatus(VideoStatus.Skipped);
 
     public ICommand Finish => new RelayCommand<string>(DoFinish, _ => VideoExplorer.SelectedVideo != null);
 
-    private void DoFinish(string? obj)
+    private void DoFinish(string? obj) => SetVideoStatus(VideoStatus.ReadyForExport);
+
+    private void SetVideoStatus(VideoStatus status)
     {
-        VideoExplorer.SelectedVideo!.VideoStatus = Data.Videos.VideoStatus.ReadyForExport;
+        VideoExplorer.SelectedVideo!.VideoStatus = status;
         AccessNext();
     }
 

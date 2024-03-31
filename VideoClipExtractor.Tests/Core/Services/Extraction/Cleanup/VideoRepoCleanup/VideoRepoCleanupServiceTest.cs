@@ -1,10 +1,10 @@
 ﻿using Moq;
+using VideoClipExtractor.Core.Managers.VideoRepositoryManager;
 using VideoClipExtractor.Core.Services.Extraction.Cleanup.VideoRepoCleanup;
-using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
 using VideoClipExtractor.Data.Exceptions.VideoRepositoryExceptions;
 using VideoClipExtractor.Data.VideoRepos;
 using VideoClipExtractor.Tests.Basics.BaseTests;
-using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 
 namespace VideoClipExtractor.Tests.Core.Services.Extraction.Cleanup.VideoRepoCleanup;
 

@@ -7,9 +7,8 @@ namespace BaseUI.ViewModels;
 /// Base class for all view models that require access to the dependency provider.
 /// </summary>
 /// <param name="provider">The provider that grants access to the dependencies</param>
-public abstract class BaseViewModelContainer(IDependencyProvider provider) : BaseViewModel
+public abstract class BaseViewModelContainer(IDependencyProvider provider) : BaseViewModel, IBaseViewModelContainer
 {
-    protected IDependencyProvider DependencyProvider { get; set; } = provider;
-
-    protected IViewModelProvider ViewModelProvider { get; set; } = provider.GetDependency<IViewModelProvider>();
+    protected IViewModelProvider ViewModelProvider { get; } = provider.GetDependency<IViewModelProvider>();
+    public IDependencyProvider DependencyProvider { get; } = provider;
 }

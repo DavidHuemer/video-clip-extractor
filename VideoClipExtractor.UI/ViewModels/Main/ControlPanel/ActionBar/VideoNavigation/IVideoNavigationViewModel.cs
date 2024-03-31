@@ -11,6 +11,4 @@ public interface IVideoNavigationViewModel : INotifyPropertyChanged
     VideoViewModel? Video { get; set; }
 
     ICommand PlayPause { get; }
-
-    VideoPosition VideoPosition { get; set; }
 }

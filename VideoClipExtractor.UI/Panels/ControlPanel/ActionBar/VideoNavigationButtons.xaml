@@ -16,11 +16,7 @@
 
     <Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button>
-                <materialIcons:MaterialIcon Kind="PreviousTitle" />
-            </Button>
-
-            <Button>
+            <Button Command="{Binding FrameNavigationViewModel.GoBackward}">
                 <materialIcons:MaterialIcon Kind="ArrowLeft" />
             </Button>
 
@@ -29,12 +25,8 @@
                     Kind="{Binding PlayStatus, Mode=OneWay, Converter={StaticResource PlayPauseButtonConverter}}" />
             </Button>
 
-            <Button>
+            <Button Command="{Binding FrameNavigationViewModel.GoForward}">
                 <materialIcons:MaterialIcon Kind="ArrowRight" />
-            </Button>
-
-            <Button>
-                <materialIcons:MaterialIcon Kind="NextTitle" />
             </Button>
         </StackPanel>
 

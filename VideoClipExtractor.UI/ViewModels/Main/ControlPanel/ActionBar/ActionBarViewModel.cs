@@ -1,22 +1,19 @@
 ﻿using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
-using BaseUI.Services.Provider.ViewModelProvider;
-using JetBrains.Annotations;
+using BaseUI.ViewModels;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.TimelineExtraction;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar;
 
-[UsedImplicitly]
 [Singleton]
-public class ActionBarViewModel : IActionBarViewModel
+public class ActionBarViewModel : BaseViewModelContainer, IActionBarViewModel
 {
-    public ActionBarViewModel(IDependencyProvider provider)
+    public ActionBarViewModel(IDependencyProvider provider) : base(provider)
     {
-        var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        VideoNavigationViewModel = viewModelProvider.Get<IVideoNavigationViewModel>();
-        TimelineExtractionBarViewModel = viewModelProvider.Get<ITimelineExtractionBarViewModel>();
+        VideoNavigationViewModel = ViewModelProvider.Get<IVideoNavigationViewModel>();
+        TimelineExtractionBarViewModel = ViewModelProvider.Get<ITimelineExtractionBarViewModel>();
     }
 
     #region Properties

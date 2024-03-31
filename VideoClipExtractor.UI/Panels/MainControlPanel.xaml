@@ -39,6 +39,6 @@
         
         <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
         
-        <controlPanels:ControlPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" DataContext="{Binding VideoPlayerVm.ControlPanelViewModel}" />
+        <controlPanels:ControlPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" DataContext="{Binding ControlPanelVm}" />
     </Grid>
 </UserControl>

@@ -9,14 +9,14 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="{materialDesign:MaterialDesignFont}"
-        xmlns:windowVm="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels"
         xmlns:newProjectVm="clr-namespace:VideoClipExtractor.UI.ViewModels.NewProjectViewModels"
         xmlns:welcomeVm="clr-namespace:VideoClipExtractor.UI.ViewModels.WelcomeViewModels"
         xmlns:panels="clr-namespace:VideoClipExtractor.UI.Panels"
+        xmlns:welcomeWindow="clr-namespace:VideoClipExtractor.UI.ViewModels.WindowViewModels.WelcomeWindow"
         mc:Ignorable="d"
         Title="Welcome" Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
-        d:DataContext="{d:DesignInstance Type=windowVm:WelcomeWindowViewModel, IsDesignTimeCreatable=True}">
+        d:DataContext="{d:DesignInstance Type=welcomeWindow:WelcomeWindowViewModel, IsDesignTimeCreatable=True}">
     <Window.Resources>
         <DataTemplate DataType="{x:Type welcomeVm:WelcomeViewModel}">
             <panels:WelcomePanel />

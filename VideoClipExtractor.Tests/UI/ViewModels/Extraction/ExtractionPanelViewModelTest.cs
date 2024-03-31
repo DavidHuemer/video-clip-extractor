@@ -1,7 +1,7 @@
 ﻿using Moq;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Tests.Basics.BaseTests;
-using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 using VideoClipExtractor.UI.ViewModels.Extraction;
 using VideoClipExtractor.UI.ViewModels.Extraction.ExtractionVisualization;
 

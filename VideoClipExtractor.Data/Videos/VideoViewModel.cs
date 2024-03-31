@@ -2,7 +2,6 @@
 using BaseUI.ViewModels;
 using JetBrains.Annotations;
 using PropertyChanged;
-using VideoClipExtractor.Data.Extractions;
 using VideoClipExtractor.Data.Extractions.Basics;
 using VideoClipExtractor.Data.Extractions.Results;
 
@@ -15,11 +14,13 @@ public class VideoViewModel : BaseViewModel
         SourcePath = video.SourceVideo.Path;
         LocalPath = video.LocalPath;
         Name = video.SourceVideo.Name;
+        SourceVideo = video.SourceVideo;
     }
 
     [UsedImplicitly]
     public VideoViewModel()
     {
+        SourceVideo = new SourceVideo();
     }
 
     public IEnumerable<IExtraction> GetExtractions()
@@ -61,7 +62,7 @@ public class VideoViewModel : BaseViewModel
     /// The path to the cached video file
     /// </summary>
     [DoNotNotify]
-    public string LocalPath { get; [UsedImplicitly] init; } = "";
+    public string LocalPath { get; [UsedImplicitly] set; } = "";
 
     /// <summary>
     /// The name of the video
@@ -74,8 +75,11 @@ public class VideoViewModel : BaseViewModel
 
     public long Bytes { get; [UsedImplicitly] init; }
 
-    public ObservableCollection<ImageExtraction> ImageExtractions { get; init; } = [];
-    public ObservableCollection<VideoExtraction> VideoExtractions { get; init; } = [];
+    public SourceVideo SourceVideo { get; set; }
+
+    // Add annotation for the real type of the collection
+    public ObservableCollection<IImageExtraction> ImageExtractions { get; init; } = [];
+    public ObservableCollection<IVideoExtraction> VideoExtractions { get; init; } = [];
 
     #endregion
 }

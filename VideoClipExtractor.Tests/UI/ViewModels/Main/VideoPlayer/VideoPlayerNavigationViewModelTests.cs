@@ -3,7 +3,7 @@ using Moq;
 using VideoClipExtractor.Core.Managers.VideoProviderManager;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Tests.Basics.BaseTests;
-using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 
@@ -26,11 +26,31 @@ public class VideoPlayerNavigationViewModelTests : BaseViewModelTest
         _viewModel = new VideoPlayerNavigationViewModel(DependencyMock.Object);
     }
 
+    private void SetupSelectedVideo(VideoViewModel video)
+    {
+        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
+            .Returns(video);
+    }
+
+    private void SetupVideos(int nrVideos)
+    {
+        var videos = new ObservableCollection<VideoViewModel>();
+        for (var i = 0; i < nrVideos; i++)
+        {
+            videos.Add(VideoExamples.GetVideoViewModelExample());
+        }
+
+        _videosExplorerViewModelMock.SetupGet(m => m.Videos)
+            .Returns(videos);
+    }
+
+    #region Previous
+
     [Test]
     [TestCase(0, false, false)]
     [TestCase(0, true, false)]
     [TestCase(1, true, true)]
-    [TestCase(1, true, true)]
+    [TestCase(1, false, false)]
     [TestCase(2, true, true)]
     public void PreviousCommandCanExecute(int selectedIndex, bool videoSelected, bool expected)
     {
@@ -50,6 +70,10 @@ public class VideoPlayerNavigationViewModelTests : BaseViewModelTest
         _videosExplorerViewModelMock.VerifySet(m => m.SelectedIndex = 0);
     }
 
+    #endregion
+
+    #region Skip
+
     [Test]
     [TestCase(false, false)]
     [TestCase(true, true)]
@@ -66,8 +90,6 @@ public class VideoPlayerNavigationViewModelTests : BaseViewModelTest
         var video = VideoExamples.GetVideoViewModelExample();
         SetupSelectedVideo(video);
         SetupVideos(5);
-        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(0);
-
         _viewModel.Skip.Execute(null);
 
         Assert.That(video.VideoStatus, Is.EqualTo(VideoStatus.Skipped));
@@ -93,6 +115,9 @@ public class VideoPlayerNavigationViewModelTests : BaseViewModelTest
         _videosExplorerViewModelMock.VerifySet(m => m.SelectedIndex = 2);
     }
 
+    #endregion
+
+    #region Finish
 
     [Test]
     [TestCase(false, false)]
@@ -135,21 +160,5 @@ public class VideoPlayerNavigationViewModelTests : BaseViewModelTest
         _videosExplorerViewModelMock.VerifySet(m => m.SelectedIndex = 2);
     }
 
-    private void SetupSelectedVideo(VideoViewModel video)
-    {
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
-            .Returns(video);
-    }
-
-    private void SetupVideos(int nrVideos)
-    {
-        var videos = new ObservableCollection<VideoViewModel>();
-        for (var i = 0; i < nrVideos; i++)
-        {
-            videos.Add(VideoExamples.GetVideoViewModelExample());
-        }
-
-        _videosExplorerViewModelMock.SetupGet(m => m.Videos)
-            .Returns(videos);
-    }
+    #endregion
 }

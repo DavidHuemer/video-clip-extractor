@@ -11,7 +11,7 @@ public partial class VideoPlayerPanel
         InitializeComponent();
     }
 
-    private VideoPlayerViewModel? VideoPlayerViewModel => DataContext as VideoPlayerViewModel;
+    private IVideoPlayerViewModel? VideoPlayerViewModel => DataContext as IVideoPlayerViewModel;
 
     private void VideoPlayerPanel_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {

@@ -1,18 +1,29 @@
 ﻿using System.Windows.Input;
+using BaseUI.Basics.DelayWrapper;
 using BaseUI.Commands;
 using BaseUI.Services.Provider.Attributes;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
-using JetBrains.Annotations;
 using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.Data.Videos;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation.FrameNavigation;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
 
-[UsedImplicitly]
 [Singleton]
-public class VideoNavigationViewModel : BaseViewModel, IVideoNavigationViewModel
+public class VideoNavigationViewModel : BaseViewModelContainer, IVideoNavigationViewModel
 {
+    private readonly IDelayWrapper _delayWrapper;
+
+    public VideoNavigationViewModel(IDependencyProvider provider) : base(provider)
+    {
+        _delayWrapper = provider.GetDependency<IDelayWrapper>();
+        FrameNavigationViewModel = ViewModelProvider.Get<IFrameNavigationViewModel>();
+    }
+
     #region Properties
+
+    public IFrameNavigationViewModel FrameNavigationViewModel { get; set; }
 
     public PlayStatus PlayStatus { get; set; } = PlayStatus.Paused;
 
@@ -24,18 +35,13 @@ public class VideoNavigationViewModel : BaseViewModel, IVideoNavigationViewModel
         set
         {
             _video = value;
+            FrameNavigationViewModel.Video = value;
             if (value != null)
             {
-                Task.Run(async () =>
-                {
-                    await Task.Delay(500);
-                    PlayStatus = PlayStatus.Playing;
-                });
+                _delayWrapper.RunAfterDelay(500, () => PlayStatus = PlayStatus.Playing);
             }
         }
     }
-
-    public VideoPosition VideoPosition { get; set; } = new(0);
 
     #endregion
 

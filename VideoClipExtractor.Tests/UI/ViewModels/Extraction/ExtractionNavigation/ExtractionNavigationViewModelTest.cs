@@ -1,4 +1,5 @@
 ﻿using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 using VideoClipExtractor.UI.ViewModels.Extraction.ExtractionNavigation;
 
 namespace VideoClipExtractor.Tests.UI.ViewModels.Extraction.ExtractionNavigation;

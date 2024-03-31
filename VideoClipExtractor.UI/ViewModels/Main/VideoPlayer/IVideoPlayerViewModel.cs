@@ -1,11 +1,7 @@
-﻿using System.ComponentModel;
-using BaseUI.Services.Provider.DependencyInjection;
-using VideoClipExtractor.UI.ViewModels.Main.ControlPanel;
+﻿using BaseUI.ViewModels;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 
-public interface IVideoPlayerViewModel : INotifyPropertyChanged
+public interface IVideoPlayerViewModel : IBaseViewModelContainer
 {
-    IDependencyProvider Provider { get; }
-    IControlPanelViewModel ControlPanelViewModel { get; }
 }

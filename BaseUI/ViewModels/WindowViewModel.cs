@@ -57,10 +57,7 @@ public abstract class WindowViewModel(IDependencyProvider provider) : BaseViewMo
     }
 
 
-    public void CloseWindow()
-    {
-        _window?.Close();
-    }
+    public void CloseWindow() => _window?.Close();
 
     #endregion
 }

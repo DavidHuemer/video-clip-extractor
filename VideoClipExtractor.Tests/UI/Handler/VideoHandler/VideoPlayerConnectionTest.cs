@@ -1,12 +1,11 @@
 ﻿using Moq;
 using VideoClipExtractor.Core.Services.VideoServices.VideoPositionService;
-using VideoClipExtractor.Data.Events;
 using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.UI.Controls.VideoPlayer;
 using VideoClipExtractor.UI.Handler.VideoHandler;
 using VideoClipExtractor.UI.Handler.VideoHandler.PositionInterrogator;
-using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation.FrameNavigation;
 using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 
 namespace VideoClipExtractor.Tests.UI.Handler.VideoHandler;
@@ -17,7 +16,7 @@ public class VideoPlayerConnectionTest : BaseDependencyTest
 {
     private Mock<IVideoPlayer> _videoPlayerMock = null!;
     private Mock<IVideoPlayerViewModel> _videoPlayerViewModelMock = null!;
-    private Mock<IVideoNavigationViewModel> _videoNavigationViewModelMock = null!;
+    private Mock<IFrameNavigationViewModel> _frameNavigationViewModelMock = null!;
     private Mock<IVideoPositionInterrogator> _videoPositionInterrogatorMock = null!;
     private Mock<IVideoPositionService> _videoPositionServiceMock = null!;
 
@@ -29,10 +28,10 @@ public class VideoPlayerConnectionTest : BaseDependencyTest
         _videoPlayerMock = new Mock<IVideoPlayer>();
 
         _videoPlayerViewModelMock = new Mock<IVideoPlayerViewModel>();
-        _videoPlayerViewModelMock.SetupGet(x => x.Provider).Returns(DependencyMock.Object);
+        _videoPlayerViewModelMock.SetupGet(x => x.DependencyProvider).Returns(DependencyMock.Object);
 
         var viewModelProviderMock = DependencyMock.AddViewModelProvider();
-        _videoNavigationViewModelMock = viewModelProviderMock.CreateViewModelMock<IVideoNavigationViewModel>();
+        _frameNavigationViewModelMock = viewModelProviderMock.CreateViewModelMock<IFrameNavigationViewModel>();
         _videoPositionInterrogatorMock = DependencyMock.CreateMockDependency<IVideoPositionInterrogator>();
         _videoPositionServiceMock = DependencyMock.CreateMockDependency<IVideoPositionService>();
 
@@ -50,10 +49,8 @@ public class VideoPlayerConnectionTest : BaseDependencyTest
     public void VideoPlayerPositionIsChanged()
     {
         var videoPosition = new VideoPosition(15);
-
         _videoPositionServiceMock.Raise(x => x.PositionChangeRequested += null,
-            new VideoPositionEventArgs(videoPosition));
-
+            videoPosition);
         _videoPlayerMock.VerifySet(x => x.Position = videoPosition.Duration.TimeSpan, Times.Once);
     }
 
@@ -63,8 +60,8 @@ public class VideoPlayerConnectionTest : BaseDependencyTest
         var videoPosition = new VideoPosition(15);
 
         _videoPositionServiceMock.Raise(x => x.PositionChangeRequested += null,
-            new VideoPositionEventArgs(videoPosition));
+            videoPosition);
 
-        _videoNavigationViewModelMock.VerifySet(x => x.VideoPosition = videoPosition, Times.Once);
+        _frameNavigationViewModelMock.VerifySet(x => x.VideoPosition = videoPosition, Times.Once);
     }
 }

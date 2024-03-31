@@ -22,7 +22,6 @@ public class VideoStatusToIconConverterTest
     [TestCase(VideoStatus.Unset, MaterialIconKind.QuestionMark)]
     [TestCase(VideoStatus.Skipped, MaterialIconKind.Pin)]
     [TestCase(VideoStatus.ReadyForExport, MaterialIconKind.Check)]
-    [TestCase(VideoStatus.Exported, MaterialIconKind.AlertCircle)]
     [TestCase(null, MaterialIconKind.AlertCircle)]
     public void ConvertReturnsCorrectIcon(VideoStatus? status, MaterialIconKind expected)
     {

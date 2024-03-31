@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using VideoClipExtractor.Data.Extractions;
+using VideoClipExtractor.Data.Extractions.Basics;
 using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Tests.Basics.Data.VideoExamples;
@@ -14,8 +15,8 @@ public static class VideoExamples
         return new VideoViewModel(CachedVideoExamples.GetCachedVideoExample(videoName))
         {
             VideoStatus = videoStatus,
-            ImageExtractions = new ObservableCollection<ImageExtraction>(imageExtractions ?? []),
-            VideoExtractions = new ObservableCollection<VideoExtraction>(videoExtractions ?? []),
+            ImageExtractions = new ObservableCollection<IImageExtraction>(imageExtractions ?? []),
+            VideoExtractions = new ObservableCollection<IVideoExtraction>(videoExtractions ?? []),
         };
     }
 

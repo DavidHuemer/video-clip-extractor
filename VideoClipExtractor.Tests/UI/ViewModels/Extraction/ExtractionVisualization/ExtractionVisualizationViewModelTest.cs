@@ -2,6 +2,7 @@
 using VideoClipExtractor.Data.Extractions.Results;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 using VideoClipExtractor.UI.ViewModels.Extraction.ExtractionResult;
 using VideoClipExtractor.UI.ViewModels.Extraction.ExtractionRunner;
 using VideoClipExtractor.UI.ViewModels.Extraction.ExtractionVisualization;
@@ -41,7 +42,7 @@ public class ExtractionVisualizationViewModelTest : BaseViewModelTest
     [Test]
     public async Task ExtractVideosCallsExtractionRunner()
     {
-        var videos = VideoExamples.GetExampleVideos(4).ToList();
+        var videos = VideoExamples.GetVideoViewModelExamples(4).ToList();
         await _viewModel.ExtractVideos(videos);
         _extractionRunnerMock.Verify(x => x.ExtractVideos(videos), Times.Once);
     }
@@ -49,7 +50,7 @@ public class ExtractionVisualizationViewModelTest : BaseViewModelTest
     [Test]
     public void ActiveViewModelIsSetToExtractionRunner()
     {
-        var videos = VideoExamples.GetExampleVideos(4).ToList();
+        var videos = VideoExamples.GetVideoViewModelExamples(4).ToList();
         var t = new TaskCompletionSource<ExtractionProcessResult>();
         _extractionRunnerMock.Setup(x => x.ExtractVideos(videos)).Returns(t.Task);
         Task.Run(() => _viewModel.ExtractVideos(videos));
@@ -61,7 +62,7 @@ public class ExtractionVisualizationViewModelTest : BaseViewModelTest
     [Test]
     public async Task ExtractionResultIsSet()
     {
-        var videos = VideoExamples.GetExampleVideos(4).ToList();
+        var videos = VideoExamples.GetVideoViewModelExamples(4).ToList();
         _extractionRunnerMock.Setup(x => x.ExtractVideos(videos))
             .ReturnsAsync(ExtractionResultExamples.GetSuccessExtractionProcessResultExample());
 
@@ -73,7 +74,7 @@ public class ExtractionVisualizationViewModelTest : BaseViewModelTest
     [Test]
     public async Task ActiveViewModelIsSetToExtractionResultViewModel()
     {
-        var videos = VideoExamples.GetExampleVideos(4).ToList();
+        var videos = VideoExamples.GetVideoViewModelExamples(4).ToList();
         _extractionRunnerMock.Setup(x => x.ExtractVideos(videos))
             .ReturnsAsync(ExtractionResultExamples.GetSuccessExtractionProcessResultExample());
 

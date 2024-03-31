@@ -1,6 +1,6 @@
 ﻿using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
-using VideoClipExtractor.Core.Services.VideoRepositoryServices.Manager;
+using VideoClipExtractor.Core.Managers.VideoRepositoryManager;
 using VideoClipExtractor.Data.Exceptions.VideoRepositoryExceptions;
 using VideoClipExtractor.Data.Videos;
 

@@ -4,6 +4,7 @@ using VideoClipExtractor.Core.Services.Extraction.ExtractionNames;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 using VideoClipExtractor.Tests.Basics.Mocks;
 
 namespace VideoClipExtractor.Tests.Core.Services.Extraction.ExtractionNames;

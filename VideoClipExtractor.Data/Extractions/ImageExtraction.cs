@@ -6,7 +6,7 @@ using VideoClipExtractor.Data.UI.Video;
 namespace VideoClipExtractor.Data.Extractions;
 
 [method: JsonConstructor]
-public sealed class ImageExtraction(VideoPosition position) : BaseExtractionViewModel, IExtraction
+public sealed class ImageExtraction(VideoPosition position) : BaseExtractionViewModel, IImageExtraction
 {
     public override VideoPosition Position { get; set; } = position;
     public string Name { get; set; } = "";

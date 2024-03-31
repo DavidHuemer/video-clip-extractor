@@ -3,6 +3,7 @@ using BaseUI.Services.Provider.ViewModelProvider;
 using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.UI.Controls.VideoPlayer;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation.FrameNavigation;
 
 namespace VideoClipExtractor.UI.Handler.VideoHandler.PositionInterrogator;
 
@@ -14,6 +15,7 @@ namespace VideoClipExtractor.UI.Handler.VideoHandler.PositionInterrogator;
 public class VideoPositionInterrogator : IVideoPositionInterrogator
 {
     private readonly IVideoPositionDispatcher _dispatcher;
+    private readonly IFrameNavigationViewModel _frameNavigationViewModel;
 
     private readonly IVideoNavigationViewModel _videoNavigationViewModel;
 
@@ -27,6 +29,8 @@ public class VideoPositionInterrogator : IVideoPositionInterrogator
 
         var viewModelProvider = provider.GetDependency<IViewModelProvider>();
         _videoNavigationViewModel = viewModelProvider.Get<IVideoNavigationViewModel>();
+
+        _frameNavigationViewModel = viewModelProvider.Get<IFrameNavigationViewModel>();
 
         _videoNavigationViewModel.PropertyChanged += (_, e) =>
         {
@@ -42,7 +46,7 @@ public class VideoPositionInterrogator : IVideoPositionInterrogator
         if (_videoPlayer == null) return;
 
         _lastPosition = new VideoPosition(_videoPlayer.Position);
-        _videoNavigationViewModel.VideoPosition = _lastPosition;
+        _frameNavigationViewModel.VideoPosition = _lastPosition;
     }
 
     private void OnPlayStatusChanged(PlayStatus playStatus)

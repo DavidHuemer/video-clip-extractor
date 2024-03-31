@@ -16,8 +16,8 @@ namespace VideoClipExtractor.UI.ViewModels.DesignInstances.Extraction
         public ExtractionRunnerViewModelDesignInstance()
         {
             var videoViewModel =
-                new VideoViewModel(new Video(new CachedVideo(new SourceVideo(@"C\Source\az_1351846.mp4", 4),
-                    @"C:\Test\az_1351846.mp4")));
+                new VideoViewModel(new CachedVideo(new SourceVideo(@"C\Source\az_1351846.mp4", 4),
+                    @"C:\Test\az_1351846.mp4"));
 
             ExtractionNavigation.CurrentVideo = videoViewModel;
             Extractions = new ObservableCollection<IExtraction>(GetExtractions());

@@ -1,6 +1,7 @@
 ﻿using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 
@@ -15,6 +16,7 @@ public class MainControlViewModel : BaseViewModelContainer, IMainControlViewMode
     {
         ExplorerVm = ViewModelProvider.Get<IVideosExplorerViewModel>();
         VideoPlayerVm = ViewModelProvider.Get<IVideoPlayerViewModel>();
+        ControlPanelVm = ViewModelProvider.Get<IControlPanelViewModel>();
 
         var projectManager = provider.GetDependency<IProjectManager>();
 
@@ -23,6 +25,8 @@ public class MainControlViewModel : BaseViewModelContainer, IMainControlViewMode
     }
 
     public IVideosExplorerViewModel ExplorerVm { get; }
+
+    public IControlPanelViewModel ControlPanelVm { get; }
 
     public IVideoPlayerViewModel VideoPlayerVm { get; }
 }

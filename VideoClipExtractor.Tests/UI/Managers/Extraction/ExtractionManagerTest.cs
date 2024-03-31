@@ -1,6 +1,6 @@
 ﻿using Moq;
 using VideoClipExtractor.Tests.Basics.BaseTests;
-using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 using VideoClipExtractor.UI.Managers.Extraction;
 using VideoClipExtractor.UI.ViewModels.WindowViewModels.ExtractionWindow;
 

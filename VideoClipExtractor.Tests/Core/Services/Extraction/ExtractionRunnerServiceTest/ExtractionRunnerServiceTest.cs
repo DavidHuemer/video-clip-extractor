@@ -3,6 +3,7 @@ using VideoClipExtractor.Core.Services.Extraction.ExtractionRunnerService;
 using VideoClipExtractor.Core.Services.Extraction.FileExtractionService;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 
 namespace VideoClipExtractor.Tests.Core.Services.Extraction.ExtractionRunnerServiceTest;
 

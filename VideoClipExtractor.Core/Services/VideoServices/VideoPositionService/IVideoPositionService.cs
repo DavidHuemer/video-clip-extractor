@@ -1,11 +1,10 @@
-﻿using VideoClipExtractor.Data.Events;
-using VideoClipExtractor.Data.UI.Video;
+﻿using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.Core.Services.VideoServices.VideoPositionService;
 
 public interface IVideoPositionService
 {
-    event EventHandler<VideoPositionEventArgs> PositionChangeRequested;
+    event Action<VideoPosition> PositionChangeRequested;
 
     /// <summary>
     /// Requests a new video position

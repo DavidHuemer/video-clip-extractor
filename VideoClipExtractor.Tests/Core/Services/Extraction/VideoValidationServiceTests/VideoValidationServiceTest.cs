@@ -4,7 +4,7 @@ using VideoClipExtractor.Core.Services.Extraction.VideoValidationService;
 using VideoClipExtractor.Data.Exceptions.ExtractionExceptions;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.Tests.Basics.BaseTests;
-using VideoClipExtractor.Tests.Basics.Data;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 
 namespace VideoClipExtractor.Tests.Core.Services.Extraction.VideoValidationServiceTests;
 

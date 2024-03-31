@@ -21,6 +21,7 @@
     <ItemGroup>
         <Folder Include="Handler\VideoProvider\"/>
         <Folder Include="Managers\TimelineManager\"/>
+        <Folder Include="Services\VideoRepositoryServices\Manager\"/>
     </ItemGroup>
 
     <ItemGroup>

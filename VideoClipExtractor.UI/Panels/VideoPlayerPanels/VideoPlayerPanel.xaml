@@ -13,7 +13,7 @@
     <Grid>
         <videoPlayerControls:VideoPlayer x:Name="VideoPlayer" 
                                          Source="{Binding ExplorerViewModel.SelectedVideo.LocalPath, FallbackValue=''}"
-                                         PlayStatus="{Binding ControlPanelViewModel.ActionBarViewModel.VideoNavigationViewModel.PlayStatus}"/>
+                                         PlayStatus="{Binding VideoNavigationViewModel.PlayStatus}"/>
 
         <local:VideoPlayerNavigationPanel DataContext="{Binding VideoPlayerNavigationVm}" VerticalAlignment="Bottom"
                                           HorizontalAlignment="Right" />

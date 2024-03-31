@@ -1,14 +1,13 @@
-﻿using JetBrains.Annotations;
-using VideoClipExtractor.Data.Events;
+﻿using BaseUI.Services.Provider.Attributes;
 using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.Core.Services.VideoServices.VideoPositionService;
 
-[UsedImplicitly]
+[Singleton]
 public class VideoPositionService : IVideoPositionService
 {
-    public event EventHandler<VideoPositionEventArgs>? PositionChangeRequested;
+    public event Action<VideoPosition>? PositionChangeRequested;
 
     public void RequestPositionChange(VideoPosition videoPosition) =>
-        PositionChangeRequested?.Invoke(this, new VideoPositionEventArgs(videoPosition));
+        PositionChangeRequested?.Invoke(videoPosition);
 }

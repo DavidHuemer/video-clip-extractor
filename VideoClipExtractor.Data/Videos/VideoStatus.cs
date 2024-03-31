@@ -8,5 +8,4 @@ public enum VideoStatus
     Unset,
     Skipped,
     ReadyForExport,
-    Exported,
 }

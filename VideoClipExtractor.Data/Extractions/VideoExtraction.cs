@@ -5,7 +5,7 @@ using VideoClipExtractor.Data.UI.Video;
 
 namespace VideoClipExtractor.Data.Extractions;
 
-public class VideoExtraction : BaseExtractionViewModel, IExtraction
+public class VideoExtraction : BaseExtractionViewModel, IVideoExtraction
 {
     public VideoExtraction(VideoPosition begin, VideoPosition end)
     {
