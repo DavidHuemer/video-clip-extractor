@@ -1,6 +1,8 @@
 ﻿using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.Data.Videos;
+using VideoClipExtractor.UI.Managers.VideoManager;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
@@ -22,6 +24,7 @@ public class MainControlViewModel : BaseViewModelContainer, IMainControlViewMode
 
         projectManager.ProjectChanged += (project) => { ExplorerVm.Project = project; };
         ExplorerVm.Project = projectManager.Project;
+        SetupVideoChange();
     }
 
     public IVideosExplorerViewModel ExplorerVm { get; }
@@ -29,4 +32,18 @@ public class MainControlViewModel : BaseViewModelContainer, IMainControlViewMode
     public IControlPanelViewModel ControlPanelVm { get; }
 
     public IVideoPlayerViewModel VideoPlayerVm { get; }
+
+    private void SetupVideoChange()
+    {
+        var videoManager = DependencyProvider.GetDependency<IVideoManager>();
+        videoManager.VideoChanged += OnVideoChanged;
+
+        VideoPlayerVm.Video = videoManager.Video;
+    }
+
+    private void OnVideoChanged(VideoViewModel? video)
+    {
+        VideoPlayerVm.Video = video;
+        ControlPanelVm.Video = video;
+    }
 }
