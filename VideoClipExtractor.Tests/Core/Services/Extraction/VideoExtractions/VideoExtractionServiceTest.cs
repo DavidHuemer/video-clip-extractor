@@ -1,4 +1,4 @@
-﻿using FFMpeg.Wrapper.Engine;
+﻿using FFMpeg.Wrapper.MpegExtraction;
 using Moq;
 using VideoClipExtractor.Core.Services.Extraction.VideoExtractions;
 using VideoClipExtractor.Data.Extractions;
@@ -10,14 +10,14 @@ namespace VideoClipExtractor.Tests.Core.Services.Extraction.VideoExtractions;
 [TestOf(typeof(VideoExtractionService))]
 public class VideoExtractionServiceTest : BaseExtractionServiceTest
 {
-    private Mock<IMpegEngine> _mpegEngine = null!;
+    private Mock<IMpegExtractionRunner> _mpegExtractionRunner = null!;
     private VideoExtraction _videoExtraction = null!;
     private VideoExtractionService _videoExtractionService = null!;
 
     public override void Setup()
     {
         base.Setup();
-        _mpegEngine = DependencyMock.CreateMockDependency<IMpegEngine>();
+        _mpegExtractionRunner = DependencyMock.CreateMockDependency<IMpegExtractionRunner>();
 
         _videoExtraction = ExtractionExamples.GetVideoExtractionExample();
         _videoExtractionService = new VideoExtractionService(DependencyMock.Object);
@@ -32,7 +32,7 @@ public class VideoExtractionServiceTest : BaseExtractionServiceTest
 
         await _videoExtractionService.Extract(VideoViewModel, _videoExtraction);
 
-        _mpegEngine.Verify(
+        _mpegExtractionRunner.Verify(
             x => x.ExtractVideoAsync(VideoViewModel.LocalPath, ExtractionPath,
                 _videoExtraction.Begin.Position.Duration.TimeSpan, _videoExtraction.Position.Duration.TimeSpan),
             Times.Once);

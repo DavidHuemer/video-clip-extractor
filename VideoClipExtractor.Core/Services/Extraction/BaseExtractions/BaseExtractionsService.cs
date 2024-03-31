@@ -1,5 +1,5 @@
 ﻿using BaseUI.Services.Provider.DependencyInjection;
-using FFMpeg.Wrapper.Engine;
+using FFMpeg.Wrapper.MpegExtraction;
 using VideoClipExtractor.Core.Services.Extraction.ExtractionNames;
 using VideoClipExtractor.Core.Services.Extraction.ExtractionVerificationService;
 using VideoClipExtractor.Data.Extractions.Basics;
@@ -21,7 +21,7 @@ public abstract class BaseExtractionsService<T>(IDependencyProvider provider)
     protected readonly IExtractionNameService ExtractionNameService =
         provider.GetDependency<IExtractionNameService>();
 
-    protected readonly IMpegEngine MpegEngine = provider.GetDependency<IMpegEngine>();
+    protected readonly IMpegExtractionRunner MpegExtractionRunner = provider.GetDependency<IMpegExtractionRunner>();
 
     /// <summary>
     /// Extracts the given extraction from the given video.

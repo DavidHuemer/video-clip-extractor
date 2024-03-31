@@ -1,4 +1,4 @@
-﻿using FFMpeg.Wrapper.Engine;
+﻿using FFMpeg.Wrapper.MpegExtraction;
 using Moq;
 using VideoClipExtractor.Core.Services.Extraction.ExtractionVerificationService;
 using VideoClipExtractor.Core.Services.Extraction.ImageExtractions;
@@ -11,7 +11,7 @@ namespace VideoClipExtractor.Tests.Core.Services.Extraction.ImageExtractions;
 [TestOf(typeof(ImageExtractionService))]
 public class ImageExtractionServiceTest : BaseExtractionServiceTest
 {
-    private Mock<IMpegEngine> _mpegEngine = null!;
+    private Mock<IMpegExtractionRunner> _mpegExtractionRunner = null!;
     private ImageExtraction _imageExtraction = null!;
 
     private ImageExtractionService _imageExtractionService = null!;
@@ -19,7 +19,7 @@ public class ImageExtractionServiceTest : BaseExtractionServiceTest
     public override void Setup()
     {
         base.Setup();
-        _mpegEngine = DependencyMock.CreateMockDependency<IMpegEngine>();
+        _mpegExtractionRunner = DependencyMock.CreateMockDependency<IMpegExtractionRunner>();
         ExtractionVerificationService = DependencyMock.CreateMockDependency<IExtractionVerificationService>();
 
         _imageExtraction = ExtractionExamples.GetImageExtractionExample();
@@ -35,7 +35,7 @@ public class ImageExtractionServiceTest : BaseExtractionServiceTest
 
         await _imageExtractionService.Extract(VideoViewModel, _imageExtraction);
 
-        _mpegEngine.Verify(
+        _mpegExtractionRunner.Verify(
             x => x.ExtractImageAsync(VideoViewModel.LocalPath, ExtractionPath,
                 _imageExtraction.Position.Duration.TimeSpan), Times.Once);
     }
@@ -71,7 +71,7 @@ public class ImageExtractionServiceTest : BaseExtractionServiceTest
     public async Task ExtractionErrorReturnsFailedResult()
     {
         SetupImagePath();
-        _mpegEngine
+        _mpegExtractionRunner
             .Setup(x => x.ExtractImageAsync(VideoViewModel.LocalPath, ExtractionPath,
                 _imageExtraction.Position.Duration.TimeSpan))
             .Throws(new Exception());

@@ -10,6 +10,11 @@ public class DependencyMock : Mock<IDependencyProvider>
         Setup(d => d.GetDependency<TDependency>()).Returns(mock.Object);
     }
 
+    public void AddDependency<TDependency>(TDependency dependency) where TDependency : class
+    {
+        Setup(d => d.GetDependency<TDependency>()).Returns(dependency);
+    }
+
     public ViewModelProviderMock AddViewModelProvider()
     {
         var mock = new ViewModelProviderMock();
