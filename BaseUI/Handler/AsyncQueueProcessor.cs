@@ -26,7 +26,7 @@ public abstract class AsyncQueueProcessor<TInput, TOutput> : IProcessing<TOutput
     /// </summary>
     public event Action<Exception>? OnErrorOccurred;
 
-    protected abstract TOutput Process(TInput sourcePath);
+    protected abstract Task<TOutput> Process(TInput sourcePath);
 
     private async Task ProcessQueueAsync()
     {

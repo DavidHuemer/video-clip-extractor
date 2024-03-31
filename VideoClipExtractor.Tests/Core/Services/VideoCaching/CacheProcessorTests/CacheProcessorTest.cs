@@ -60,7 +60,7 @@ public class CacheProcessorTest : BaseDependencyTest
         _cacheRunner.SetupGet(x => x.IsSetup).Returns(true);
         var sourceVideo = SourceVideoExamples.GetSourceVideoExample();
         var cachedVideo = CachedVideoExamples.GetCachedVideoExample();
-        _cacheRunner.Setup(x => x.StoreVideo(sourceVideo)).Returns(cachedVideo);
+        _cacheRunner.Setup(x => x.StoreVideo(sourceVideo)).ReturnsAsync(cachedVideo);
         _cacheProcessor.OnResultProcessed += video => Assert.That(video, Is.EqualTo(cachedVideo));
         _cacheProcessor.AddVideo(sourceVideo);
     }
