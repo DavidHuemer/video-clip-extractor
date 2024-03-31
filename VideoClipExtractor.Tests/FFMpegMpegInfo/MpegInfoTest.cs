@@ -36,17 +36,21 @@ public class MpegInfoTest : BaseDependencyTest
     }
 
     [Test]
-    public async Task GetDurationReturnsCorrectDuration()
+    public async Task GetVideoInfo()
     {
-        var duration = await _mpegInfo.GetDurationAsync(_sourceVideoPath);
-        Assert.That(duration, Is.GreaterThan(TimeSpan.Zero));
+        var videoInfo = await _mpegInfo.GetVideoInfoAsync(_sourceVideoPath);
+        Assert.Multiple(() =>
+        {
+            Assert.That(videoInfo.Duration, Is.GreaterThan(TimeSpan.Zero));
+            Assert.That(videoInfo.FrameRate, Is.GreaterThan(0));
+        });
     }
 
     [Test]
-    public void GetDurationFromNonExistingFileThrowsFileNotFoundException()
+    public void GetVideoInfoFromNonExistingFileThrowsFileNotFoundException()
     {
         var nonExistingPath = _tempFolder.GetFilePath("non-existing.mp4");
-        Assert.ThrowsAsync<FileNotFoundException>(() => _mpegInfo.GetDurationAsync(nonExistingPath));
+        Assert.ThrowsAsync<FileNotFoundException>(() => _mpegInfo.GetVideoInfoAsync(nonExistingPath));
     }
 
     [Test]
@@ -54,6 +58,6 @@ public class MpegInfoTest : BaseDependencyTest
     {
         var imagePath = _tempFolder.GetFilePath("image.jpg");
         File.Create(imagePath).Close();
-        Assert.ThrowsAsync<InvalidOperationException>(() => _mpegInfo.GetDurationAsync(imagePath));
+        Assert.ThrowsAsync<InvalidOperationException>(() => _mpegInfo.GetVideoInfoAsync(imagePath));
     }
 }

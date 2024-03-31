@@ -1,6 +1,8 @@
-﻿namespace FFMpeg.Wrapper.MpegInfo;
+﻿using FFMpeg.Wrapper.Data;
+
+namespace FFMpeg.Wrapper.MpegInfo;
 
 public interface IMpegInfo
 {
-    Task<TimeSpan> GetDurationAsync(string inputPath);
+    Task<VideoInfo> GetVideoInfoAsync(string inputPath);
 }
