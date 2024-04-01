@@ -1,8 +1,8 @@
 ﻿using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.Core.Managers.VideoManager;
 using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.UI.Managers.VideoManager;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
@@ -14,6 +14,8 @@ namespace VideoClipExtractor.UI.ViewModels.Main;
 /// </summary>
 public class MainControlViewModel : BaseViewModelContainer, IMainControlViewModel
 {
+    private readonly IVideoManager _videoManager;
+
     public MainControlViewModel(IDependencyProvider provider) : base(provider)
     {
         ExplorerVm = ViewModelProvider.Get<IVideosExplorerViewModel>();
@@ -24,6 +26,8 @@ public class MainControlViewModel : BaseViewModelContainer, IMainControlViewMode
 
         projectManager.ProjectChanged += (project) => { ExplorerVm.Project = project; };
         ExplorerVm.Project = projectManager.Project;
+
+        _videoManager = provider.GetDependency<IVideoManager>();
         SetupVideoChange();
     }
 
@@ -35,15 +39,17 @@ public class MainControlViewModel : BaseViewModelContainer, IMainControlViewMode
 
     private void SetupVideoChange()
     {
-        var videoManager = DependencyProvider.GetDependency<IVideoManager>();
-        videoManager.VideoChanged += OnVideoChanged;
-
-        VideoPlayerVm.Video = videoManager.Video;
+        ExplorerVm.PropertyChanged += (_, args) =>
+        {
+            if (args.PropertyName == nameof(IVideosExplorerViewModel.SelectedVideo))
+                OnVideoChanged(ExplorerVm.SelectedVideo);
+        };
     }
 
     private void OnVideoChanged(VideoViewModel? video)
     {
         VideoPlayerVm.Video = video;
         ControlPanelVm.Video = video;
+        _videoManager.Video = video;
     }
 }

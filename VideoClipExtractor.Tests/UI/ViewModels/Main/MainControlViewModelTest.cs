@@ -1,9 +1,10 @@
 ﻿using Moq;
 using VideoClipExtractor.Core.Managers.ProjectManager;
+using VideoClipExtractor.Core.Managers.VideoManager;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data;
 using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
-using VideoClipExtractor.UI.Managers.VideoManager;
+using VideoClipExtractor.Tests.Basics.Mocks;
 using VideoClipExtractor.UI.ViewModels.Main;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer;
@@ -15,7 +16,7 @@ namespace VideoClipExtractor.Tests.UI.ViewModels.Main;
 [TestOf(typeof(MainControlViewModel))]
 public class MainControlViewModelTest : BaseViewModelTest
 {
-    private Mock<IVideosExplorerViewModel> _explorerVm = null!;
+    private ViewModelMock<IVideosExplorerViewModel> _explorerVm = null!;
     private Mock<IProjectManager> _projectManager = null!;
     private Mock<IVideoManager> _videoManager = null!;
     private Mock<IVideoPlayerViewModel> _videoPlayerVm = null!;
@@ -53,10 +54,20 @@ public class MainControlViewModelTest : BaseViewModelTest
     }
 
     [Test]
+    public void VideoChangeUpdatesVideoManager()
+    {
+        var video = VideoExamples.GetVideoViewModelExample();
+        _explorerVm.SetupGet(x => x.SelectedVideo).Returns(video);
+        _explorerVm.RaisePropertyChanged(nameof(IVideosExplorerViewModel.SelectedVideo));
+        _videoManager.VerifySet(x => x.Video = video);
+    }
+
+    [Test]
     public void VideoChangeUpdatesVideoPlayer()
     {
         var video = VideoExamples.GetVideoViewModelExample();
-        _videoManager.Raise(x => x.VideoChanged += null!, video);
+        _explorerVm.SetupGet(x => x.SelectedVideo).Returns(video);
+        _explorerVm.RaisePropertyChanged(nameof(IVideosExplorerViewModel.SelectedVideo));
         _videoPlayerVm.VerifySet(x => x.Video = video);
     }
 
@@ -64,7 +75,8 @@ public class MainControlViewModelTest : BaseViewModelTest
     public void VideoChangeUpdatesControlPanel()
     {
         var video = VideoExamples.GetVideoViewModelExample();
-        _videoManager.Raise(x => x.VideoChanged += null!, video);
+        _explorerVm.SetupGet(x => x.SelectedVideo).Returns(video);
+        _explorerVm.RaisePropertyChanged(nameof(IVideosExplorerViewModel.SelectedVideo));
         _controlPanelVm.VerifySet(x => x.Video = video);
     }
 }
