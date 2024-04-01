@@ -1,6 +1,6 @@
 ﻿using VideoClipExtractor.Data.Videos;
 
-namespace VideoClipExtractor.UI.Managers.VideoManager;
+namespace VideoClipExtractor.Core.Managers.VideoManager;
 
 /// <summary>
 ///     Manages the current video
@@ -11,7 +11,7 @@ public interface IVideoManager
     /// <summary>
     ///     The current video
     /// </summary>
-    public VideoViewModel? Video { get; }
+    public VideoViewModel? Video { get; set; }
 
     #region Events
 
