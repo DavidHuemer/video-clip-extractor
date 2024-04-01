@@ -1,164 +1,84 @@
-﻿using System.Collections.ObjectModel;
+﻿using FFMpeg.Wrapper.Data;
 using Moq;
-using VideoClipExtractor.Core.Managers.VideoProviderManager;
-using VideoClipExtractor.Data.Videos;
+using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
-using VideoClipExtractor.UI.ViewModels.Main.Explorer;
-using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
+using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer.VideoPlayerControlPanel.VideoPlayerNavigation;
+using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer.VideoPlayerControlPanel.VideoPlayerNavigationEditor;
 
 namespace VideoClipExtractor.Tests.UI.ViewModels.Main.VideoPlayer;
 
+[TestFixture]
+[TestOf(typeof(VideoPlayerNavigationViewModel))]
 public class VideoPlayerNavigationViewModelTests : BaseViewModelTest
 {
-    private Mock<IVideoProviderManager> _videoProviderManagerMock = null!;
-    private Mock<IVideosExplorerViewModel> _videosExplorerViewModelMock = null!;
+    private Mock<IVideoPlayerNavigationEditor> _videoPlayerNavigationEditor = null!;
+
     private VideoPlayerNavigationViewModel _viewModel = null!;
 
     public override void Setup()
     {
         base.Setup();
-        _videosExplorerViewModelMock = new Mock<IVideosExplorerViewModel>();
-        AddViewModel(_videosExplorerViewModelMock);
-
-        _videoProviderManagerMock = new Mock<IVideoProviderManager>();
-        AddMockDependency(_videoProviderManagerMock);
+        _videoPlayerNavigationEditor = ViewModelProviderMock.CreateViewModelMock<IVideoPlayerNavigationEditor>();
         _viewModel = new VideoPlayerNavigationViewModel(DependencyMock.Object);
     }
 
-    private void SetupSelectedVideo(VideoViewModel video)
-    {
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
-            .Returns(video);
-    }
-
-    private void SetupVideos(int nrVideos)
-    {
-        var videos = new ObservableCollection<VideoViewModel>();
-        for (var i = 0; i < nrVideos; i++)
-        {
-            videos.Add(VideoExamples.GetVideoViewModelExample());
-        }
-
-        _videosExplorerViewModelMock.SetupGet(m => m.Videos)
-            .Returns(videos);
-    }
-
-    #region Previous
-
     [Test]
-    [TestCase(0, false, false)]
-    [TestCase(0, true, false)]
-    [TestCase(1, true, true)]
-    [TestCase(1, false, false)]
-    [TestCase(2, true, true)]
-    public void PreviousCommandCanExecute(int selectedIndex, bool videoSelected, bool expected)
+    public void VideoPlayerNavigationEditorIsSet()
     {
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedIndex).Returns(selectedIndex);
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
-            .Returns(videoSelected ? VideoExamples.GetVideoViewModelExample() : null);
-
-        Assert.That(_viewModel.Previous.CanExecute(null), Is.EqualTo(expected));
+        Assert.That(_viewModel.VideoPlayerNavigationEditor, Is.EqualTo(_videoPlayerNavigationEditor.Object));
     }
 
     [Test]
-    public void PreviousCommandReducesSelectedIndex()
+    public void VideoLengthNullAtBeginning()
     {
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedIndex).Returns(1);
-        _viewModel.Previous.Execute(null);
-
-        _videosExplorerViewModelMock.VerifySet(m => m.SelectedIndex = 0);
-    }
-
-    #endregion
-
-    #region Skip
-
-    [Test]
-    [TestCase(false, false)]
-    [TestCase(true, true)]
-    public void SkipCommandCanExecute(bool videoSelected, bool expected)
-    {
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
-            .Returns(videoSelected ? VideoExamples.GetVideoViewModelExample() : null);
-        Assert.That(_viewModel.Skip.CanExecute(null), Is.EqualTo(expected));
+        Assert.That(_viewModel.VideoLength, Is.Null);
     }
 
     [Test]
-    public void SkipCommandSetsVideoStatusToSkipped()
+    public void FrameCountIsZeroAtBeginning()
+    {
+        Assert.That(_viewModel.FrameCount, Is.Zero);
+    }
+
+    [Test]
+    public void VideoLengthIsSetWhenVideoIsSet()
     {
         var video = VideoExamples.GetVideoViewModelExample();
-        SetupSelectedVideo(video);
-        SetupVideos(5);
-        _viewModel.Skip.Execute(null);
+        var info = GetVideoInfo();
+        video.VideoInfo = info;
+        _viewModel.Video = video;
 
-        Assert.That(video.VideoStatus, Is.EqualTo(VideoStatus.Skipped));
+        var expected = new VideoPosition(info.Duration, info.FrameRate);
+        Assert.That(_viewModel.VideoLength, Is.EqualTo(expected));
     }
 
     [Test]
-    public void SkipCommandCallsVideoProviderManagerNext()
-    {
-        SetupSelectedVideo(VideoExamples.GetVideoViewModelExample());
-        SetupVideos(2);
-        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(1);
-        _viewModel.Skip.Execute(null);
-        _videoProviderManagerMock.Verify(m => m.Next());
-    }
-
-    [Test]
-    public void SkipCommandNavigatesToNextVideo()
-    {
-        SetupSelectedVideo(VideoExamples.GetVideoViewModelExample());
-        SetupVideos(5);
-        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(1);
-        _viewModel.Skip.Execute(null);
-        _videosExplorerViewModelMock.VerifySet(m => m.SelectedIndex = 2);
-    }
-
-    #endregion
-
-    #region Finish
-
-    [Test]
-    [TestCase(false, false)]
-    [TestCase(true, true)]
-    public void FinishCommandCanExecute(bool videoSelected, bool expected)
-    {
-        _videosExplorerViewModelMock.SetupGet(m => m.SelectedVideo)
-            .Returns(videoSelected ? VideoExamples.GetVideoViewModelExample() : null);
-        Assert.That(_viewModel.Finish.CanExecute(null), Is.EqualTo(expected));
-    }
-
-    [Test]
-    public void FinishCommandSetsVideoStatusToReadyForExport()
+    public void FrameCountIsSetWhenVideoIsSet()
     {
         var video = VideoExamples.GetVideoViewModelExample();
-        SetupSelectedVideo(video);
-        SetupVideos(5);
-        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(1);
-        _viewModel.Finish.Execute(null);
-        Assert.That(video.VideoStatus, Is.EqualTo(VideoStatus.ReadyForExport));
+        video.VideoInfo = GetVideoInfo();
+        _viewModel.Video = video;
+
+        Assert.That(_viewModel.FrameCount, Is.EqualTo(150));
     }
 
     [Test]
-    public void FinishCommandCallsVideoProviderManagerNext()
+    public void VideoLengthIsSetToNullWhenVideoIsNull()
     {
-        SetupSelectedVideo(VideoExamples.GetVideoViewModelExample());
-        SetupVideos(5);
-        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(4);
-        _viewModel.Finish.Execute(null);
-        _videoProviderManagerMock.Verify(m => m.Next());
+        var video = VideoExamples.GetVideoViewModelExample();
+        video.VideoInfo = GetVideoInfo();
+        _viewModel.Video = video;
+
+        _viewModel.Video = null;
+
+        Assert.That(_viewModel.VideoLength, Is.Null);
     }
 
-    [Test]
-    public void FinishCommandNavigatesToNextVideo()
+    private VideoInfo GetVideoInfo()
     {
-        SetupSelectedVideo(VideoExamples.GetVideoViewModelExample());
-        SetupVideos(5);
-        _videosExplorerViewModelMock.SetupGet(x => x.SelectedIndex).Returns(1);
-        _viewModel.Finish.Execute(null);
-        _videosExplorerViewModelMock.VerifySet(m => m.SelectedIndex = 2);
+        var timeSpan = new TimeSpan(0, 0, 0, 5, 0);
+        const double frameRate = 30;
+        return new VideoInfo(timeSpan, frameRate);
     }
-
-    #endregion
 }
