@@ -37,4 +37,34 @@ public class VideoPositionFactoryTest : BaseDependencyTest
         var videoPosition = _videoPositionFactory.GetVideoPositionByFrame(frame);
         Assert.That(videoPosition.ToString(), Is.EqualTo(expected));
     }
+
+    [Test]
+    [TestCase("00:00:00:00", 30, "00:00:00:00")]
+    [TestCase("00:00:00:01", 30, "00:00:00:01")]
+    [TestCase("00:00:00:05", 30, "00:00:00:05")]
+    [TestCase("00:00:00:05", 50, "00:00:00:05")]
+    [TestCase("00:00:02:05", 50, "00:00:02:05")]
+    [TestCase("00:00:00:50", 50, "00:00:01:00")]
+    [TestCase("00:00:00:500", 50, "00:00:10:00")]
+    public void GetVideoPositionByStringReturnsCorrectVideoPosition(string input, double frameRate, string expected)
+    {
+        var video = VideoExamples.GetVideoViewModelExample();
+        video.VideoInfo = new VideoInfo(TimeSpan.Zero, frameRate);
+        _videoManager.SetupGet(x => x.Video).Returns(video);
+
+        var videoPosition = _videoPositionFactory.GetVideoPositionByString(input);
+        Assert.That(videoPosition.ToString(), Is.EqualTo(expected));
+    }
+
+    [Test]
+    [TestCase("")]
+    [TestCase("00")]
+    [TestCase("00:00")]
+    [TestCase("00:00:00")]
+    [TestCase("00:00:00:00:")]
+    [TestCase("0a:00:00:00")]
+    public void GetVideoPositionByStringThrowsArgumentExceptionWhenInputIsInvalid(string input)
+    {
+        Assert.Throws<ArgumentException>(() => _videoPositionFactory.GetVideoPositionByString(input));
+    }
 }
