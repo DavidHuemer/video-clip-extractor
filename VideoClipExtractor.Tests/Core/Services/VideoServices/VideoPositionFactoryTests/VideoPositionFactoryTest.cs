@@ -1,0 +1,40 @@
+﻿using FFMpeg.Wrapper.Data;
+using Moq;
+using VideoClipExtractor.Core.Managers.VideoManager;
+using VideoClipExtractor.Core.Services.VideoServices.VideoPositionFactory;
+using VideoClipExtractor.Tests.Basics.BaseTests;
+using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
+
+namespace VideoClipExtractor.Tests.Core.Services.VideoServices.VideoPositionFactoryTests;
+
+[TestFixture]
+[TestOf(typeof(VideoPositionFactory))]
+public class VideoPositionFactoryTest : BaseDependencyTest
+{
+    private Mock<IVideoManager> _videoManager = null!;
+
+    private VideoPositionFactory _videoPositionFactory = null!;
+
+    public override void Setup()
+    {
+        base.Setup();
+        _videoManager = DependencyMock.CreateMockDependency<IVideoManager>();
+        _videoPositionFactory = new VideoPositionFactory(DependencyMock.Object);
+    }
+
+
+    [Test]
+    [TestCase(0, 30, "00:00:00:00")]
+    [TestCase(30, 30, "00:00:01:00")]
+    [TestCase(34, 30, "00:00:01:04")]
+    [TestCase(50, 50, "00:00:01:00")]
+    public void GetVideoPositionByFrameReturnsCorrectVideoPosition(int frame, double frameRate, string expected)
+    {
+        var video = VideoExamples.GetVideoViewModelExample();
+        video.VideoInfo = new VideoInfo(TimeSpan.Zero, frameRate);
+        _videoManager.SetupGet(x => x.Video).Returns(video);
+
+        var videoPosition = _videoPositionFactory.GetVideoPositionByFrame(frame);
+        Assert.That(videoPosition.ToString(), Is.EqualTo(expected));
+    }
+}
