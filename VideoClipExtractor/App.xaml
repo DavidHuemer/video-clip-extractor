@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/ButtonStyles.xaml" />
                 <ResourceDictionary Source="/BaseUI;component/Styles/ButtonStyles.xaml" />
                 <ResourceDictionary Source="/BaseUI;component/Styles/GridSplitterStyles.xaml" />
+                <ResourceDictionary Source="/BaseUI;component/Styles/TextBoxStyles.xaml" />
                 <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/VideoExplorerStyles.xaml" />
                 <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/Timeline/TimelineStyles.xaml" />
                 <ResourceDictionary Source="/VideoClipExtractor.UI;component/Styles/Timeline/TimelineExtractionStyles.xaml" />
