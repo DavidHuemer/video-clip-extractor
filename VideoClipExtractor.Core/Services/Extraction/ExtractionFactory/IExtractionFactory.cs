@@ -6,7 +6,7 @@ namespace VideoClipExtractor.Core.Services.Extraction.ExtractionFactory;
 
 public interface IExtractionFactory
 {
-    IImageExtraction GetImageExtraction(VideoPosition position);
+    IImageExtraction GetImageExtraction(VideoPosition position1);
 
     IVideoExtraction GetVideoExtraction(VideoPosition begin, VideoViewModel video);
 }

@@ -13,6 +13,14 @@ public class ExtractionFactory : IExtractionFactory
 
     public IVideoExtraction GetVideoExtraction(VideoPosition begin, VideoViewModel video)
     {
-        return new VideoExtraction(begin, new VideoPosition(begin.Frame + 30));
+        var videoEnd = new VideoPosition(video.VideoInfo.Duration, video.VideoInfo.FrameRate);
+        var extractionEnd = new VideoPosition(begin.Time.Add(TimeSpan.FromSeconds(5)), begin.FrameRate);
+
+        if (extractionEnd.Time > videoEnd.Time)
+        {
+            extractionEnd = videoEnd;
+        }
+
+        return new VideoExtraction(begin, extractionEnd);
     }
 }
