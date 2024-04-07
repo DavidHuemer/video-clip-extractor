@@ -1,5 +1,7 @@
-﻿namespace VideoClipExtractor.UI.ViewModels.Main.VideoPlayer.VideoPlayerControlPanel.VideoPlayerActionBar;
+﻿using BaseUI.ViewModels;
 
-public interface IVideoPlayerActionBarViewModel
+namespace VideoClipExtractor.UI.ViewModels.Main.VideoPlayer.VideoPlayerControlPanel.VideoPlayerActionBar;
+
+public interface IVideoPlayerActionBarViewModel : IBaseViewModel
 {
 }
