@@ -3,54 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:wpf="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
-             xmlns:videoPlayerVm="clr-namespace:VideoClipExtractor.UI.ViewModels.Main.VideoPlayer"
+             xmlns:videoPlayerNavigation="clr-namespace:VideoClipExtractor.UI.ViewModels.Main.VideoPlayer.VideoPlayerControlPanel.VideoPlayerNavigation"
+             xmlns:extensions="clr-namespace:BaseUI.Extensions;assembly=BaseUI"
              mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="500" Cursor=""
-             d:DataContext="{d:DesignInstance Type=videoPlayerVm:VideoPlayerNavigationViewModel, IsDesignTimeCreatable=False}">
+             d:DataContext="{d:DesignInstance Type=videoPlayerNavigation:VideoPlayerNavigationViewModel, IsDesignTimeCreatable=False}">
 
-    <UserControl.Resources>
-        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}" />
+    <Grid Margin="10,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-        <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="Padding" Value="0" />
-        </Style>
+        <Slider Value="{Binding VideoPlayerNavigationEditor.Frame, UpdateSourceTrigger=PropertyChanged}"
+                Maximum="{Binding FrameCount}" VerticalAlignment="Center" Margin="20,0" />
 
-        <Style TargetType="wpf:MaterialIcon">
-            <Setter Property="Foreground" Value="{StaticResource MaterialDesignDarkForeground}" />
-            <Setter Property="Margin" Value="0,0,5,0" />
-        </Style>
-    </UserControl.Resources>
-
-    <StackPanel Orientation="Horizontal">
-        <Button Command="{Binding Previous}">
-            <StackPanel Orientation="Horizontal">
-                <wpf:MaterialIcon Kind="PreviousTitle" />
-                <Label Content="Previous" />
-            </StackPanel>
-        </Button>
-
-        <Button Command="{Binding Skip}">
-            <StackPanel Orientation="Horizontal">
-                <wpf:MaterialIcon Kind="SkipNext" />
-                <Label Content="Skip" />
-            </StackPanel>
-        </Button>
-
-        <Button Command="{Binding Finish}">
-            <StackPanel Orientation="Horizontal">
-                <wpf:MaterialIcon Kind="Check" />
-                <Label Content="Finish" />
-            </StackPanel>
-        </Button>
-
-        <Button Command="{Binding VideoExplorer.ActionBar.ExportVideos}" Cursor="Hand">
-            <StackPanel Orientation="Horizontal">
-                <wpf:MaterialIcon Kind="Export" />
-                <Label Content="Export" />
-            </StackPanel>
-        </Button>
-    </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
+            <extensions:ExtendedTextBox Name="VideoPositionTextBox"
+                                        Text="{Binding VideoPlayerNavigationEditor.VideoPosition, 
+                                            FallbackValue=00:00:00:00}"
+                                        Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        GotKeyboardFocus="OnVideoPositionTextBoxGotFocus"
+                                        LostKeyboardFocus="UIElement_OnLostKeyboardFocus"
+                                        KeyDown="OnVideoPositionTextBoxKeyDown" />
+            <Label Content="/" />
+            <Label
+                Content="{Binding VideoLength, 
+                    FallbackValue=00:00:00:00, TargetNullValue=00:00:00:00}" />
+        </StackPanel>
+    </Grid>
 </UserControl>

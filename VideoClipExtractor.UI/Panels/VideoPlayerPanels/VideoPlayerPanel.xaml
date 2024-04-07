@@ -11,11 +11,15 @@
              d:DataContext="{d:DesignInstance Type=videoPlayerVm:VideoPlayerViewModel, IsDesignTimeCreatable=False}"
              DataContextChanged="VideoPlayerPanel_OnDataContextChanged">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
         <videoPlayerControls:VideoPlayer x:Name="VideoPlayer" 
                                          Source="{Binding ExplorerViewModel.SelectedVideo.LocalPath, FallbackValue=''}"
                                          PlayStatus="{Binding VideoNavigationViewModel.PlayStatus}"/>
 
-        <local:VideoPlayerNavigationPanel DataContext="{Binding VideoPlayerNavigationVm}" VerticalAlignment="Bottom"
-                                          HorizontalAlignment="Right" />
+        <local:VideoPlayerControlPanel Grid.Row="1" DataContext="{Binding ControlPanelViewModel}" VerticalAlignment="Bottom" HorizontalContentAlignment="Stretch"/>
     </Grid>
 </UserControl>
