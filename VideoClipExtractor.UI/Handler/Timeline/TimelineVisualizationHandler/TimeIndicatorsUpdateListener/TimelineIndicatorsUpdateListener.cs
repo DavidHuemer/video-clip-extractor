@@ -17,7 +17,7 @@ public class TimelineIndicatorsUpdateListener : ITimelineIndicatorsUpdateListene
 
     public void Setup(ITimelineControlViewModel timelineControlViewModel)
     {
-        timelineControlViewModel.PropertyChanged += (_, e) =>
+        timelineControlViewModel.TimelineNavigationViewModel.PropertyChanged += (_, e) =>
         {
             if (_allowedProperties.Contains(e.PropertyName))
                 TimelineIndicatorsUpdateRequested?.Invoke(this, EventArgs.Empty);

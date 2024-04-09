@@ -1,6 +1,7 @@
 ﻿using VideoClipExtractor.Tests.Basics.Mocks;
 using VideoClipExtractor.UI.Handler.Timeline.TimelineVisualizationHandler.TimeIndicatorsUpdateListener;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineNavigation;
 
 namespace VideoClipExtractor.Tests.UI.Handler.Timeline.TimelineVisualizationHandler.TimeIndicatorsUpdateListener;
 
@@ -11,9 +12,14 @@ public class TimelineIndicatorsUpdateListenerTest
     [SetUp]
     public void Setup()
     {
+        _timelineNavigationViewModelMock = new ViewModelMock<ITimelineNavigationViewModel>();
         _timelineControlViewModelMock = new ViewModelMock<ITimelineControlViewModel>();
+        _timelineControlViewModelMock.SetupGet(x => x.TimelineNavigationViewModel)
+            .Returns(_timelineNavigationViewModelMock.Object);
         _timelineIndicatorsUpdateListener = new TimelineIndicatorsUpdateListener();
     }
+
+    private ViewModelMock<ITimelineNavigationViewModel> _timelineNavigationViewModelMock = null!;
 
     private ViewModelMock<ITimelineControlViewModel> _timelineControlViewModelMock = null!;
     private TimelineIndicatorsUpdateListener _timelineIndicatorsUpdateListener = null!;
@@ -29,7 +35,7 @@ public class TimelineIndicatorsUpdateListenerTest
         _timelineIndicatorsUpdateListener.TimelineIndicatorsUpdateRequested += (_, _) => eventRaised = true;
         _timelineIndicatorsUpdateListener.Setup(_timelineControlViewModelMock.Object);
 
-        _timelineControlViewModelMock.RaisePropertyChanged(propertyName);
+        _timelineNavigationViewModelMock.RaisePropertyChanged(propertyName);
         Assert.IsTrue(eventRaised);
     }
 }
