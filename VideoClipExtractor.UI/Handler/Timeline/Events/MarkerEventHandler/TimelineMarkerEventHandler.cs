@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using BaseUI.Basics.FrameworkElementWrapper;
 using BaseUI.Events;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
-using JetBrains.Annotations;
 using VideoClipExtractor.Core.Services.VideoServices.VideoPositionService;
 using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
@@ -11,16 +11,16 @@ using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineContro
 
 namespace VideoClipExtractor.UI.Handler.Timeline.Events.MarkerEventHandler;
 
-[UsedImplicitly]
+[Singleton]
 public class TimelineMarkerEventHandler : ITimelineMarkerEventHandler
 {
     private readonly ITimelineFrameWidthHandler _timelineFrameWidthHandler;
     private readonly ITimelineNavigationViewModel _timelineNavigationViewModel;
     private readonly IVideoNavigationViewModel _videoNavigationViewModel;
     private readonly IVideoPositionService _videoPositionService;
+    private bool _isMoving;
 
     private IFrameworkElement? _timelineControl;
-    private bool _isMoving;
 
     public TimelineMarkerEventHandler(IDependencyProvider provider)
     {
@@ -76,6 +76,7 @@ public class TimelineMarkerEventHandler : ITimelineMarkerEventHandler
         var frameWidth = _timelineFrameWidthHandler.GetFrameWidth(_timelineNavigationViewModel.ZoomLevel);
         var frame = (int)Math.Round(xPos / frameWidth);
 
-        _videoPositionService.RequestPositionChange(new VideoPosition(frame));
+        var frameRate = _videoNavigationViewModel.Video?.VideoInfo.FrameRate ?? 50;
+        _videoPositionService.RequestPositionChange(new VideoPosition(frame, frameRate));
     }
 }
