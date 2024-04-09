@@ -2,14 +2,14 @@
 using BaseUI.Basics.FrameworkElementWrapper;
 using BaseUI.Basics.MouseCursorHandler;
 using BaseUI.Events;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
-using JetBrains.Annotations;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineNavigation;
 
 namespace VideoClipExtractor.UI.Handler.Timeline.Events.MovementEventHandler;
 
-[UsedImplicitly]
+[Singleton]
 public class TimelineMovementEventHandler : ITimelineMovementEventHandler
 {
     private readonly IMouseCursorHandler _mouseCursorHandler;
@@ -39,10 +39,7 @@ public class TimelineMovementEventHandler : ITimelineMovementEventHandler
         timelineControl.MouseMove += OnTimelineMouseMove;
     }
 
-    public void StopMovement()
-    {
-        _isMoving = false;
-    }
+    public void StopMovement() => _isMoving = false;
 
     private void OnTimelineMouseMove(object? sender, MouseEventArgsWrapper e)
     {
