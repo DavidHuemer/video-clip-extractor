@@ -1,5 +1,8 @@
-﻿namespace VideoClipExtractor.UI.Handler.Timeline;
+﻿using BaseUI.Services.Provider.Attributes;
 
+namespace VideoClipExtractor.UI.Handler.Timeline;
+
+[Transient]
 public class TimelineFrameWidthHandler : ITimelineFrameWidthHandler
 {
     /// <summary>
@@ -7,6 +10,5 @@ public class TimelineFrameWidthHandler : ITimelineFrameWidthHandler
     /// </summary>
     /// <param name="zoomLevel"></param>
     /// <returns>Width of a frame at a given zoom level</returns>
-    public double GetFrameWidth(int zoomLevel) =>
-        100 / Math.Pow(2, (double)zoomLevel / 9);
+    public double GetFrameWidth(int zoomLevel) => 40.545 * Math.Exp(-0.064 * zoomLevel);
 }
