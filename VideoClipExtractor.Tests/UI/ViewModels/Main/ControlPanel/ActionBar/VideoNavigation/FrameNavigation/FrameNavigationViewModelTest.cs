@@ -25,7 +25,7 @@ public class FrameNavigationViewModelTest : BaseDependencyTest
     [Test]
     public void VideoPositionZeroAtBeginning()
     {
-        Assert.That(_frameNavigationViewModel.VideoPosition.Frame, Is.EqualTo(0));
+        Assert.That(_frameNavigationViewModel.VideoPosition1.Frame, Is.EqualTo(0));
     }
 
     [Test]
@@ -65,11 +65,11 @@ public class FrameNavigationViewModelTest : BaseDependencyTest
     {
         var video = VideoExamples.GetVideoViewModelExample();
         _frameNavigationViewModel.Video = video;
-        var currentDuration = new VideoPosition(current);
-        _frameNavigationViewModel.VideoPosition = currentDuration;
+        var currentDuration = new VideoPosition1(current);
+        _frameNavigationViewModel.VideoPosition1 = currentDuration;
         _frameNavigationViewModel.GoBackward.Execute(null);
 
-        var expectedPosition = new VideoPosition(expectedRequestFrame);
+        var expectedPosition = new VideoPosition(TimeSpan.Zero, 30);
         _videoPositionService.Verify(x => x.RequestPositionChange(expectedPosition), Times.Once);
     }
 
@@ -82,11 +82,11 @@ public class FrameNavigationViewModelTest : BaseDependencyTest
     {
         var video = VideoExamples.GetVideoViewModelExample();
         _frameNavigationViewModel.Video = video;
-        var currentDuration = new VideoPosition(current);
-        _frameNavigationViewModel.VideoPosition = currentDuration;
+        var currentDuration = new VideoPosition1(current);
+        _frameNavigationViewModel.VideoPosition1 = currentDuration;
 
         _frameNavigationViewModel.GoForward.Execute(null);
-        var expectedPosition = new VideoPosition(expectedRequestFrame);
+        var expectedPosition = new VideoPosition(TimeSpan.Zero, 30);
         _videoPositionService.Verify(x => x.RequestPositionChange(expectedPosition), Times.Once);
     }
 }

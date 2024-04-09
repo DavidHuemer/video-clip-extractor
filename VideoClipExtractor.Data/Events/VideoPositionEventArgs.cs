@@ -2,7 +2,7 @@
 
 namespace VideoClipExtractor.Data.Events;
 
-public class VideoPositionEventArgs(VideoPosition position) : EventArgs
+public class VideoPositionEventArgs(VideoPosition1 position1) : EventArgs
 {
-    public VideoPosition VideoPosition { get; } = position;
+    public VideoPosition1 VideoPosition1 { get; } = position1;
 }

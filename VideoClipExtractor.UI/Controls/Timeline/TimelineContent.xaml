@@ -14,17 +14,23 @@
             <ItemsControl ItemsPanel="{StaticResource VerticalLinesPanel}"
                           ItemTemplate="{StaticResource TimelineVerticalLinesTemplate}"
                           ItemContainerStyle="{StaticResource VerticalLinesContainerStyle}"
-                          ItemsSource="{Binding VerticalLines, Mode=OneWay}" />
+                          ItemsSource="{Binding TimelineIndicators, Mode=OneWay}" />
 
+            <ItemsControl ItemsPanel="{StaticResource VerticalLinesPanel}"
+                          ItemTemplate="{StaticResource TimelineSupportersTemplate}"
+                          ItemContainerStyle="{StaticResource VerticalLinesContainerStyle}"
+                          ItemsSource="{Binding TimelineSupporters, Mode=OneWay}" />
+            
+            
             <local:TimelineExtractions DataContext="{Binding TimelineExtractionsViewModel}" 
                                        Margin="0,30,0,0"
                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
             <!--Marker-->
-            <Canvas>
+            <Canvas> 
                 <Canvas.Margin>
                     <MultiBinding Converter="{StaticResource FrameToMarginConverter}">
-                        <Binding Path="VideoNavigation.VideoPosition.Frame" />
+                        <Binding Path="FrameNavigationViewModel.VideoPosition.Frame" />
                         <Binding Path="TimelineNavigationViewModel.ZoomLevel" />
                     </MultiBinding>
                 </Canvas.Margin>

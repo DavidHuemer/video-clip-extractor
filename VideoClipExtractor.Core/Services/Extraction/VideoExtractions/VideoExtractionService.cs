@@ -20,5 +20,5 @@ public class VideoExtractionService(IDependencyProvider provider)
     protected override async Task
         RunExtraction(VideoViewModel video, VideoExtraction extraction, string extractionPath) =>
         await MpegExtractionRunner.ExtractVideoAsync(video.LocalPath, extractionPath,
-            extraction.Begin.Position.Duration.TimeSpan, extraction.Position.Duration.TimeSpan);
+            extraction.Begin.Position.Time, extraction.Position.Time);
 }

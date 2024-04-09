@@ -34,7 +34,7 @@ public class VideoExtractionServiceTest : BaseExtractionServiceTest
 
         _mpegExtractionRunner.Verify(
             x => x.ExtractVideoAsync(VideoViewModel.LocalPath, ExtractionPath,
-                _videoExtraction.Begin.Position.Duration.TimeSpan, _videoExtraction.Position.Duration.TimeSpan),
+                _videoExtraction.Begin.Position.Time, _videoExtraction.Position.Time),
             Times.Once);
     }
 

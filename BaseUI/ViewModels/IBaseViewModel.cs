@@ -1,5 +1,7 @@
-﻿namespace BaseUI.ViewModels;
+﻿using System.ComponentModel;
 
-public interface IBaseViewModel
+namespace BaseUI.ViewModels;
+
+public interface IBaseViewModel : INotifyPropertyChanged
 {
 }

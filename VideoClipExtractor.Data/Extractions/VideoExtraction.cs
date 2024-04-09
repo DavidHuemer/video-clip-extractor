@@ -25,10 +25,9 @@ public class VideoExtraction : BaseExtractionViewModel, IVideoExtraction
         get => Begin.Position;
         set
         {
-            var oldPosition = Begin.Position;
-
+            var length = End.Position.Frame - Begin.Position.Frame;
             Begin.Position = value;
-            End.Position = new VideoPosition(End.Position.Frame - oldPosition.Frame + value.Frame);
+            End.Position = new VideoPosition(value.Frame + length, Begin.Position.FrameRate);
         }
     }
 

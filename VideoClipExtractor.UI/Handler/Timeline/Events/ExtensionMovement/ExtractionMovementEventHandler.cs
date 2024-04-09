@@ -1,9 +1,9 @@
 ﻿using BaseUI.Basics.FrameworkElementWrapper;
 using BaseUI.Basics.MouseCursorHandler;
 using BaseUI.Events;
+using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
-using JetBrains.Annotations;
 using VideoClipExtractor.Data.Events;
 using VideoClipExtractor.Data.UI.Timeline;
 using VideoClipExtractor.Data.UI.Video;
@@ -12,7 +12,7 @@ using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineContro
 
 namespace VideoClipExtractor.UI.Handler.Timeline.Events.ExtensionMovement;
 
-[UsedImplicitly]
+[Singleton]
 public class ExtractionMovementEventHandler : IExtractionMovementEventHandler
 {
     private readonly IMouseCursorHandler _mouseCursorHandler;
@@ -59,6 +59,7 @@ public class ExtractionMovementEventHandler : IExtractionMovementEventHandler
     private void OnTimelineMouseMove(object? sender, MouseEventArgsWrapper e)
     {
         if (_timelineNavigationViewModel.MovementState != MovementState.Extraction) return;
+        Console.WriteLine("Mouse Move");
 
         var extraction = _timelineExtractionSelection.SelectedExtractionViewModel;
 
@@ -75,6 +76,8 @@ public class ExtractionMovementEventHandler : IExtractionMovementEventHandler
 
         var newFrameInt = (int)newFrame;
 
-        extraction.Position = new VideoPosition(newFrameInt);
+        Console.WriteLine($"New Frame: {newFrameInt}");
+
+        extraction.Position = new VideoPosition(newFrameInt, 50);
     }
 }

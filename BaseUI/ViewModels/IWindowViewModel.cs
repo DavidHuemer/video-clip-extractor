@@ -1,6 +1,6 @@
 ﻿namespace BaseUI.ViewModels;
 
-public interface IWindowViewModel
+public interface IWindowViewModel : IBaseViewModel
 {
     /// <summary>
     /// Shows the window.

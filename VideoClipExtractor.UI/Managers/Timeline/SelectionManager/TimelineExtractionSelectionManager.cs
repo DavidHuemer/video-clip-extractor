@@ -1,4 +1,5 @@
-﻿using BaseUI.Services.Provider.DependencyInjection;
+﻿using BaseUI.Services.Provider.Attributes;
+using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
 using JetBrains.Annotations;
 using VideoClipExtractor.Data.Events;
@@ -9,6 +10,7 @@ using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineContro
 namespace VideoClipExtractor.UI.Managers.Timeline.SelectionManager;
 
 [UsedImplicitly]
+[Singleton]
 public class TimelineExtractionSelectionManager : ITimelineExtractionSelectionManager
 {
     private readonly ITimelineNavigationViewModel _timelineNavigation;

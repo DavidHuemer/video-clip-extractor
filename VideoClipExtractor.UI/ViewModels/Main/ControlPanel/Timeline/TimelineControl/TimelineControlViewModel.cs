@@ -1,36 +1,36 @@
 ﻿using System.Collections.ObjectModel;
 using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
-using BaseUI.Services.Provider.ViewModelProvider;
 using BaseUI.ViewModels;
-using JetBrains.Annotations;
 using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.UI.Handler.Timeline.TimelineVisualizationHandler;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation.FrameNavigation;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineExtractions;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineNavigation;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl;
 
-[UsedImplicitly]
 [Singleton]
-public class TimelineControlViewModel : BaseViewModel, ITimelineControlViewModel
+public class TimelineControlViewModel : BaseViewModelContainer, ITimelineControlViewModel
 {
-    public TimelineControlViewModel(IDependencyProvider provider)
+    public TimelineControlViewModel(IDependencyProvider provider) : base(provider)
     {
         Provider = provider;
-        var viewModelProvider = provider.GetDependency<IViewModelProvider>();
-        VideoNavigation = viewModelProvider.Get<IVideoNavigationViewModel>();
-        TimelineNavigationViewModel = viewModelProvider.Get<ITimelineNavigationViewModel>();
-        TimelineExtractionsViewModel = viewModelProvider.Get<ITimelineExtractionsViewModel>();
+        VideoNavigation = ViewModelProvider.Get<IVideoNavigationViewModel>();
+        TimelineNavigationViewModel = ViewModelProvider.Get<ITimelineNavigationViewModel>();
+        TimelineExtractionsViewModel = ViewModelProvider.Get<ITimelineExtractionsViewModel>();
+        FrameNavigationViewModel = ViewModelProvider.Get<IFrameNavigationViewModel>();
 
 
         var frameVisualizationHandler = provider.GetDependency<IFramesVisualizationHandler>();
         frameVisualizationHandler.Setup(this);
     }
 
-    public IVideoNavigationViewModel VideoNavigation { get; set; }
+    public IVideoNavigationViewModel VideoNavigation { get; }
+
+    public IFrameNavigationViewModel FrameNavigationViewModel { get; set; }
 
     public ObservableCollection<int> VerticalLines { get; } = [];
     public IDependencyProvider Provider { get; }
@@ -44,10 +44,7 @@ public class TimelineControlViewModel : BaseViewModel, ITimelineControlViewModel
         set => TimelineExtractionsViewModel.Video = value;
     }
 
-    public void PauseVideo()
-    {
-        VideoNavigation.PlayStatus = PlayStatus.Paused;
-        VideoNavigation.PlayStatus = PlayStatus.Playing;
-        VideoNavigation.PlayStatus = PlayStatus.Paused;
-    }
+    public ObservableCollection<VideoPosition> TimelineIndicators { get; set; } = [];
+
+    public ObservableCollection<VideoPosition> TimelineSupporters { get; set; } = [];
 }

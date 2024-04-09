@@ -29,6 +29,7 @@
 
     <ItemGroup>
         <Folder Include="Core\ViewModels\"/>
+        <Folder Include="UI\Handler\Timeline\TimelineVisualizationHandler\TimelineIndicationsRangeService\"/>
     </ItemGroup>
 
 </Project>

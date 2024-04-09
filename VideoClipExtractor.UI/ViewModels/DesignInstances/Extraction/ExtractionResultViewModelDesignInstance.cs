@@ -1,12 +1,13 @@
 ﻿using System.Windows.Input;
 using BaseUI.Commands;
+using BaseUI.ViewModels;
 using VideoClipExtractor.Data.Extractions.Results;
 using VideoClipExtractor.UI.ViewModels.Extraction.ExtractionNavigation;
 using VideoClipExtractor.UI.ViewModels.Extraction.ExtractionResult;
 
 namespace VideoClipExtractor.UI.ViewModels.DesignInstances.Extraction
 {
-    public class ExtractionResultViewModelDesignInstance : IExtractionResultViewModel
+    public class ExtractionResultViewModelDesignInstance : BaseViewModel, IExtractionResultViewModel
     {
         public bool ShowDetails => true;
 

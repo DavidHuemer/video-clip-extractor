@@ -9,6 +9,6 @@ public interface IVideoPositionService
     /// <summary>
     /// Requests a new video position
     /// </summary>
-    /// <param name="videoPosition">The requested new video position</param>
+    /// <param name="videoPosition"></param>
     void RequestPositionChange(VideoPosition videoPosition);
 }

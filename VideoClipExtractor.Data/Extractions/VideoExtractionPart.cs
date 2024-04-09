@@ -7,7 +7,7 @@ namespace VideoClipExtractor.Data.Extractions;
 /// <summary>
 /// The part of a <see cref="VideoExtraction"/>
 /// </summary>
-/// <param name="position">The position of the video extraction part</param>
+/// <param name="position>The position of the video extraction part</param>
 [method: JsonConstructor]
 public sealed class VideoExtractionPart(VideoPosition position) : BaseExtractionViewModel
 {

@@ -1,32 +1,41 @@
 ﻿using System.Text.Json.Serialization;
-using System.Windows;
-using VideoClipExtractor.Data.Handler.Video;
 
 namespace VideoClipExtractor.Data.UI.Video;
 
-/// <summary>
-/// Represents the position of a video
-/// </summary>
-[method: JsonConstructor]
-public class VideoPosition(int frame)
+public class VideoPosition
 {
-    public VideoPosition(Duration duration) : this(FrameDurationConversion.GetFrameByTimespan(duration.TimeSpan, 30))
+    [JsonConstructor]
+    public VideoPosition(TimeSpan time, double frameRate)
     {
+        Time = time;
+        FrameRate = Math.Ceiling(frameRate);
     }
+
+    public VideoPosition(int frame, double frameRate)
+    {
+        FrameRate = Math.Ceiling(frameRate);
+        Time = TimeSpan.FromSeconds(frame / FrameRate);
+    }
+
+    public TimeSpan Time { get; set; }
+    public double FrameRate { get; set; }
+
+    [JsonIgnore] public int Frame => (int)Math.Round(Time.TotalSeconds * FrameRate);
+
+    public override string ToString()
+    {
+        var totalFrames = Frame;
+        var frames = totalFrames % (int)FrameRate;
+        var seconds = (int)Time.TotalSeconds % 60;
+        var minutes = (int)Time.TotalMinutes % 60;
+        var hours = (int)Time.TotalHours;
+
+        return $"{hours:00}:{minutes:00}:{seconds:00}:{frames:00}";
+    }
+
 
     public override bool Equals(object? obj)
     {
-        return obj is VideoPosition position &&
-               Frame == position.Frame;
+        return obj is VideoPosition position && position.Frame == Frame;
     }
-
-    public override int GetHashCode() => HashCode.Combine(Frame, Duration);
-
-    #region Properties
-
-    public int Frame { get; set; } = frame;
-
-    public Duration Duration => FrameDurationConversion.GetDurationByFrame(Frame, 30);
-
-    #endregion
 }

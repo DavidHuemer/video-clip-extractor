@@ -37,7 +37,7 @@ public class ImageExtractionServiceTest : BaseExtractionServiceTest
 
         _mpegExtractionRunner.Verify(
             x => x.ExtractImageAsync(VideoViewModel.LocalPath, ExtractionPath,
-                _imageExtraction.Position.Duration.TimeSpan), Times.Once);
+                _imageExtraction.Position.Time), Times.Once);
     }
 
     [Test]
@@ -73,7 +73,7 @@ public class ImageExtractionServiceTest : BaseExtractionServiceTest
         SetupImagePath();
         _mpegExtractionRunner
             .Setup(x => x.ExtractImageAsync(VideoViewModel.LocalPath, ExtractionPath,
-                _imageExtraction.Position.Duration.TimeSpan))
+                _imageExtraction.Position.Time))
             .Throws(new Exception());
 
         var result = await _imageExtractionService.Extract(VideoViewModel, _imageExtraction);

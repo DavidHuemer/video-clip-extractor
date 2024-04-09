@@ -1,4 +1,5 @@
-﻿using VideoClipExtractor.Data.Extractions.Results;
+﻿using FFMpeg.Wrapper.Data;
+using VideoClipExtractor.Data.Extractions.Results;
 using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.UI.DesignData
@@ -24,7 +25,7 @@ namespace VideoClipExtractor.UI.DesignData
             VideoExtractionResult? videoExtractionResult = null)
         {
             var sourceVideo = new SourceVideo(@"C\Source\az_123.mp4", 500);
-            var cachedVideo = new CachedVideo(sourceVideo, @"C\Cached\az_123.mp4");
+            var cachedVideo = new CachedVideo(sourceVideo, @"C\Cached\az_123.mp4", new VideoInfo(TimeSpan.Zero, 0));
             var videoViewModel = new VideoViewModel(cachedVideo);
             videoViewModel.VideoStatus = status;
             videoViewModel.ExtractionResult = videoExtractionResult;

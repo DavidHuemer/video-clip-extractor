@@ -1,10 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using BaseUI.ViewModels;
 using VideoClipExtractor.Data.Extractions.Basics;
 using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.UI.ViewModels.Extraction.ExtractionNavigation;
 
-public interface IExtractionNavigationViewModel
+public interface IExtractionNavigationViewModel : IBaseViewModel
 {
     public VideoViewModel? CurrentVideo { get; set; }
 

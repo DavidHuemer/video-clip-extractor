@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using BaseUI.ViewModels;
+using FFMpeg.Wrapper.Data;
 using JetBrains.Annotations;
 using PropertyChanged;
 using VideoClipExtractor.Data.Extractions.Basics;
@@ -15,12 +16,14 @@ public class VideoViewModel : BaseViewModel
         LocalPath = video.LocalPath;
         Name = video.SourceVideo.Name;
         SourceVideo = video.SourceVideo;
+        VideoInfo = video.VideoInfo;
     }
 
     [UsedImplicitly]
     public VideoViewModel()
     {
         SourceVideo = new SourceVideo();
+        VideoInfo = new VideoInfo(TimeSpan.Zero, 0);
     }
 
     public IEnumerable<IExtraction> GetExtractions()
@@ -69,6 +72,9 @@ public class VideoViewModel : BaseViewModel
     /// </summary>
     [DoNotNotify]
     public string Name { get; [UsedImplicitly] init; } = "";
+
+    [DoNotNotify] public VideoInfo VideoInfo { get; set; }
+
 
     public bool IsExtracting { get; set; }
     public VideoExtractionResult? ExtractionResult { get; set; }

@@ -1,9 +1,9 @@
 ﻿using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
-using VideoClipExtractor.Core.Services.VideoServices.VideoPositionService;
-using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.UI.Controls.VideoPlayer;
+using VideoClipExtractor.UI.Handler.VideoHandler.PositionChangeRequestHandler;
 using VideoClipExtractor.UI.Handler.VideoHandler.PositionInterrogator;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation.FrameNavigation;
 using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer;
 
@@ -15,6 +15,7 @@ namespace VideoClipExtractor.UI.Handler.VideoHandler;
 public class VideoPlayerConnection
 {
     private readonly IFrameNavigationViewModel _frameNavigationViewModel;
+    private readonly IVideoNavigationViewModel _videoNavigationViewModel;
     private readonly IVideoPlayer _videoPlayer;
 
     public VideoPlayerConnection(IVideoPlayer videoPlayer, IVideoPlayerViewModel videoPlayerViewModel)
@@ -23,6 +24,7 @@ public class VideoPlayerConnection
         var dependencyProvider = videoPlayerViewModel.DependencyProvider;
 
         var viewModelProvider = dependencyProvider.GetDependency<IViewModelProvider>();
+        _videoNavigationViewModel = viewModelProvider.Get<IVideoNavigationViewModel>();
         _frameNavigationViewModel = viewModelProvider.Get<IFrameNavigationViewModel>();
 
 
@@ -38,13 +40,16 @@ public class VideoPlayerConnection
 
     private void SetupPositionChange(IDependencyProvider dependencyProvider)
     {
-        var videoPositionService = dependencyProvider.GetDependency<IVideoPositionService>();
-        videoPositionService.PositionChangeRequested += OnPositionChangeRequested;
+        var videoChangeRequestHandler = dependencyProvider.GetDependency<IPositionChangeRequestHandler>();
+        videoChangeRequestHandler.Setup(_videoPlayer);
     }
 
-    private void OnPositionChangeRequested(VideoPosition position)
-    {
-        _videoPlayer.Position = position.Duration.TimeSpan;
-        _frameNavigationViewModel.VideoPosition = position;
-    }
+    // private void OnPositionChangeRequested(VideoPosition position)
+    // {
+    //     _videoPlayer.Position = position.Time;
+    //     _frameNavigationViewModel.VideoPosition = position;
+    //
+    //     _videoNavigationViewModel.PlayStatus = PlayStatus.Playing;
+    //     _videoNavigationViewModel.PlayStatus = PlayStatus.Paused;
+    // }
 }

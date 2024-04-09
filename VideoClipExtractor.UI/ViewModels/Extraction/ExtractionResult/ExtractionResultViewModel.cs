@@ -3,6 +3,7 @@ using BaseUI.Commands;
 using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.Services.Provider.ViewModelProvider;
+using BaseUI.ViewModels;
 using JetBrains.Annotations;
 using VideoClipExtractor.Data.Extractions.Results;
 using VideoClipExtractor.UI.ViewModels.Extraction.ExtractionNavigation;
@@ -11,7 +12,7 @@ namespace VideoClipExtractor.UI.ViewModels.Extraction.ExtractionResult;
 
 [UsedImplicitly]
 [Transient]
-public class ExtractionResultViewModel : IExtractionResultViewModel
+public class ExtractionResultViewModel : BaseViewModel, IExtractionResultViewModel
 {
     public ExtractionResultViewModel(IDependencyProvider provider)
     {

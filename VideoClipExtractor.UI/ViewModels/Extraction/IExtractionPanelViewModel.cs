@@ -8,7 +8,7 @@ namespace VideoClipExtractor.UI.ViewModels.Extraction;
 /// <summary>
 /// The view model for the extraction panel.
 /// </summary>
-public interface IExtractionPanelViewModel
+public interface IExtractionPanelViewModel : IBaseViewModel
 {
     ObservableCollection<VideoViewModel> Videos { get; }
 

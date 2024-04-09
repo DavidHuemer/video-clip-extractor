@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BaseUI\BaseUI.csproj"/>
+        <ProjectReference Include="..\FFMpeg.Wrapper\FFMpeg.Wrapper.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

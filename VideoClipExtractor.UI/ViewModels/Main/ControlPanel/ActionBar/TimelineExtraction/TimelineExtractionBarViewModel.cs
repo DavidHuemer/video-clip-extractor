@@ -5,9 +5,7 @@ using BaseUI.Services.Provider.Attributes;
 using BaseUI.Services.Provider.DependencyInjection;
 using BaseUI.ViewModels;
 using VideoClipExtractor.Core.Services.Extraction.ExtractionFactory;
-using VideoClipExtractor.Data.Extractions;
 using VideoClipExtractor.Data.Extractions.Basics;
-using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.UI.Managers.Timeline.SelectionManager;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation.FrameNavigation;
@@ -45,19 +43,16 @@ public class TimelineExtractionBarViewModel : BaseViewModelContainer, ITimelineE
             new Comparison<IImageExtraction>((x, y) => x.Position.Frame.CompareTo(y.Position.Frame));
 
         Video?.ImageExtractions.InsertSorted(newImageExtraction, comparison);
-        Console.WriteLine("Image extraction added!");
     }
 
     private void DoAddVideoExtraction(string? obj)
     {
         var begin = _frameNavigationViewModel.VideoPosition;
-        var end = new VideoPosition(begin.Frame + 30);
 
-        var newVideoExtraction = new VideoExtraction(begin, end);
+        var newVideoExtraction = _extractionFactory.GetVideoExtraction(begin, Video!);
         newVideoExtraction.SetupSelection(HandleSelection);
 
         Video?.VideoExtractions.Add(newVideoExtraction);
-        Console.WriteLine("Video extraction added!");
     }
 
     private void HandleSelection(IExtractionViewModel extractionViewModel)

@@ -10,7 +10,7 @@ public static class ExtractionExamples
 {
     public static ImageExtraction GetImageExtractionExample(string name = "", int frame = 30)
     {
-        var extraction = new ImageExtraction(new VideoPosition(frame));
+        var extraction = new ImageExtraction(new VideoPosition(frame, 50));
         if (!string.IsNullOrWhiteSpace(name))
         {
             extraction.Name = name;
@@ -21,7 +21,7 @@ public static class ExtractionExamples
 
     public static VideoExtraction GetVideoExtractionExample(string name = "", int startFrame = 30, int endFrame = 60)
     {
-        var extraction = new VideoExtraction(new VideoPosition(startFrame), new VideoPosition(endFrame));
+        var extraction = new VideoExtraction(new VideoPosition(startFrame, 50), new VideoPosition(endFrame, 50));
         if (!string.IsNullOrWhiteSpace(name))
         {
             extraction.Name = name;

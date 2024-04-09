@@ -1,5 +1,6 @@
 ﻿using BaseUI.Basics.DelayWrapper;
 using Moq;
+using VideoClipExtractor.Core.Managers.PlayStatusManager;
 using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
@@ -9,9 +10,12 @@ using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigati
 
 namespace VideoClipExtractor.Tests.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
 
+[TestFixture]
+[TestOf(typeof(VideoNavigationViewModel))]
 public class VideoNavigationViewModelTests : BaseViewModelTest
 {
-    private DelayTestWrapper _delayTestWrapper;
+    private DelayTestWrapper _delayTestWrapper = null!;
+    private Mock<IPlayStatusManager> _playStatusManager = null!;
     private Mock<IFrameNavigationViewModel> _frameNavigationViewModel = null!;
     private VideoNavigationViewModel _viewModel = null!;
 
@@ -19,6 +23,9 @@ public class VideoNavigationViewModelTests : BaseViewModelTest
     {
         base.Setup();
         _delayTestWrapper = new DelayTestWrapper();
+        DependencyMock.Setup(x => x.GetDependency<IDelayWrapper>())
+            .Returns(_delayTestWrapper);
+        _playStatusManager = DependencyMock.CreateMockDependency<IPlayStatusManager>();
         _frameNavigationViewModel = ViewModelProviderMock.CreateViewModelMock<IFrameNavigationViewModel>();
         DependencyMock.Setup(x => x.GetDependency<IDelayWrapper>()).Returns(_delayTestWrapper);
         _viewModel = new VideoNavigationViewModel(DependencyMock.Object);
@@ -31,12 +38,21 @@ public class VideoNavigationViewModelTests : BaseViewModelTest
     }
 
     [Test]
-    public void VideoChangeSetsPlayStatusToPlaying()
+    public void VideoChangeCallsFrameNavigationViewModel()
+    {
+        var video = VideoExamples.GetVideoViewModelExample();
+        _viewModel.Video = video;
+        _frameNavigationViewModel.VerifySet(x => x.Video = video, Times.Once);
+    }
+
+    [Test]
+    public void VideoChangeCallsPlayStatusManager()
     {
         _viewModel.PlayStatus = PlayStatus.Paused;
         var video = VideoExamples.GetVideoViewModelExample();
         _viewModel.Video = video;
-        Assert.That(_viewModel.PlayStatus, Is.EqualTo(PlayStatus.Playing));
+
+        _playStatusManager.Verify(x => x.SetMainPlayStatus(PlayStatus.Playing), Times.Once);
     }
 
     [Test]
@@ -74,6 +90,6 @@ public class VideoNavigationViewModelTests : BaseViewModelTest
 
         _viewModel.PlayPause.Execute(null);
 
-        Assert.That(_viewModel.PlayStatus, Is.EqualTo(expected));
+        _playStatusManager.Verify(x => x.SetMainPlayStatus(PlayStatus.Paused), Times.Once);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BaseUI.Services.Provider.ViewModelProvider;
+using BaseUI.ViewModels;
 using Moq;
 
 namespace VideoClipExtractor.Tests.Basics.Mocks;
@@ -10,10 +11,10 @@ public class ViewModelProviderMock : Mock<IViewModelProvider>
         Setup(m => m.Get<TDependency>()).Returns(mock.Object);
     }
 
-    public Mock<TViewModel> CreateViewModelMock<TViewModel>() where TViewModel : class
+    public ViewModelMock<TViewModel> CreateViewModelMock<TViewModel>() where TViewModel : class, IBaseViewModel
     {
-        var mock = new Mock<TViewModel>();
-        AddViewModel(mock);
+        var mock = new ViewModelMock<TViewModel>();
+        Setup(m => m.Get<TViewModel>()).Returns(mock.Object);
         return mock;
     }
 }

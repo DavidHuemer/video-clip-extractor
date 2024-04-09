@@ -1,5 +1,7 @@
-﻿namespace VideoClipExtractor.UI.ViewModels.Menu;
+﻿using BaseUI.ViewModels;
 
-public interface IMenuViewModel
+namespace VideoClipExtractor.UI.ViewModels.Menu;
+
+public interface IMenuViewModel : IBaseViewModel
 {
 }

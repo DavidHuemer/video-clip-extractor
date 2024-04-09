@@ -7,7 +7,7 @@ namespace VideoClipExtractor.UI.DesignData
     {
         public static ImageExtraction GetExampleImageExtraction()
         {
-            return new ImageExtraction(new VideoPosition(50));
+            return new ImageExtraction(new VideoPosition(50, 50));
         }
     }
 }

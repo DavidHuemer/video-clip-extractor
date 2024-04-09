@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using BaseUI.Services.Provider.Attributes;
 using BaseUI.ViewModels;
+using FFMpeg.Wrapper.Data;
 using VideoClipExtractor.Data.Extractions;
 using VideoClipExtractor.Data.Extractions.Basics;
 using VideoClipExtractor.Data.Extractions.Results;
@@ -17,7 +18,7 @@ namespace VideoClipExtractor.UI.ViewModels.DesignInstances.Extraction
         {
             var videoViewModel =
                 new VideoViewModel(new CachedVideo(new SourceVideo(@"C\Source\az_1351846.mp4", 4),
-                    @"C:\Test\az_1351846.mp4"));
+                    @"C:\Test\az_1351846.mp4", new VideoInfo(TimeSpan.Zero, 0)));
 
             ExtractionNavigation.CurrentVideo = videoViewModel;
             Extractions = new ObservableCollection<IExtraction>(GetExtractions());
@@ -35,9 +36,9 @@ namespace VideoClipExtractor.UI.ViewModels.DesignInstances.Extraction
         {
             return new List<IExtraction>
             {
-                new ImageExtraction(new Data.UI.Video.VideoPosition(10)),
-                new ImageExtraction(new Data.UI.Video.VideoPosition(10)),
-                new VideoExtraction(new Data.UI.Video.VideoPosition(10), new Data.UI.Video.VideoPosition(30)),
+                new ImageExtraction(new Data.UI.Video.VideoPosition(10, 50)),
+                new ImageExtraction(new Data.UI.Video.VideoPosition(10, 50)),
+                new VideoExtraction(new Data.UI.Video.VideoPosition(10, 50), new Data.UI.Video.VideoPosition(30, 50)),
             };
         }
     }

@@ -4,6 +4,7 @@ using BaseUI.ViewModels;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.TimelineExtraction;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation;
+using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.Timeline.TimelineControl.TimelineNavigation;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar;
 
@@ -14,12 +15,14 @@ public class ActionBarViewModel : BaseViewModelContainer, IActionBarViewModel
     {
         VideoNavigationViewModel = ViewModelProvider.Get<IVideoNavigationViewModel>();
         TimelineExtractionBarViewModel = ViewModelProvider.Get<ITimelineExtractionBarViewModel>();
+        TimelineNavigationViewModel = ViewModelProvider.Get<ITimelineNavigationViewModel>();
     }
 
     #region Properties
 
     public IVideoNavigationViewModel VideoNavigationViewModel { get; set; }
     public ITimelineExtractionBarViewModel TimelineExtractionBarViewModel { get; }
+    public ITimelineNavigationViewModel TimelineNavigationViewModel { get; set; }
 
     public VideoViewModel? Video
     {

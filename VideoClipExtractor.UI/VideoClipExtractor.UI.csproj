@@ -20,9 +20,11 @@
 
     <ItemGroup>
         <Compile Remove="Converters\VideoConverters\TimelineConverters\MovementToLinesConverter.cs"/>
+        <Compile Remove="Handler\Timeline\PauseHandler\IPauseHandler.cs"/>
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Handler\Timeline\PauseHandler\"/>
         <Folder Include="Managers\Timeline\"/>
     </ItemGroup>
 

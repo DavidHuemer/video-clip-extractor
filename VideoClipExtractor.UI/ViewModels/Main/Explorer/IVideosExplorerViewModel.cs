@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+using BaseUI.ViewModels;
 using VideoClipExtractor.Data.Project;
 using VideoClipExtractor.Data.Videos;
 using VideoClipExtractor.UI.ViewModels.Main.Explorer.ExplorerActionBar;
@@ -9,7 +9,7 @@ namespace VideoClipExtractor.UI.ViewModels.Main.Explorer;
 /// <summary>
 /// View model for the videos explorer.
 /// </summary>
-public interface IVideosExplorerViewModel : INotifyPropertyChanged
+public interface IVideosExplorerViewModel : IBaseViewModel
 {
     public VideoViewModel? SelectedVideo { get; }
 

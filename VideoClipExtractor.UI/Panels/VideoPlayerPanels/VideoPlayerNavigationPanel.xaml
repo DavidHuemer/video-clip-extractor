@@ -12,7 +12,7 @@
     <Grid Margin="10,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" /> 
         </Grid.ColumnDefinitions>
 
         <Slider Value="{Binding VideoPlayerNavigationEditor.Frame, UpdateSourceTrigger=PropertyChanged}"

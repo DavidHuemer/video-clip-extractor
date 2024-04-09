@@ -3,6 +3,7 @@ using VideoClipExtractor.Data.Extractions;
 using VideoClipExtractor.Data.UI.Video;
 using VideoClipExtractor.Tests.Basics.BaseTests;
 using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
+using VideoClipExtractor.Tests.Basics.Mocks;
 using VideoClipExtractor.UI.Managers.Timeline.SelectionManager;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.TimelineExtraction;
 using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation.FrameNavigation;
@@ -15,6 +16,7 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
 {
     private Mock<IFrameNavigationViewModel> _frameNavigationViewModelMock = null!;
     private Mock<ITimelineExtractionSelectionManager> _selectionManager = null!;
+    private ExtractionFactoryMock _extractionFactory = null!;
 
     private TimelineExtractionBarViewModel _viewModel = null!;
 
@@ -23,6 +25,8 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
         base.Setup();
         _selectionManager = DependencyMock.CreateMockDependency<ITimelineExtractionSelectionManager>();
         _frameNavigationViewModelMock = ViewModelProviderMock.CreateViewModelMock<IFrameNavigationViewModel>();
+        _extractionFactory = new ExtractionFactoryMock();
+        DependencyMock.AddMockDependency(_extractionFactory);
         _viewModel = new TimelineExtractionBarViewModel(DependencyMock.Object);
     }
 
@@ -42,13 +46,15 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
     public void ImageExtractionIsAdded()
     {
         _viewModel.Video = VideoExamples.GetVideoViewModelExample();
+        var videoPosition = new VideoPosition(100, 50);
         _frameNavigationViewModelMock.SetupGet(x => x.VideoPosition)
-            .Returns(new VideoPosition(30));
+            .Returns(videoPosition);
+        var imageExtraction = _extractionFactory.SetupAddImageExtraction();
         _viewModel.AddImageExtraction.Execute(null);
         Assert.Multiple(() =>
         {
             Assert.That(_viewModel.Video!.ImageExtractions.Count, Is.EqualTo(1));
-            Assert.That(_viewModel.Video.ImageExtractions[0].Position.Frame, Is.EqualTo(30));
+            Assert.That(_viewModel.Video.ImageExtractions[0], Is.EqualTo(imageExtraction.Object));
         });
     }
 
@@ -56,19 +62,24 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
     public void ImageExtractionIsAddedAtCorrectPosition()
     {
         _viewModel.Video = VideoExamples.GetVideoViewModelExample();
-        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(20)));
-        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(29)));
-        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(31)));
-        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(50)));
+        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(20, 50)));
+        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(29, 50)));
+        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(31, 50)));
+        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(50, 50)));
+
+        var addedPosition = new VideoPosition(30, 50);
 
         _frameNavigationViewModelMock.SetupGet(x => x.VideoPosition)
-            .Returns(new VideoPosition(30));
+            .Returns(addedPosition);
+
+        var imageExtraction = _extractionFactory.SetupAddImageExtraction();
+        imageExtraction.SetupGet(x => x.Position).Returns(addedPosition);
 
         _viewModel.AddImageExtraction.Execute(null);
         Assert.Multiple(() =>
         {
             Assert.That(_viewModel.Video!.ImageExtractions.Count, Is.EqualTo(5));
-            Assert.That(_viewModel.Video.ImageExtractions[2].Position.Frame, Is.EqualTo(30));
+            Assert.That(_viewModel.Video.ImageExtractions[2], Is.EqualTo(imageExtraction.Object));
         });
     }
 
@@ -76,10 +87,15 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
     public void ImageExtractionCanBeAddedAtLastPosition()
     {
         _viewModel.Video = VideoExamples.GetVideoViewModelExample();
-        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(20)));
+        _viewModel.Video.ImageExtractions.Add(new ImageExtraction(new VideoPosition(20, 50)));
+
+        var position = new VideoPosition(30, 50);
 
         _frameNavigationViewModelMock.SetupGet(x => x.VideoPosition)
-            .Returns(new VideoPosition(30));
+            .Returns(position);
+
+        var videoExtraction = _extractionFactory.SetupAddImageExtraction();
+        videoExtraction.SetupGet(x => x.Position).Returns(position);
 
         _viewModel.AddImageExtraction.Execute(null);
         Assert.Multiple(() =>
@@ -94,13 +110,15 @@ public class TimelineExtractionBarViewModelTest : BaseViewModelTest
     {
         _viewModel.Video = VideoExamples.GetVideoViewModelExample();
         _frameNavigationViewModelMock.SetupGet(x => x.VideoPosition)
-            .Returns(new VideoPosition(30));
+            .Returns(new VideoPosition(30, 50));
+
+        var videoExtraction = _extractionFactory.SetupAddVideoExtraction();
+
         _viewModel.AddVideoExtraction.Execute(null);
         Assert.Multiple(() =>
         {
             Assert.That(_viewModel.Video!.VideoExtractions.Count, Is.EqualTo(1));
-            Assert.That(_viewModel.Video.VideoExtractions[0].Begin.Position.Frame, Is.EqualTo(30));
-            Assert.That(_viewModel.Video.VideoExtractions[0].End.Position.Frame, Is.EqualTo(60));
+            Assert.That(_viewModel.Video.VideoExtractions[0], Is.EqualTo(videoExtraction.Object));
         });
     }
 }

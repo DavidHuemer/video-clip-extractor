@@ -1,4 +1,5 @@
-﻿using VideoClipExtractor.Data.Videos;
+﻿using FFMpeg.Wrapper.Data;
+using VideoClipExtractor.Data.Videos;
 
 namespace VideoClipExtractor.Tests.Basics.Data.VideoExamples;
 
@@ -16,11 +17,12 @@ public static class CachedVideoExamples
         var sourcePath = @$"{VideoRepositoryExamples.VideoRepositoryPath}\{name}.mp4";
         var localPath = @$"C:\Cached\{name}.mp4";
 
-        return new CachedVideo(SourceVideoExamples.GetSourceVideoExample(sourcePath), localPath);
+        return new CachedVideo(SourceVideoExamples.GetSourceVideoExample(sourcePath), localPath,
+            new VideoInfo(TimeSpan.Zero, 0));
     }
 
     public static CachedVideo GetCachedVideoExampleBySourceVideo(SourceVideo sourceVideo) =>
-        new CachedVideo(sourceVideo, GetLocalPath(sourceVideo.FullName));
+        new CachedVideo(sourceVideo, GetLocalPath(sourceVideo.FullName), new VideoInfo(TimeSpan.Zero, 0));
 
     public static string GetLocalPath(string fullName) => @$"C:\Cached\{fullName}";
 }

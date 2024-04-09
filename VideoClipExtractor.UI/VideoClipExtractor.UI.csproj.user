@@ -29,6 +29,9 @@
     <Compile Update="Panels\NewProjectPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Panels\VideoPlayerPanels\VideoPlayerControlPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\MainWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -62,6 +65,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Panels\NewProjectPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Panels\VideoPlayerPanels\VideoPlayerControlPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\ButtonStyles.xaml">
