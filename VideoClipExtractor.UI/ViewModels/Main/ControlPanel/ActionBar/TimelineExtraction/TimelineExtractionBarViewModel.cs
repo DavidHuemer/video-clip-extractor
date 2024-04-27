@@ -1,14 +1,4 @@
 ﻿using System.Windows.Input;
-using BaseUI.Commands;
-using BaseUI.Extensions;
-using BaseUI.Services.Provider.Attributes;
-using BaseUI.Services.Provider.DependencyInjection;
-using BaseUI.ViewModels;
-using VideoClipExtractor.Core.Services.Extraction.ExtractionFactory;
-using VideoClipExtractor.Data.Extractions.Basics;
-using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.UI.Managers.Timeline.SelectionManager;
-using VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.VideoNavigation.FrameNavigation;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.ControlPanel.ActionBar.TimelineExtraction;
 
@@ -18,6 +8,8 @@ public class TimelineExtractionBarViewModel : BaseViewModelContainer, ITimelineE
     private readonly IExtractionFactory _extractionFactory;
     private readonly ITimelineExtractionSelectionManager _extractionSelectionManager;
     private readonly IFrameNavigationViewModel _frameNavigationViewModel;
+
+    private VideoViewModel? _video;
 
 
     public TimelineExtractionBarViewModel(IDependencyProvider provider) : base(provider)
@@ -29,7 +21,27 @@ public class TimelineExtractionBarViewModel : BaseViewModelContainer, ITimelineE
 
     public ICommand AddVideoExtraction => new RelayCommand<string>(DoAddVideoExtraction, _ => Video != null);
 
-    public VideoViewModel? Video { get; set; }
+    public VideoViewModel? Video
+    {
+        get => _video;
+        set
+        {
+            _video = value;
+            OnPropertyChanged();
+
+            if (_video == null) return;
+
+            foreach (var imageExtraction in _video.ImageExtractions)
+            {
+                imageExtraction.SetupSelection(HandleSelection);
+            }
+
+            foreach (var videoExtraction in _video.VideoExtractions)
+            {
+                videoExtraction.SetupSelection(HandleSelection);
+            }
+        }
+    }
 
     public ICommand AddImageExtraction => new RelayCommand<string>(DoAddImageExtraction, _ => Video != null);
 

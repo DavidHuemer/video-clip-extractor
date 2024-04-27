@@ -1,21 +1,16 @@
 ﻿using System.Windows.Input;
-using BaseUI.Commands;
-using BaseUI.Services.Provider.Attributes;
-using BaseUI.Services.Provider.DependencyInjection;
-using BaseUI.ViewModels;
-using VideoClipExtractor.Core.Managers.VideoProviderManager;
-using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.UI.ViewModels.Main.Explorer;
 
 namespace VideoClipExtractor.UI.ViewModels.Main.VideoPlayer.VideoPlayerControlPanel.VideoPlayerActionBar;
 
 [Transient]
 public class VideoPlayerActionBarViewModel : BaseViewModelContainer, IVideoPlayerActionBarViewModel
 {
+    private readonly IProjectManager _projectManager;
     private readonly IVideoProviderManager _videoProviderManager;
 
     public VideoPlayerActionBarViewModel(IDependencyProvider provider) : base(provider)
     {
+        _projectManager = provider.GetDependency<IProjectManager>();
         _videoProviderManager = provider.GetDependency<IVideoProviderManager>();
         VideoExplorer = ViewModelProvider.Get<IVideosExplorerViewModel>();
     }
@@ -51,6 +46,13 @@ public class VideoPlayerActionBarViewModel : BaseViewModelContainer, IVideoPlaye
 
     private void SetVideoStatus(VideoStatus status)
     {
+        var project = _projectManager.Project;
+        if (project != null && VideoExplorer.SelectedVideo != null &&
+            VideoExplorer.SelectedVideo.VideoStatus == VideoStatus.Unset)
+        {
+            project.WorkingVideos.Add(VideoExplorer.SelectedVideo);
+        }
+
         VideoExplorer.SelectedVideo!.VideoStatus = status;
         AccessNext();
     }

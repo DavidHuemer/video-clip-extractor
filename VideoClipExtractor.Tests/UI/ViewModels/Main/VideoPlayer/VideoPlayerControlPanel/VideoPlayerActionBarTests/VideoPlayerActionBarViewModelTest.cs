@@ -1,11 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using Moq;
-using VideoClipExtractor.Core.Managers.VideoProviderManager;
-using VideoClipExtractor.Data.Videos;
-using VideoClipExtractor.Tests.Basics.BaseTests;
-using VideoClipExtractor.Tests.Basics.Data.VideoExamples;
-using VideoClipExtractor.UI.ViewModels.Main.Explorer;
-using VideoClipExtractor.UI.ViewModels.Main.VideoPlayer.VideoPlayerControlPanel.VideoPlayerActionBar;
 
 namespace VideoClipExtractor.Tests.UI.ViewModels.Main.VideoPlayer.VideoPlayerControlPanel.VideoPlayerActionBarTests;
 
@@ -13,14 +7,16 @@ namespace VideoClipExtractor.Tests.UI.ViewModels.Main.VideoPlayer.VideoPlayerCon
 [TestOf(typeof(VideoPlayerActionBarViewModel))]
 public class VideoPlayerActionBarViewModelTest : BaseViewModelTest
 {
+    private VideoPlayerActionBarViewModel _actionBar = null!;
+    private Mock<IProjectManager> _projectManagerMock = null!;
     private Mock<IVideoProviderManager> _videoProviderManagerMock = null!;
     private Mock<IVideosExplorerViewModel> _videosExplorerViewModelMock = null!;
-    private VideoPlayerActionBarViewModel _actionBar = null!;
 
     public override void Setup()
     {
         base.Setup();
 
+        _projectManagerMock = DependencyMock.CreateMockDependency<IProjectManager>();
         _videosExplorerViewModelMock = ViewModelProviderMock.CreateViewModelMock<IVideosExplorerViewModel>();
         _videoProviderManagerMock = DependencyMock.CreateMockDependency<IVideoProviderManager>();
         _actionBar = new VideoPlayerActionBarViewModel(DependencyMock.Object);
